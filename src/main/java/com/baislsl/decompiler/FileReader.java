@@ -22,7 +22,7 @@ public class FileReader implements Reader {
         int thisClass;
         int superClass;
         int interfaceCount;
-        Interface interfaces[];
+        int interfaces[];
         int fieldCount;
         Field fields[];
         int methodCount;
@@ -61,7 +61,7 @@ public class FileReader implements Reader {
 
         // read interfaces
         interfaceCount = readBytes(file, SizeInfo.INTERFACES_COUNT_SIZE);
-        interfaces = new Interface[interfaceCount];
+        interfaces = buildInterfaces(file, interfaceCount);
         // ...
 
         // read fields
@@ -109,5 +109,14 @@ public class FileReader implements Reader {
         return constantPools;
     }
 
+    private static int[] buildInterfaces(DataInputStream file, int interfaceCount)
+            throws DecompileException {
+        int[] interfaces = new int[interfaceCount];
+        for (int i = 0; i < interfaceCount; i++) {
+            interfaces[i] = readBytes(file, SizeInfo.INTERFACES_SIZE);
+            logger.info("build interfaces of value : {}", interfaces[i]);
+        }
+        return interfaces;
+    }
 
 }

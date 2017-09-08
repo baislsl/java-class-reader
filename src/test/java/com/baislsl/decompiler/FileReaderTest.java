@@ -12,13 +12,12 @@ import static org.junit.Assert.assertNotNull;
 public class FileReaderTest {
     private static final Logger logger = LoggerFactory.getLogger(FileReaderTest.class);
 
-    @Test
-    public void test1(){
+    private static void runFile(String path){
         FileReader fileReader = new FileReader();
         DataInputStream input = null;
         try{
             // input = new DataInputStream(new FileInputStream("main_class"));
-            input = new DataInputStream(new FileInputStream("src/test/resources/main_class"));
+            input = new DataInputStream(new FileInputStream(path));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -28,7 +27,15 @@ public class FileReaderTest {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+    @Test
+    public void test1(){
+        runFile("src/test/resources/class_main");
+    }
 
+    @Test
+    public void test2(){
+        runFile("src/test/resources/ClassTag.class");
     }
 
 }

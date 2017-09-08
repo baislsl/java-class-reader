@@ -32,7 +32,7 @@ public final class Result {
     private final int accessFlags;
     private final int thisClass;
     private final int superClass;
-    private final Interface interfaces[];
+    private final int interfaces[];
     private final Field fields[];
     private final Method methods[];
     private final Attribute attributes[];
@@ -44,7 +44,7 @@ public final class Result {
            int accessFlags,
            int thisClass,
            int superClass,
-           Interface[] interfaces,
+           int[] interfaces,
            Field[] fields,
            Method[] methods,
            Attribute[] attributes) throws DecompileException{
@@ -117,7 +117,7 @@ public final class Result {
         return superClass;
     }
 
-    public Interface[] getInterfaces() {
+    public int[] getInterfaces() {
         return interfaces;
     }
 
