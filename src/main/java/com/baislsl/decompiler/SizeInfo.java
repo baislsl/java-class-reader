@@ -14,4 +14,5 @@ public class SizeInfo {
     public static final int METHODS_COUNT_SIZE = 2;
     public static final int ATTRIBUTES_COUNT_SIZE = 2;
 
+
 }

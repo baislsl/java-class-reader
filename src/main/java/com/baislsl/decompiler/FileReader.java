@@ -1,11 +1,13 @@
 package com.baislsl.decompiler;
 
+import com.baislsl.decompiler.constantPool.ConstantPoolBuilder;
 import com.baislsl.decompiler.structure.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.DataInputStream;
-import java.io.IOException;
+
+import static com.baislsl.decompiler.utils.Read.readBytes;
 
 public class FileReader implements Reader {
     private static final Logger logger = LoggerFactory.getLogger(FileReader.class);
@@ -42,8 +44,7 @@ public class FileReader implements Reader {
 
         //read constant pool
         constantPoolCount = readBytes(file, SizeInfo.CONSTANT_POOL_COUNT_SIZE);
-        constantPool = new ConstantPool[constantPoolCount];
-        // ...
+        constantPool = buildConstantPool(file, constantPoolCount);
 
         //read access flags
         accessFlags = readBytes(file, SizeInfo.ACCESS_FLAGS_SIZE);
@@ -91,19 +92,21 @@ public class FileReader implements Reader {
         );
     }
 
-    private static int readBytes(DataInputStream file, int size) throws DecompileException {
-        byte[] buffer = new byte[size];
-        try {
-            if(file.read(buffer) != size)
-                throw new DecompileException("file format error");
-        } catch (IOException e) {
-            throw new DecompileException("file format error");
+    private static ConstantPool[] buildConstantPool(DataInputStream file, int constantPoolCount)
+            throws DecompileException {
+        ConstantPool[] constantPools = new ConstantPool[constantPoolCount];
+
+        // note that the constant pool table is indexed from 1 to constantPoolCount - 1.
+        // constantPools[0] is null
+        for (int i = 1; i < constantPoolCount; i++) {
+            int tag = readBytes(file, ConstantPool.TAG_SIZE);
+            ConstantPoolBuilder constantPoolBuilder = ConstantPool.getConstantPoolBuilder(tag);
+            constantPools[i] = constantPoolBuilder.build(file);
+            logger.info("build constant pool of type : {}", constantPools[i].getClass().getName());
         }
-        int result = 0;
-        for (byte b : buffer) {
-            result <<= 8;
-            result |= 0xff & b;
-        }
-        return result;
+
+        return constantPools;
     }
+
+
 }

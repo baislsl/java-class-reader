@@ -67,6 +67,34 @@ public class Result {
 
     }
 
+    public int getMagic() {
+        return magic;
+    }
 
+    public int getMajorVersion() {
+        return majorVersion;
+    }
+
+    public int getMinorVersion() {
+        return minorVersion;
+    }
+
+    /**
+     *
+     * @return {String} "majorVersion.minorVersion"
+     */
+    public String getVersionName(){
+        return Integer.toString(majorVersion)  + "." + Integer.toString(minorVersion);
+    }
+
+    /**
+     *
+     * @return {double} majorVersion.minorVersion
+     */
+    public double getVersion(){
+        double ans = minorVersion;
+        while(ans >= 1) ans /= 10;
+        return ans + majorVersion;
+    }
 }
 
