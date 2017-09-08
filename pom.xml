@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.baislsl</groupId>
-    <artifactId>java-class-decompiler</artifactId>
+    <artifactId>decompiler</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -15,6 +15,7 @@
         <slf4j.version>1.7.21</slf4j.version>
         <slf4j-simple.version>1.7.21</slf4j-simple.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
