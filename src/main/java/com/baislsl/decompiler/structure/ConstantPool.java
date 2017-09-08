@@ -1,7 +1,7 @@
 package com.baislsl.decompiler.structure;
 
 import com.baislsl.decompiler.DecompileException;
-import com.baislsl.decompiler.constantPool.*;
+import com.baislsl.decompiler.structure.constantPool.*;
 
 public class ConstantPool {
     public final static int TAG_SIZE = 1;

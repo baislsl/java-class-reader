@@ -1,6 +1,6 @@
 package com.baislsl.decompiler;
 
-import com.baislsl.decompiler.constantPool.ConstantPoolBuilder;
+import com.baislsl.decompiler.structure.constantPool.ConstantPoolBuilder;
 import com.baislsl.decompiler.structure.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +44,7 @@ public class FileReader implements Reader {
 
         //read constant pool
         constantPoolCount = readBytes(file, SizeInfo.CONSTANT_POOL_COUNT_SIZE);
+        logger.info("constant pool count = {}", constantPoolCount);
         constantPool = buildConstantPool(file, constantPoolCount);
 
         //read access flags
@@ -52,11 +53,11 @@ public class FileReader implements Reader {
 
         // read this class
         thisClass = readBytes(file, SizeInfo.THIS_CLASS_SIZE);
-        logger.info("this class = {}", thisClass & 0xff);
+        logger.info("this class = {}", thisClass);
 
         // read super class
         superClass = readBytes(file, SizeInfo.SUPER_CLASS_SIZE);
-        logger.info("super class = {}", superClass & 0xff);
+        logger.info("super class = {}", superClass);
 
         // read interfaces
         interfaceCount = readBytes(file, SizeInfo.INTERFACES_COUNT_SIZE);

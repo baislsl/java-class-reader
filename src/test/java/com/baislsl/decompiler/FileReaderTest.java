@@ -24,7 +24,7 @@ public class FileReaderTest {
         }
         try{
             assertNotNull(input);
-            fileReader.decompile(input);
+            Result result = fileReader.decompile(input);
         }catch (Exception e){
             e.printStackTrace();
         }

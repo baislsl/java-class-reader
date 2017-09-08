@@ -23,19 +23,19 @@ import com.baislsl.decompiler.structure.*;
  * }
  */
 
-public class Result {
+public final class Result {
     private static final int DEFAULT_MAGIC = 0xcafebabe;
-    private int magic;
-    private int minorVersion;
-    private int majorVersion;
-    private ConstantPool constantPool[];
-    private int accessFlags;
-    private int thisClass;
-    private int superClass;
-    private Interface interfaces[];
-    private Field fields[];
-    private Method methods[];
-    private Attribute attributes[];
+    private final int magic;
+    private final int minorVersion;
+    private final int majorVersion;
+    private final ConstantPool constantPool[];
+    private final int accessFlags;
+    private final int thisClass;
+    private final int superClass;
+    private final Interface interfaces[];
+    private final Field fields[];
+    private final Method methods[];
+    private final Attribute attributes[];
 
     Result(int magic,
            int minorVersion,
@@ -95,6 +95,42 @@ public class Result {
         double ans = minorVersion;
         while(ans >= 1) ans /= 10;
         return ans + majorVersion;
+    }
+
+    public static int getDefaultMagic() {
+        return DEFAULT_MAGIC;
+    }
+
+    public ConstantPool[] getConstantPool() {
+        return constantPool;
+    }
+
+    public int getAccessFlags() {
+        return accessFlags;
+    }
+
+    public int getThisClass() {
+        return thisClass;
+    }
+
+    public int getSuperClass() {
+        return superClass;
+    }
+
+    public Interface[] getInterfaces() {
+        return interfaces;
+    }
+
+    public Field[] getFields() {
+        return fields;
+    }
+
+    public Method[] getMethods() {
+        return methods;
+    }
+
+    public Attribute[] getAttributes() {
+        return attributes;
     }
 }
 
