@@ -1,11 +1,10 @@
-package com.baislsl.decompiler.constantPool;
+package com.baislsl.decompiler.structure.constantPool;
 
 import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.structure.ConstantPool;
 import com.baislsl.decompiler.utils.Read;
 
 import java.io.DataInputStream;
-import java.io.IOException;
 
 public class Utf8Tag extends ConstantPool implements ConstantPoolBuilder {
     private static final int LENGTH_SIZE = 2;

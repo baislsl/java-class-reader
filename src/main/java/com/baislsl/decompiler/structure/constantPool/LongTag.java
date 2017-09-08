@@ -1,4 +1,4 @@
-package com.baislsl.decompiler.constantPool;
+package com.baislsl.decompiler.structure.constantPool;
 
 public class LongTag extends LongDoubleBasic {
     public LongTag(int tag) {

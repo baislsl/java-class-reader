@@ -1,4 +1,4 @@
-package com.baislsl.decompiler.constantPool;
+package com.baislsl.decompiler.structure.constantPool;
 
 public class IntegerTag extends FloatIntegerBasic {
     public IntegerTag(int tag) {

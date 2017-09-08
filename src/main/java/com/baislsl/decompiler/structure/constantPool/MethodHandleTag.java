@@ -1,4 +1,4 @@
-package com.baislsl.decompiler.constantPool;
+package com.baislsl.decompiler.structure.constantPool;
 
 import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.structure.ConstantPool;
