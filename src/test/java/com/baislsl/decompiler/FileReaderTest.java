@@ -12,7 +12,7 @@ import static org.junit.Assert.assertNotNull;
 public class FileReaderTest {
     private static final Logger logger = LoggerFactory.getLogger(FileReaderTest.class);
 
-    private static void runFile(String path) {
+    public static Result runFile(String path) {
         FileReader fileReader = new FileReader();
         DataInputStream input = null;
         try {
@@ -23,10 +23,11 @@ public class FileReaderTest {
         }
         assertNotNull(input);
         try {
-            Result result = fileReader.decompile(input);
+            return fileReader.decompile(input);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     @Test

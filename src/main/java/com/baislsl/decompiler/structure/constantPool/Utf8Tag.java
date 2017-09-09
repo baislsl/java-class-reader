@@ -20,6 +20,7 @@ public class Utf8Tag extends ConstantPool implements ConstantPoolBuilder {
         length = Read.readBytes(file, LENGTH_SIZE);
         bytes = new byte[length];
         Read.readBytes(file, bytes);
+
         return this;
     }
 
