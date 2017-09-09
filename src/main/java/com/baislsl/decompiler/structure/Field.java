@@ -1,17 +1,20 @@
 package com.baislsl.decompiler.structure;
 
+import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.structure.attribute.Attribute;
+import com.baislsl.decompiler.structure.constantPool.ConstantPool;
 
-public class Field  {
-    private static final int ACCESS_FLAG_SIZE = 2;
-    private static final int NAME_INDEX_SIZE = 2;
-    private static final int DESCRIPTOR_INDEX_SIZE = 2;
-    private static final int ATTRIBUTES_COUNT_SIZE = 2;
+import java.io.DataInputStream;
 
-    private int accessFlag;
-    private int nameIndex;
-    private int descrtptorIndex;
-    private int attributeCount;
-    private Attribute[] attributes;
+public class Field extends FieldMethodBasic {
+    private Field(int accessFlag, int nameIndex, int descriptorIndex, Attribute[] attributes) {
+        super(accessFlag, nameIndex, descriptorIndex, attributes);
+    }
+
+    public static Field build(DataInputStream file, ConstantPool[] constantPools)
+            throws DecompileException {
+        FieldMethodBasic basic = FieldMethodBasic.build(file, constantPools);
+        return new Field(basic.getAccessFlag(), basic.getNameIndex(), basic.getDescriptorIndex(), basic.getAttributes());
+    }
 
 }

@@ -1,9 +1,8 @@
 package com.baislsl.decompiler.structure.constantPool;
 
 import com.baislsl.decompiler.DecompileException;
-import com.baislsl.decompiler.structure.constantPool.*;
 
-public class ConstantPool {
+public abstract class ConstantPool {
     public final static int TAG_SIZE = 1;
     protected int tag;
 
@@ -16,7 +15,7 @@ public class ConstantPool {
             case 7: return new ClassTag(tag);
             case 9: return new FieldrefTag(tag);
             case 10: return new MethodrefTag(tag);
-            case 11: return new IntegerTag(tag);
+            case 11: return new InterfaceMethodrefTag(tag);
             case 8: return new StringTag(tag);
             case 3: return new IntegerTag(tag);
             case 4: return new FLoatTag(tag);

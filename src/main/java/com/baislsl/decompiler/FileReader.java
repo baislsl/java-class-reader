@@ -19,7 +19,7 @@ public class FileReader implements Reader {
         int minorVersion;
         int majorVersion;
         int constantPoolCount;
-        ConstantPool constantPool[];
+        ConstantPool constantPools[];
         int accessFlags;
         int thisClass;
         int superClass;
@@ -47,7 +47,7 @@ public class FileReader implements Reader {
         //read constant pool
         constantPoolCount = readBytes(file, SizeInfo.CONSTANT_POOL_COUNT_SIZE);
         logger.info("constant pool count = {}", constantPoolCount);
-        constantPool = buildConstantPool(file, constantPoolCount);
+        constantPools = buildConstantPool(file, constantPoolCount);
 
         //read access flags
         accessFlags = readBytes(file, SizeInfo.ACCESS_FLAGS_SIZE);
@@ -68,13 +68,13 @@ public class FileReader implements Reader {
 
         // read fields
         fieldCount = readBytes(file, SizeInfo.FIELDS_COUNT_SIZE);
-        fields = new Field[fieldCount];
-        // ...
+        logger.info("field count = {}", fieldCount);
+        fields = buildField(file, fieldCount, constantPools);
 
         // read method
         methodCount = readBytes(file, SizeInfo.METHODS_COUNT_SIZE);
-        methods = new Method[methodCount];
-        // ...
+        logger.info("method count = {}", methodCount);
+        methods = buildMethod(file, methodCount, constantPools);
 
         // read attribute
         attributeCount = readBytes(file, SizeInfo.ATTRIBUTES_COUNT_SIZE);
@@ -84,7 +84,7 @@ public class FileReader implements Reader {
                 magic,
                 minorVersion,
                 majorVersion,
-                constantPool,
+                constantPools,
                 accessFlags,
                 thisClass,
                 superClass,
@@ -119,6 +119,29 @@ public class FileReader implements Reader {
             logger.info("build interfaces of value : {}", interfaces[i]);
         }
         return interfaces;
+    }
+
+    private static Field[] buildField(DataInputStream file, int fieldCount, ConstantPool[] constantPools)
+            throws DecompileException {
+        Field[] fields = new Field[fieldCount];
+
+        for (int i = 0; i < fieldCount; i++) {
+            fields[i] = Field.build(file, constantPools);
+        }
+
+
+        return fields;
+    }
+
+    private static Method[] buildMethod(DataInputStream file, int methodCount, ConstantPool[] constantPools)
+            throws DecompileException {
+        Method[] methods = new Method[methodCount];
+
+        for (int i = 0; i < methodCount; i++) {
+            methods[i] = Method.build(file, constantPools);
+        }
+
+        return methods;
     }
 
 }
