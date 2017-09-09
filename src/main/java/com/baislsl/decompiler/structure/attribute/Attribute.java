@@ -20,12 +20,12 @@ public abstract class Attribute {
         this.attributeLength = attributeLength;
     }
 
-    public static Attribute build(DataInputStream file, ConstantPool[] constantPools)
+    public static Attribute getAttribute(DataInputStream file, ConstantPool[] constantPools)
             throws DecompileException {
         int attributeNameIndex = Read.readBytes(file, ATTRIBUTE_NAME_INDEX_SIZE);
         int attributeLength = Read.readBytes(file, ATTRIBUTE_LENGTH_SIZE);
         AttributeBuilder builder = getAttributeBuilder(attributeNameIndex, attributeLength, constantPools);
-        return builder.build(file);
+        return builder.build(file, constantPools);
     }
 
     private static AttributeBuilder getAttributeBuilder(int attributeNameIndex,
@@ -41,7 +41,9 @@ public abstract class Attribute {
             String attributeName = JVMUtf8.decode(utf8Tag.getBytes());
             switch (attributeName) {
                 case "ConstantValue":
-                    return new ConstantValue(attributeNameIndex, attributeLength);
+                    return new ConstantValueAttr(attributeNameIndex, attributeLength);
+                case "Code":
+                    return new CodeAttr(attributeNameIndex, attributeLength);
 
 
                 default:

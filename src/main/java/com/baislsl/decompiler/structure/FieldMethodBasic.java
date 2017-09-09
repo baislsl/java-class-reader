@@ -33,7 +33,7 @@ public class FieldMethodBasic {
         int attributeCount = Read.readBytes(file, ATTRIBUTES_COUNT_SIZE);
         Attribute[] attributes = new Attribute[attributeCount];
         for (int i = 0; i < attributeCount; i++) {
-            attributes[i] = Attribute.build(file, constantPools);
+            attributes[i] = Attribute.getAttribute(file, constantPools);
         }
         return new FieldMethodBasic(accessFlag, nameIndex, descriptorIndex, attributes);
     }
