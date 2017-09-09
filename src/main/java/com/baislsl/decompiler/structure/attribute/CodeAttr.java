@@ -29,10 +29,12 @@ public class CodeAttr extends Attribute implements AttributeBuilder {
             throws DecompileException {
         maxStack = Read.readBytes(file, MAX_STACK_SIZE);
         maxLocals = Read.readBytes(file, MAX_LOCALS_SIZE);
-        int CodeLength = Read.readBytes(file, CODE_LENGTH_SIZE);
-        codes = new Code[CodeLength];
+
         // read codes
-        // ...
+        int CodeLength = Read.readBytes(file, CODE_LENGTH_SIZE);
+        // ... 现在暂时不处理这里的读入问题, 直接跳过
+        codes = null;
+        Read.readBytes(file, CodeLength);
 
         // read exception table
         int exceptionTablesLength = Read.readBytes(file, EXCEPTION_TABLE_LENGTH_SIZE);
