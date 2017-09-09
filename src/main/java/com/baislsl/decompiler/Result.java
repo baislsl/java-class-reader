@@ -1,6 +1,8 @@
 package com.baislsl.decompiler;
 
 import com.baislsl.decompiler.structure.*;
+import com.baislsl.decompiler.structure.attribute.Attribute;
+import com.baislsl.decompiler.structure.constantPool.ConstantPool;
 
 /**
  * ClassFile {

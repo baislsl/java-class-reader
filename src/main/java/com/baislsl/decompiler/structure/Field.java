@@ -1,5 +1,7 @@
 package com.baislsl.decompiler.structure;
 
+import com.baislsl.decompiler.structure.attribute.Attribute;
+
 public class Field  {
     private static final int ACCESS_FLAG_SIZE = 2;
     private static final int NAME_INDEX_SIZE = 2;

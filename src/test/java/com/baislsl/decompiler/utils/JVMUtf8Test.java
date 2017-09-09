@@ -3,7 +3,7 @@ package com.baislsl.decompiler.utils;
 import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.FileReaderTest;
 import com.baislsl.decompiler.Result;
-import com.baislsl.decompiler.structure.ConstantPool;
+import com.baislsl.decompiler.structure.constantPool.ConstantPool;
 import com.baislsl.decompiler.structure.constantPool.Utf8Tag;
 import org.junit.Assert;
 import org.junit.Test;

@@ -1,5 +1,7 @@
 package com.baislsl.decompiler;
 
+import com.baislsl.decompiler.structure.attribute.Attribute;
+import com.baislsl.decompiler.structure.constantPool.ConstantPool;
 import com.baislsl.decompiler.structure.constantPool.ConstantPoolBuilder;
 import com.baislsl.decompiler.structure.*;
 import org.slf4j.Logger;
