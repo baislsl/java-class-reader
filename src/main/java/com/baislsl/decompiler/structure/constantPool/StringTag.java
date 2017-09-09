@@ -7,7 +7,7 @@ import com.baislsl.decompiler.utils.Read;
 import java.io.DataInputStream;
 
 public class StringTag extends ConstantPool implements ConstantPoolBuilder {
-    public static final int STRING_INDEX_SIZE = 2;
+    private static final int STRING_INDEX_SIZE = 2;
     private int stringIndex;
 
     public StringTag(int tag) {

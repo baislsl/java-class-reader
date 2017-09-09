@@ -61,8 +61,8 @@ public class FileReader implements Reader {
 
         // read interfaces
         interfaceCount = readBytes(file, SizeInfo.INTERFACES_COUNT_SIZE);
+        logger.info("interface count = {}", interfaceCount);
         interfaces = buildInterfaces(file, interfaceCount);
-        // ...
 
         // read fields
         fieldCount = readBytes(file, SizeInfo.FIELDS_COUNT_SIZE);

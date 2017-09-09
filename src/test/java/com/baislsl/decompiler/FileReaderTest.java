@@ -12,29 +12,30 @@ import static org.junit.Assert.assertNotNull;
 public class FileReaderTest {
     private static final Logger logger = LoggerFactory.getLogger(FileReaderTest.class);
 
-    private static void runFile(String path){
+    private static void runFile(String path) {
         FileReader fileReader = new FileReader();
         DataInputStream input = null;
-        try{
-            // input = new DataInputStream(new FileInputStream("main_class"));
+        try {
+            // input = new DataInputStream(new FileInputStream("main.class"));
             input = new DataInputStream(new FileInputStream(path));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        try{
-            assertNotNull(input);
+        assertNotNull(input);
+        try {
             Result result = fileReader.decompile(input);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    @Test
-    public void test1(){
-        runFile("src/test/resources/class_main");
     }
 
     @Test
-    public void test2(){
+    public void test1() {
+        runFile("src/test/resources/main.class");
+    }
+
+    @Test
+    public void test2() {
         runFile("src/test/resources/ClassTag.class");
     }
 

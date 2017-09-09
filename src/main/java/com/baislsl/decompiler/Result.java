@@ -63,7 +63,7 @@ public final class Result {
 
         // check magic bytes, which is always 0xCAFEBABE
         if(magic != DEFAULT_MAGIC)
-            throw new DecompileException("Incorrect magic information, it seems that this is not a class file");
+            throw new DecompileException("Incorrect magic number, it seems that this is not a class file");
 
     }
 
