@@ -3,10 +3,15 @@ package com.baislsl.decompiler.structure.attribute;
 import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.structure.constantPool.ConstantPool;
 import com.baislsl.decompiler.utils.Read;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.DataInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CodeAttr extends Attribute implements AttributeBuilder {
+    private static final Logger logger = LoggerFactory.getLogger(CodeAttr.class);
     private static final int MAX_STACK_SIZE = 2;
     private static final int MAX_LOCALS_SIZE = 2;
     private static final int CODE_LENGTH_SIZE = 4;
@@ -31,10 +36,16 @@ public class CodeAttr extends Attribute implements AttributeBuilder {
         maxLocals = Read.readBytes(file, MAX_LOCALS_SIZE);
 
         // read codes
-        int CodeLength = Read.readBytes(file, CODE_LENGTH_SIZE);
-        // ... 现在暂时不处理这里的读入问题, 直接跳过
-        codes = null;
-        Read.readBytes(file, CodeLength);
+        int codeLength = Read.readBytes(file, CODE_LENGTH_SIZE);
+        int read = 0;
+        List<Code> codes = new ArrayList<>();
+        while(read != codeLength){
+            Code code = Code.build(file);
+            codes.add(code);
+            logger.info("read in code : {}", code.toString());
+            read += code.getSize();
+        }
+        this.codes = codes.toArray(new Code[0]);
 
         // read exception table
         int exceptionTablesLength = Read.readBytes(file, EXCEPTION_TABLE_LENGTH_SIZE);

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.DataInputStream;
+import java.io.IOException;
 
 import static com.baislsl.decompiler.utils.Read.readBytes;
 
@@ -79,6 +80,15 @@ public class FileReader implements Reader {
         // read attribute
         attributeCount = readBytes(file, SizeInfo.ATTRIBUTES_COUNT_SIZE);
         attributes = buildAttribute(file, attributeCount, constantPools);
+
+        // check whether there are extra bytes
+        try {
+            if (file.read() != -1)
+                throw new DecompileException("Format error, redundant data in the class file");
+            file.close();
+        } catch (IOException e) {
+            throw new DecompileException(e);
+        }
 
         return new Result(
                 magic,

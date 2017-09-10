@@ -28,6 +28,10 @@ public class LocalVariableTableAttr extends Attribute implements AttributeBuilde
         }
         return this;
     }
+
+    public LocalVariableTable[] getTables() {
+        return tables;
+    }
 }
 
 

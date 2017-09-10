@@ -18,13 +18,17 @@ public class Read {
     }
 
     public static void readBytes(DataInputStream file, byte[] bytes) throws DecompileException {
+        readBytes(file, bytes, 0);
+    }
+
+    public static void readBytes(DataInputStream file, byte[] bytes, int off)
+            throws DecompileException{
         try {
-            if (file.read(bytes) != bytes.length)
+            if (file.read(bytes, off, bytes.length - off) != bytes.length - off)
                 throw new DecompileException("file format error");
         } catch (IOException e) {
             throw new DecompileException("file format error");
         }
     }
-
 
 }

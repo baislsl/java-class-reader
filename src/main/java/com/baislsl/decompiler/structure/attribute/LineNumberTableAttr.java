@@ -8,7 +8,7 @@ import java.io.DataInputStream;
 
 public class LineNumberTableAttr extends Attribute implements AttributeBuilder {
     private static final int LINE_NUMBER_TABLE_LENGTH_SIZE = 2;
-    LineNumberTable[] lineNumberTables;
+    private LineNumberTable[] lineNumberTables;
 
     public LineNumberTableAttr(int attributeNameIndex, int attributeLength) {
         super(attributeNameIndex, attributeLength);
