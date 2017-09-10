@@ -7,11 +7,11 @@ import com.baislsl.decompiler.utils.Read;
 import java.io.DataInputStream;
 
 public class CodeAttr extends Attribute implements AttributeBuilder {
-    private final static int MAX_STACK_SIZE = 2;
-    private final static int MAX_LOCALS_SIZE = 2;
-    private final static int CODE_LENGTH_SIZE = 4;
-    private final static int EXCEPTION_TABLE_LENGTH_SIZE = 2;
-    private final static int ATTRIBUTE_COUNT_SIZE = 2;
+    private static final int MAX_STACK_SIZE = 2;
+    private static final int MAX_LOCALS_SIZE = 2;
+    private static final int CODE_LENGTH_SIZE = 4;
+    private static final int EXCEPTION_TABLE_LENGTH_SIZE = 2;
+    private static final int ATTRIBUTE_COUNT_SIZE = 2;
 
     private int maxStack;
     private int maxLocals;
@@ -50,7 +50,7 @@ public class CodeAttr extends Attribute implements AttributeBuilder {
         // read attribute
         int attributeCount = Read.readBytes(file, ATTRIBUTE_COUNT_SIZE);
         attributes = new Attribute[attributeCount];
-        for(int i = 0;i<attributeCount;i++){
+        for (int i = 0; i < attributeCount; i++) {
             attributes[i] = Attribute.getAttribute(file, constantPools);
         }
 
@@ -76,4 +76,16 @@ public class CodeAttr extends Attribute implements AttributeBuilder {
     public Attribute[] getAttributes() {
         return attributes;
     }
+}
+
+class ExceptionTable {
+    public static final int PC_SIZE = 2;
+    public static final int CATCH_TYPE_SIZE = 2;
+    public int startPC, endPC;
+    public int handlerPC;
+    public int catchType;
+
+    public ExceptionTable() {
+    }
+
 }

@@ -78,7 +78,7 @@ public class FileReader implements Reader {
 
         // read attribute
         attributeCount = readBytes(file, SizeInfo.ATTRIBUTES_COUNT_SIZE);
-        attributes = new Attribute[attributeCount];
+        attributes = buildAttribute(file, attributeCount, constantPools);
 
         return new Result(
                 magic,
@@ -142,6 +142,18 @@ public class FileReader implements Reader {
         }
 
         return methods;
+    }
+
+    private static Attribute[] buildAttribute(DataInputStream file, int attributeCount, ConstantPool[] constantPools)
+            throws DecompileException {
+        Attribute[] attributes = new Attribute[attributeCount];
+
+        for (int i = 0; i < attributeCount; i++) {
+            attributes[i] = Attribute.getAttribute(file, constantPools);
+            logger.info("building attribute of {}", attributes[i].getClass().getName());
+        }
+
+        return attributes;
     }
 
 }
