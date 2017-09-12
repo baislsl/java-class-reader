@@ -1,6 +1,7 @@
 package com.baislsl.decompiler.structure.attribute;
 
 import com.baislsl.decompiler.DecompileException;
+import com.baislsl.decompiler.structure.attribute.stackmap.StackMapTableAttr;
 import com.baislsl.decompiler.structure.constantPool.ConstantPool;
 import com.baislsl.decompiler.structure.constantPool.Utf8Tag;
 import com.baislsl.decompiler.utils.JVMUtf8;
@@ -70,6 +71,8 @@ public abstract class Attribute {
                     return new SyntheticAttr(attributeNameIndex, attributeLength);
                 case "Deprecated":
                     return new DeprecatedAttr(attributeNameIndex, attributeLength);
+                case "StackMapTable":
+                    return new StackMapTableAttr(attributeNameIndex, attributeLength);
                 default:
                     throw new DecompileException("Can not find attribute with name " + attributeName);
             }

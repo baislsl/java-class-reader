@@ -40,4 +40,9 @@ public class FileReaderTest {
         runFile("src/test/resources/ClassTag.class");
     }
 
+    @Test
+    public void test3(){
+        runFile("src/test/resources/CodeAttr.class");
+    }
+
 }
