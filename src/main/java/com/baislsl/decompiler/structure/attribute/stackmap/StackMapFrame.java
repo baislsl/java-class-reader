@@ -34,7 +34,7 @@ public abstract class StackMapFrame implements Builder {
             ans = new FullFrame(frameType);
         } else {
             throw new DecompileException(
-                    String.format("Erro frame type of %d when building stack map frame", frameType)
+                    String.format("Error frame type of %d when building stack map frame", frameType)
             );
         }
         ans.build(file);

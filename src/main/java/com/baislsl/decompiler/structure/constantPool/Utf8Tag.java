@@ -1,6 +1,7 @@
 package com.baislsl.decompiler.structure.constantPool;
 
 import com.baislsl.decompiler.DecompileException;
+import com.baislsl.decompiler.utils.JVMUtf8;
 import com.baislsl.decompiler.utils.Read;
 
 import java.io.DataInputStream;
@@ -19,8 +20,11 @@ public class Utf8Tag extends ConstantPool implements ConstantPoolBuilder {
         length = Read.readBytes(file, LENGTH_SIZE);
         bytes = new byte[length];
         Read.readBytes(file, bytes);
-
         return this;
+    }
+
+    public String getString() throws DecompileException {
+        return JVMUtf8.decode(bytes);
     }
 
     public int getLength() {

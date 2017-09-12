@@ -8,14 +8,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.DataInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import static com.baislsl.decompiler.utils.Read.readBytes;
 
-public class FileReader implements Reader {
-    private static final Logger logger = LoggerFactory.getLogger(FileReader.class);
+public class ClassReader {
+    private static final Logger logger = LoggerFactory.getLogger(ClassReader.class);
 
-    public Result decompile(DataInputStream file) throws DecompileException {
+    public static Result decompile(String path) throws DecompileException, IOException {
+        return decompile(new DataInputStream(new FileInputStream(path)));
+    }
+
+    public static Result decompile(DataInputStream file) throws DecompileException, IOException {
         int magic;
         int minorVersion;
         int majorVersion;
@@ -82,13 +87,9 @@ public class FileReader implements Reader {
         attributes = buildAttribute(file, attributeCount, constantPools);
 
         // check whether there are extra bytes
-        try {
-            if (file.read() != -1)
-                throw new DecompileException("Format error, redundant data in the class file");
-            file.close();
-        } catch (IOException e) {
-            throw new DecompileException(e);
-        }
+        if (file.read() != -1)
+            throw new DecompileException("Format error, redundant data in the class file");
+        file.close();
 
         return new Result(
                 magic,
@@ -115,7 +116,7 @@ public class FileReader implements Reader {
             int tag = readBytes(file, ConstantPool.TAG_SIZE);
             ConstantPoolBuilder constantPoolBuilder = ConstantPool.getConstantPoolBuilder(tag);
             constantPools[i] = constantPoolBuilder.build(file);
-            logger.info("build constant pool of type : {}", constantPools[i].getClass().getName());
+            // logger.info("build constant pool of type : {}", constantPools[i].getClass().getName());
         }
 
         return constantPools;
@@ -126,7 +127,7 @@ public class FileReader implements Reader {
         int[] interfaces = new int[interfaceCount];
         for (int i = 0; i < interfaceCount; i++) {
             interfaces[i] = readBytes(file, SizeInfo.INTERFACES_SIZE);
-            logger.info("build interfaces of value : {}", interfaces[i]);
+            // logger.info("build interfaces of value : {}", interfaces[i]);
         }
         return interfaces;
     }
@@ -138,7 +139,6 @@ public class FileReader implements Reader {
         for (int i = 0; i < fieldCount; i++) {
             fields[i] = Field.build(file, constantPools);
         }
-
 
         return fields;
     }

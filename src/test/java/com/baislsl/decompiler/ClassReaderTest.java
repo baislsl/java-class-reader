@@ -9,11 +9,11 @@ import java.io.FileInputStream;
 
 import static org.junit.Assert.assertNotNull;
 
-public class FileReaderTest {
-    private static final Logger logger = LoggerFactory.getLogger(FileReaderTest.class);
+public class ClassReaderTest {
+    private static final Logger logger = LoggerFactory.getLogger(ClassReaderTest.class);
 
     public static Result runFile(String path) {
-        FileReader fileReader = new FileReader();
+        ClassReader classReader = new ClassReader();
         DataInputStream input = null;
         try {
             // input = new DataInputStream(new FileInputStream("main.class"));
@@ -23,7 +23,7 @@ public class FileReaderTest {
         }
         assertNotNull(input);
         try {
-            return fileReader.decompile(input);
+            return classReader.decompile(input);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -43,6 +43,11 @@ public class FileReaderTest {
     @Test
     public void test3(){
         runFile("src/test/resources/CodeAttr.class");
+    }
+
+    @Test
+    public void test4(){
+        runFile("src/test/resources/ConstantPoolBuilder.class");
     }
 
 }

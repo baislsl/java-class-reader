@@ -1,7 +1,7 @@
 package com.baislsl.decompiler.utils;
 
 import com.baislsl.decompiler.DecompileException;
-import com.baislsl.decompiler.FileReaderTest;
+import com.baislsl.decompiler.ClassReaderTest;
 import com.baislsl.decompiler.Result;
 import com.baislsl.decompiler.structure.constantPool.ConstantPool;
 import com.baislsl.decompiler.structure.constantPool.Utf8Tag;
@@ -14,9 +14,9 @@ public class JVMUtf8Test {
     private static final Logger logger = LoggerFactory.getLogger(JVMUtf8Test.class);
     @Test
     public void test() throws DecompileException{
-        Result result = FileReaderTest.runFile("src/test/resources/ClassTag.class");
+        Result result = ClassReaderTest.runFile("src/test/resources/ClassTag.class");
         Assert.assertNotNull(result);
-        ConstantPool[] constantPools = result.getConstantPool();
+        ConstantPool[] constantPools = result.getConstantPools();
         Assert.assertNotNull(constantPools);
         for(ConstantPool constantPool : constantPools){
             if(constantPool instanceof Utf8Tag){

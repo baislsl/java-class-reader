@@ -29,7 +29,6 @@ public abstract class Attribute {
         int attributeNameIndex = Read.readBytes(file, ATTRIBUTE_NAME_INDEX_SIZE);
         int attributeLength = Read.readBytes(file, ATTRIBUTE_LENGTH_SIZE);
         AttributeBuilder builder = getAttributeBuilder(attributeNameIndex, attributeLength, constantPools);
-        logger.info("reading attribute with name : {}", builder.getClass().getName());
         return builder.build(file, constantPools);
     }
 

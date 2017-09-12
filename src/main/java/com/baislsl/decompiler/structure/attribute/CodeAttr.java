@@ -42,7 +42,7 @@ public class CodeAttr extends Attribute implements AttributeBuilder {
         while(read != codeLength){
             Code code = Code.build(file);
             codes.add(code);
-            logger.info("read in code : {}", code.toString());
+//            logger.info("read in code : {}", code.toString());
             read += code.getSize();
         }
         this.codes = codes.toArray(new Code[0]);
