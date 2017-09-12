@@ -10,7 +10,7 @@ import java.io.DataInputStream;
  *      LongTag
  *      DoubleTag
  */
-public abstract class LongDoubleBasic extends ConstantPool implements ConstantPoolBuilder {
+public abstract class LongDoubleBasic extends ConstantPool {
     private static final int HIGH_BYTE_SIZE = 4;
     private static final int LOW_BYTE_SIZE = 4;
     protected int highByte, lowByte;

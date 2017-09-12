@@ -5,7 +5,7 @@ import com.baislsl.decompiler.utils.Read;
 
 import java.io.DataInputStream;
 
-public abstract class FloatIntegerBasic extends ConstantPool implements ConstantPoolBuilder {
+public abstract class FloatIntegerBasic extends ConstantPool {
     private static final int BYTES_SIZE = 4;
     protected int bytes;
 

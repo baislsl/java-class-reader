@@ -2,7 +2,7 @@ package com.baislsl.decompiler.structure.constantPool;
 
 import com.baislsl.decompiler.DecompileException;
 
-public abstract class ConstantPool {
+public abstract class ConstantPool implements ConstantPoolBuilder, Descriptor{
     public final static int TAG_SIZE = 1;
     protected int tag;
 
@@ -18,7 +18,7 @@ public abstract class ConstantPool {
             case 11: return new InterfaceMethodrefTag(tag);
             case 8: return new StringTag(tag);
             case 3: return new IntegerTag(tag);
-            case 4: return new FLoatTag(tag);
+            case 4: return new FloatTag(tag);
             case 5: return new LongTag(tag);
             case 6: return new DoubleTag(tag);
             case 12: return new NameAndTypeTag(tag);

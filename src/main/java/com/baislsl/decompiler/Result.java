@@ -148,6 +148,10 @@ public final class Result {
         return methods;
     }
 
+    public Method getMethod(int index){
+        return methods[index];
+    }
+
     public Attribute[] getAttributes() {
         return attributes;
     }

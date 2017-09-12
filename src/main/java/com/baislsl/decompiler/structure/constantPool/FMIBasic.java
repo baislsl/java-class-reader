@@ -1,6 +1,7 @@
 package com.baislsl.decompiler.structure.constantPool;
 
 import com.baislsl.decompiler.DecompileException;
+import com.baislsl.decompiler.Result;
 import com.baislsl.decompiler.utils.Read;
 
 import java.io.DataInputStream;
@@ -12,7 +13,7 @@ import java.io.DataInputStream;
  *      CONSTANT_InterfaceMethodref_info
  * Structures
  */
-public abstract class FMIBasic extends ConstantPool implements ConstantPoolBuilder {
+public abstract class FMIBasic extends ConstantPool {
     private static final int CLASS_INDEX_SIZE = 2;
     private static final int NAME_AND_TYPE_INDEX_SIZE = 2;
 
@@ -28,6 +29,16 @@ public abstract class FMIBasic extends ConstantPool implements ConstantPoolBuild
         classIndex = Read.readBytes(file, CLASS_INDEX_SIZE);
         nameAndTypeIndex = Read.readBytes(file, NAME_AND_TYPE_INDEX_SIZE);
         return this;
+    }
+
+    @Override
+    public String[] description(Result result) throws DecompileException {
+        int index = getNameAndTypeIndex();
+        String[] nameAndType = result.getConstantPool(index).description(result);
+        return new String[]{
+                "#" + Integer.toString(getClassIndex()) + ".#" + Integer.toString(getNameAndTypeIndex()),
+                nameAndType[2], nameAndType[3]
+        };
     }
 
     public int getNameAndTypeIndex() {
