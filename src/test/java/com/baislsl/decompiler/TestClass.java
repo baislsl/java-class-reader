@@ -6,6 +6,7 @@ interface TestClassInterface {
     String func(int a, double d) throws DecompileException;
 }
 
+// compile to test only class file
 public class TestClass implements TestClassInterface {
     private static int a;
     public static final double d = 1.03;

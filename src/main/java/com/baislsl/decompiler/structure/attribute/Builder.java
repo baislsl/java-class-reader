@@ -1,4 +1,4 @@
-package com.baislsl.decompiler.structure.attribute.stackmap;
+package com.baislsl.decompiler.structure.attribute;
 
 import com.baislsl.decompiler.DecompileException;
 

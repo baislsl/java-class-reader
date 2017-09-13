@@ -1,6 +1,7 @@
 package com.baislsl.decompiler.structure.attribute.stackmap;
 
 import com.baislsl.decompiler.DecompileException;
+import com.baislsl.decompiler.structure.attribute.Builder;
 import com.baislsl.decompiler.utils.Read;
 
 import java.io.DataInputStream;
