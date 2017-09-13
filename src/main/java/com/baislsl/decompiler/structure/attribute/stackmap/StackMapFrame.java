@@ -16,7 +16,7 @@ public abstract class StackMapFrame implements Builder {
     }
 
 
-    static StackMapFrame getStackFrame(DataInputStream file) throws DecompileException {
+    public static StackMapFrame getStackFrame(DataInputStream file) throws DecompileException {
         int frameType = Read.readBytes(file, FRAME_TYPE_SIZE);
         StackMapFrame ans;
         if (frameType < 64) {

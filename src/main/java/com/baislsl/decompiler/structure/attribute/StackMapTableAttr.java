@@ -1,8 +1,7 @@
-package com.baislsl.decompiler.structure.attribute.stackmap;
+package com.baislsl.decompiler.structure.attribute;
 
 import com.baislsl.decompiler.DecompileException;
-import com.baislsl.decompiler.structure.attribute.Attribute;
-import com.baislsl.decompiler.structure.attribute.AttributeBuilder;
+import com.baislsl.decompiler.structure.attribute.stackmap.StackMapFrame;
 import com.baislsl.decompiler.structure.constantPool.ConstantPool;
 import com.baislsl.decompiler.utils.Read;
 import org.slf4j.Logger;
