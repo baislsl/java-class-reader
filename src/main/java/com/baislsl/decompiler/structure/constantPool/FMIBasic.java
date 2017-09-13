@@ -34,6 +34,8 @@ public abstract class FMIBasic extends ConstantPool {
     @Override
     public String[] description(Result result) throws DecompileException {
         int index = getNameAndTypeIndex();
+
+        // result.getConstantPool(index) must be instance of NameAndTypeTag
         String[] nameAndType = result.getConstantPool(index).description(result);
         return new String[]{
                 "#" + Integer.toString(getClassIndex()) + ".#" + Integer.toString(getNameAndTypeIndex()),

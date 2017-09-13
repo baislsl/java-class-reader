@@ -23,6 +23,7 @@ public class Javap {
             ans.append("  ");
             for (int i = 2; i < cpDescription.length; i++) {
                 ans.append(cpDescription[i]);
+                if(i != cpDescription.length - 1) ans.append(":");
             }
         }
         return ans.toString();

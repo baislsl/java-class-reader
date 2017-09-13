@@ -2,6 +2,8 @@ package com.baislsl.decompiler;
 
 import org.junit.Test;
 
+import java.lang.reflect.Constructor;
+
 interface TestClassInterface {
     String func(int a, double d) throws DecompileException;
 }
@@ -40,6 +42,13 @@ public class TestClass implements TestClassInterface {
         for (i = 0; i < cnt; i++) {
             new TestClass().func2(i);
         }
+        try {
+            Class<?> cl = Class.forName(TestClassSub.class.getName());
+            Constructor<?> constructor = cl.getConstructor(String.class, int.class);
+            constructor.newInstance("arg", 1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 
@@ -50,8 +59,13 @@ class TestClassSub extends TestClass {
         TestClassSub.main(new String[]{"arg1", "arg2"});
     }
 
+    TestClassSub(String args, int iarg) {
+        super();
+        TestClassSub.main(new String[]{args, Integer.toString(iarg)});
+    }
+
     @Test
-    public void subTest(){
+    public void subTest() {
         int i = 10;
         while (--i != 0) {
             try {
