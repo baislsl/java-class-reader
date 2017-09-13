@@ -12,12 +12,13 @@ import java.io.IOException;
 
 public class JavapTest {
     private final static Logger logger = LoggerFactory.getLogger(JavapTest.class);
-    private static Result clazz = null, clazz2 = null;
+    private static Result clazz = null, clazz2 = null, clazz3 = null;
 
     static {
         try {
-            clazz = ClassReader.decompile("src/test/resources/ClassTag.class");
-            clazz2 = ClassReader.decompile("src/test/resources/ConstantPoolBuilder.class");
+            // clazz = ClassReader.decompile("src/test/resources/ClassTag.class");
+            // clazz2 = ClassReader.decompile("src/test/resources/ConstantPoolBuilder.class");
+            clazz3 = ClassReader.decompile("src/test/resources/TestClass.class");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -55,10 +56,10 @@ public class JavapTest {
 
     @Test
     public void getContantPoolInfoTest() throws DecompileException, IOException {
-        ConstantPool[] constantPools = clazz.getConstantPools();
+        ConstantPool[] constantPools = clazz3.getConstantPools();
         for(ConstantPool cp : constantPools){
             if(cp == null) continue; // constantPools[0] is always null
-            logger.info(Javap.getConstantPoolInfo(cp, clazz));
+            logger.info(Javap.getConstantPoolInfo(cp, clazz3));
         }
     }
 }

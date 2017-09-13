@@ -1,9 +1,9 @@
 package com.baislsl.decompiler;
 
 import com.baislsl.decompiler.structure.attribute.Attribute;
-import com.baislsl.decompiler.structure.constantPool.ConstantPool;
-import com.baislsl.decompiler.structure.constantPool.ConstantPoolBuilder;
+import com.baislsl.decompiler.structure.constantPool.*;
 import com.baislsl.decompiler.structure.*;
+import com.baislsl.decompiler.utils.JVMUtf8;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -117,6 +117,21 @@ public class ClassReader {
             ConstantPoolBuilder constantPoolBuilder = ConstantPool.getConstantPoolBuilder(tag);
             constantPools[i] = constantPoolBuilder.build(file);
             // logger.info("build constant pool of type : {}", constantPools[i].getClass().getName());
+
+            /**
+             * According to << The Java® Virtual Machine Specification Java SE 8 Edition >> 4.4.5 </>
+             *      " All 8-byte constants take up two entries in the constant_pool table of the class
+             * file. If a CONSTANT_Long_info or CONSTANT_Double_info structure is the item
+             * in the constant_pool table at index n, then the next usable item in the pool is
+             * located at index n+2. The constant_pool index n+1 must be valid but is considered
+             * unusable."
+             *
+             *  we set constant pool entries at index n + 2 to null directly
+             */
+            if((constantPools[i] instanceof DoubleTag) || (constantPools[i] instanceof LongTag)){
+                constantPools[++i] = null;
+            }
+
         }
 
         return constantPools;
