@@ -3,6 +3,8 @@ package com.baislsl.decompiler;
 import org.junit.Test;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.List;
 
 interface TestClassInterface {
     String func(int a, double d) throws DecompileException;
@@ -12,7 +14,8 @@ interface TestClassInterface {
 public class TestClass implements TestClassInterface {
     private static int a;
     public static final double d = 1.03;
-
+    protected String str = "Wonder";
+    List<Integer> li = new ArrayList<>();
     @Deprecated private volatile long s = 4L;
 
     TestClass() {

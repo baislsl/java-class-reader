@@ -52,7 +52,7 @@ public class FieldDescriptor implements Descriptor {
         if (name == null)
             return type.getName() + array.toString();
         else
-            return name + array.toString();
+            return name.substring(1).replaceAll("/", ".") + array.toString();
     }
 
     public Class<?> getType() {

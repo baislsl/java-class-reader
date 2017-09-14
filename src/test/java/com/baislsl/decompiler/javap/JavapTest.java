@@ -4,6 +4,7 @@ import com.baislsl.decompiler.ClassReader;
 import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.Result;
 import com.baislsl.decompiler.structure.Field;
+import com.baislsl.decompiler.structure.Method;
 import com.baislsl.decompiler.structure.constantPool.ConstantPool;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -71,5 +72,11 @@ public class JavapTest {
         }
     }
 
+    @Test
+    public void getMethodDescriptionTest() throws DecompileException{
+        for(Method method : clazz3.getMethods()){
+            logger.info(Javap.getMethodDescription(clazz3, method));
+        }
+    }
 
 }
