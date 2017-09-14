@@ -3,6 +3,7 @@ package com.baislsl.decompiler.javap;
 import com.baislsl.decompiler.ClassReader;
 import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.Result;
+import com.baislsl.decompiler.structure.Field;
 import com.baislsl.decompiler.structure.constantPool.ConstantPool;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -62,4 +63,6 @@ public class JavapTest {
             logger.info(Javap.getConstantPoolInfo(cp, clazz3));
         }
     }
+
+
 }
