@@ -6,6 +6,7 @@ import com.baislsl.decompiler.Result;
 import com.baislsl.decompiler.javap.descriptor.Descriptor;
 import com.baislsl.decompiler.javap.descriptor.FieldDescriptor;
 import com.baislsl.decompiler.structure.Field;
+import com.baislsl.decompiler.structure.Method;
 import com.baislsl.decompiler.structure.attribute.Attribute;
 import com.baislsl.decompiler.structure.attribute.ConstantValueAttr;
 import com.baislsl.decompiler.structure.attribute.DeprecatedAttr;
@@ -18,7 +19,7 @@ public class Javap {
 
     public static String getFieldDescription(Result result, Field field)
             throws DecompileException {
-        String[] accFlags = getAccessFlagDescription(result.getAccessFlag());
+        String[] accFlags = getAccessFlagDescription(field.getAccessFlag());
         String descriptorInfo = result.getUTF8Info(field.getDescriptorIndex());
         Descriptor descriptor = FieldDescriptor.getFieldDescriptors(descriptorInfo)[0];
         String name = result.getUTF8Info(field.getNameIndex());
@@ -68,10 +69,11 @@ public class Javap {
     public static String[] getAccessFlagDescription(int accessFlag) {
         List<String> ans = new ArrayList<>();
         int cur = 1, cnt = 16;
-        for (int i = 0; i < cur; i++) {
+        for (int i = 0; i < cnt; i++) {
             if ((accessFlag & cur) != 0) {
                 ans.add(Constants.accessName[i]);
             }
+            cur <<= 1;
         }
         return ans.toArray(new String[0]);
     }

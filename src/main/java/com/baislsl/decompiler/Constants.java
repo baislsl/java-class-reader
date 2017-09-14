@@ -9,7 +9,9 @@ public class Constants {
     public static final int ACC_SYNCHRONIZED = 0x0020;
     public static final int ACC_SUPER = 0x0020;
     public static final int ACC_BRIDGE = 0x0040;
+    public static final int ACC_VOLATILE = 0x0040;
     public static final int ACC_VARARGS = 0x0080;
+    public static final int ACC_TRANSIENT = 0x0080;
     public static final int ACC_NATIVE = 0x0100;
     public static final int ACC_INTERFACE = 0x0200;
     public static final int ACC_ABSTRACT = 0x0400;
@@ -19,7 +21,7 @@ public class Constants {
     public static final int ACC_ENUM = 0x4000;
 
     public static String[] accessName = {
-            "public", "private", "protected", "static", "final", "synchronized", "bridge", "varargs",
+            "public", "private", "protected", "static", "final", "synchronized", "volatile", "varargs",
             "native", "interface", "abstract", "strict", "synthetic", "annotation", "enum", null
     };
 }
