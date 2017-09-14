@@ -36,7 +36,7 @@ public class TestClass implements TestClassInterface {
     }
 
     @Deprecated
-    private synchronized void func2(int i, int j) {
+    private synchronized void func2(final int i, int j) {
         func2(i);
         func2(j);
 

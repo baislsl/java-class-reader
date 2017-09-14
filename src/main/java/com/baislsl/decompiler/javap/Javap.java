@@ -8,10 +8,7 @@ import com.baislsl.decompiler.javap.descriptor.FieldDescriptor;
 import com.baislsl.decompiler.javap.descriptor.MethodDescriptor;
 import com.baislsl.decompiler.structure.Field;
 import com.baislsl.decompiler.structure.Method;
-import com.baislsl.decompiler.structure.attribute.Attribute;
-import com.baislsl.decompiler.structure.attribute.ConstantValueAttr;
-import com.baislsl.decompiler.structure.attribute.DeprecatedAttr;
-import com.baislsl.decompiler.structure.attribute.ExceptionsAttr;
+import com.baislsl.decompiler.structure.attribute.*;
 import com.baislsl.decompiler.structure.constantPool.*;
 
 import java.util.ArrayList;
@@ -27,6 +24,42 @@ public class Javap {
         MethodDescriptor methodDescriptor = new MethodDescriptor(descriptorInfo);
         String name = result.getUTF8Info(method.getNameIndex());
 
+        /**
+         * each attribute of method must be one of following attributes:
+         *      Code
+         *      Exceptions
+         *      RuntimeVisibleParameterAnnotations
+         *      RuntimeInvisibleParameterAnnotations
+         *      AnnotationDefault
+         *      MethodParameters
+         *      Synthetic
+         *      Deprecated
+         *      Signature
+         *      RuntimeVisibleAnnotations
+         *      RuntimeInvisibleAnnotations
+         *      RuntimeVisibleTypeAnnotations
+         *      RuntimeInvisibleTypeAnnotations
+         */
+
+        MethodParametersAttr parametersAttr = null;
+        DeprecatedAttr deprecatedAttr = null;
+        List<ExceptionsAttr> exceptionsAttrs = new ArrayList<>();
+        List<CodeAttr> codeAttrs = new ArrayList<>();
+
+        for (Attribute attribute : method.getAttributes()) {
+            if (attribute instanceof DeprecatedAttr) {
+                deprecatedAttr = (DeprecatedAttr) attribute;
+            } else if (attribute instanceof MethodParametersAttr) {
+                parametersAttr = (MethodParametersAttr) attribute;
+            } else if (attribute instanceof ExceptionsAttr) {
+                exceptionsAttrs.add((ExceptionsAttr) attribute);
+            } else if (attribute instanceof CodeAttr) {
+                codeAttrs.add((CodeAttr) attribute);
+            }
+        }
+
+        if (deprecatedAttr != null)
+            ans.append("@Deprecated ");
         for (String accFlag : accFlags) {
             ans.append(accFlag);
             ans.append(" ");
@@ -36,36 +69,39 @@ public class Javap {
         ans.append(" ");
         ans.append(name);
         ans.append("(");
-        boolean hasParam = false;
-        for (Descriptor descriptor : methodDescriptor.getParamDescriptors()) {
-            if (!hasParam) {
-                hasParam = true;
+        Descriptor[] descriptors = methodDescriptor.getParamDescriptors();
+        for (int i = 0; i < descriptors.length; i++) {
+            if (i != 0) ans.append(" ,");
+            if (parametersAttr != null) {
+                Parameter parameter = parametersAttr.getParameters()[i];
+                ans.append(" ");
+                if ((parameter.accessFlag & Constants.ACC_FINAL) != 0) ans.append("final ");
+                // if ((parameter.accessFlag & Constants.ACC_SYNTHETIC) != 0) ans.append("synthetic ");
+                // if((parameter.accessFlag & Constants.ACC_MANDATED) != 0) ans.append("mandated ");
+                ans.append(descriptors[i].toString());
+                ans.append(result.getUTF8Info(parameter.nameIndex));
             } else {
-                ans.append(", ");
+                ans.append(descriptors[i].toString());
             }
-            ans.append(descriptor.toString());
         }
         ans.append(") ");
 
         boolean hasException = false;
-        // check for Exceptions
-        for (Attribute attribute : method.getAttributes()) {
-            if (attribute instanceof ExceptionsAttr) {
-                for (int index : ((ExceptionsAttr) attribute).getExceptionIndexTable()) {
-                    if (!hasException) {
-                        hasException = true;
-                        ans.append(" throws ");
-                    } else {
-                        ans.append(", ");
-                    }
-
-                    ConstantPool cp = result.getConstantPool(index);
-                    if (!(cp instanceof ClassTag)) {
-                        throw new DecompileException("Exception not found");
-                    }
-                    ans.append(result.getUTF8Info(((ClassTag) cp).getNameIndex())
-                            .replaceAll("/", "."));
+        for (ExceptionsAttr attribute : exceptionsAttrs) {
+            for (int index : attribute.getExceptionIndexTable()) {
+                if (!hasException) {
+                    hasException = true;
+                    ans.append(" throws ");
+                } else {
+                    ans.append(", ");
                 }
+
+                ConstantPool cp = result.getConstantPool(index);
+                if (!(cp instanceof ClassTag)) {
+                    throw new DecompileException("Exception not found");
+                }
+                ans.append(result.getUTF8Info(((ClassTag) cp).getNameIndex())
+                        .replaceAll("/", "."));
             }
         }
 

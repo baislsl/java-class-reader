@@ -28,9 +28,9 @@ public class MethodParametersAttr extends Attribute implements AttributeBuilder 
         }
         return this;
     }
-}
 
-class Parameter {
-    int nameIndex;
-    int accessFlag;
+    public Parameter[] getParameters() {
+        return parameters;
+    }
+
 }

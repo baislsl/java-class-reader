@@ -19,9 +19,10 @@ public class Constants {
     public static final int ACC_SYNTHETIC = 0x1000;
     public static final int ACC_ANNOTATION = 0x2000;
     public static final int ACC_ENUM = 0x4000;
+    public static final int ACC_MANDATED = 0x8000;
 
     public static String[] accessName = {
             "public", "private", "protected", "static", "final", "synchronized", "volatile", "varargs",
-            "native", "interface", "abstract", "strict", "synthetic", "annotation", "enum", null
+            "native", "interface", "abstract", "strict", "synthetic", "annotation", "enum", "mandated"
     };
 }
