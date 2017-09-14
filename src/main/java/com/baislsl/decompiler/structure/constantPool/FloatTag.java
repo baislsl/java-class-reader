@@ -16,7 +16,7 @@ public class FloatTag extends FloatIntegerBasic {
     }
 
     public float getValue() {
-        return (float) bytes;
+        return Float.intBitsToFloat(bytes);
     }
 
     @Override

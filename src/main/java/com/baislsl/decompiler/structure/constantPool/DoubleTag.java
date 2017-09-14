@@ -16,7 +16,7 @@ public class DoubleTag extends LongDoubleBasic {
     }
 
     public double getValue(){
-        return (double)(((long) highByte << 32) | Integer.toUnsignedLong(lowByte));
+        return Double.longBitsToDouble(((long) highByte << 32) | Integer.toUnsignedLong(lowByte));
     }
 
     @Override
