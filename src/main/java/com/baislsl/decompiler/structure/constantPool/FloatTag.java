@@ -18,4 +18,9 @@ public class FloatTag extends FloatIntegerBasic {
     public float getValue() {
         return (float) bytes;
     }
+
+    @Override
+    public String toString() {
+        return Float.toString(getValue());
+    }
 }

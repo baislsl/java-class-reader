@@ -58,9 +58,16 @@ public class JavapTest {
     @Test
     public void getContantPoolInfoTest() throws DecompileException, IOException {
         ConstantPool[] constantPools = clazz3.getConstantPools();
-        for(ConstantPool cp : constantPools){
-            if(cp == null) continue; // constantPools[0] is always null
+        for (ConstantPool cp : constantPools) {
+            if (cp == null) continue; // constantPools[0] is always null
             logger.info(Javap.getConstantPoolInfo(cp, clazz3));
+        }
+    }
+
+    @Test
+    public void getFieldDescriptionTest() throws DecompileException {
+        for(Field field : clazz3.getFields()){
+            logger.info(Javap.getFieldDescription(clazz3, field));
         }
     }
 

@@ -3,6 +3,12 @@ package com.baislsl.decompiler.javap;
 import com.baislsl.decompiler.Constants;
 import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.Result;
+import com.baislsl.decompiler.javap.descriptor.Descriptor;
+import com.baislsl.decompiler.javap.descriptor.FieldDescriptor;
+import com.baislsl.decompiler.structure.Field;
+import com.baislsl.decompiler.structure.attribute.Attribute;
+import com.baislsl.decompiler.structure.attribute.ConstantValueAttr;
+import com.baislsl.decompiler.structure.attribute.DeprecatedAttr;
 import com.baislsl.decompiler.structure.constantPool.*;
 
 import java.util.ArrayList;
@@ -10,7 +16,53 @@ import java.util.List;
 
 public class Javap {
 
+    public static String getFieldDescription(Result result, Field field)
+            throws DecompileException {
+        String[] accFlags = getAccessFlagDescription(result.getAccessFlag());
+        String descriptorInfo = result.getUTF8Info(field.getDescriptorIndex());
+        Descriptor descriptor = FieldDescriptor.getFieldDescriptors(descriptorInfo)[0];
+        String name = result.getUTF8Info(field.getNameIndex());
 
+        StringBuilder ans = new StringBuilder();
+
+        for (String accFlag : accFlags) {
+            ans.append(accFlag);
+            ans.append(" ");
+        }
+
+        ans.append(descriptor.toString());
+        ans.append(" ");
+        ans.append(name);
+
+        /**
+         * each attributes of field must be one of following attributes:
+         *      ConstantValue
+         *      Synthetic
+         *      Deprecated
+         *      RuntimeVisibleAnnotations
+         *      RuntimeInvisibleAnnotations
+         *      RuntimeVisibleTypeAnnotations
+         *      RuntimeInvisibleTypeAnnotations
+         *  for decompile, we not just solve ConstantValue and Deprecated attributes
+         */
+        for (Attribute attribute : field.getAttributes()) {
+            if (attribute instanceof ConstantValueAttr) {
+                int index = ((ConstantValueAttr) attribute).getConstantValueIndex();
+                ConstantPool cp = result.getConstantPool(index);
+                ans.append(" = ");
+                if (cp instanceof StringTag) {
+                    ans.append(result.getUTF8Info(((StringTag) cp).getStringIndex()));
+                } else {
+                    // cp must be in DoubleTag, LongTag, FloatTag, IntegerTag
+                    ans.append(cp.toString());
+                }
+            } else if (attribute instanceof DeprecatedAttr) {
+                ans.insert(0, "@Deprecated ");
+            }
+        }
+
+        return ans.toString();
+    }
 
 
     public static String[] getAccessFlagDescription(int accessFlag) {

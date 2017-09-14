@@ -15,8 +15,12 @@ public class IntegerTag extends FloatIntegerBasic {
         };
     }
 
-    public long getValue() {
-        return Integer.toUnsignedLong(bytes);
+    public int getValue() {
+        return bytes;
     }
 
+    @Override
+    public String toString() {
+        return Integer.toString(getValue());
+    }
 }

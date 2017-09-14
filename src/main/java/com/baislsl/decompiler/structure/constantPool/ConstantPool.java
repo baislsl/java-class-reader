@@ -2,7 +2,7 @@ package com.baislsl.decompiler.structure.constantPool;
 
 import com.baislsl.decompiler.DecompileException;
 
-public abstract class ConstantPool implements ConstantPoolBuilder, Descriptor{
+public abstract class ConstantPool implements ConstantPoolBuilder, Description {
     public final static int TAG_SIZE = 1;
     protected int tag;
 

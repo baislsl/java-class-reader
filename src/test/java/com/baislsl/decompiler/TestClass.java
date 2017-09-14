@@ -12,7 +12,8 @@ interface TestClassInterface {
 public class TestClass implements TestClassInterface {
     private static int a;
     public static final double d = 1.03;
-    private volatile int s;
+
+    @Deprecated private volatile long s = 4L;
 
     TestClass() {
         System.out.println("construct test class");
@@ -35,6 +36,7 @@ public class TestClass implements TestClassInterface {
     private synchronized void func2(int i, int j) {
         func2(i);
         func2(j);
+
     }
 
     public static void main(String[] args) {
