@@ -24,7 +24,7 @@ public class StackMapTableAttr extends Attribute implements AttributeBuilder {
         entries = new StackMapFrame[entryNumber];
         for (int i = 0; i < entryNumber; i++) {
             entries[i] = StackMapFrame.getStackFrame(file, constantPools);
-            logger.info("Build stack map table of name {}", entries[i].getClass().getName());
+            // logger.info("Build stack map table of name {}", entries[i].getClass().getName());
         }
         return this;
     }

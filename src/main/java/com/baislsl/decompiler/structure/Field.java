@@ -70,6 +70,10 @@ public class Field extends FieldMethodBasic {
             }
         }
 
+        for(Attribute attribute : attributes){
+            ans.append(attribute.name()).append("\n");
+        }
+
         return ans.toString();
     }
 }

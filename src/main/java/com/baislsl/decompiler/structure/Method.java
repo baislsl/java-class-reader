@@ -23,7 +23,7 @@ public class Method extends FieldMethodBasic {
 
     public static Method build(DataInputStream file, ConstantPool[] constantPools)
             throws DecompileException {
-        FieldMethodBasic basic = FieldMethodBasic.build(file,constantPools);
+        FieldMethodBasic basic = FieldMethodBasic.build(file, constantPools);
         return new Method(basic.getAccessFlag(), basic.getNameIndex(),
                 basic.getDescriptorIndex(), basic.getAttributes(), constantPools);
     }
@@ -58,7 +58,7 @@ public class Method extends FieldMethodBasic {
         List<ExceptionsAttr> exceptionsAttrs = new ArrayList<>();
         List<CodeAttr> codeAttrs = new ArrayList<>();
 
-        for (Attribute attribute :attributes) {
+        for (Attribute attribute : attributes) {
             if (attribute instanceof DeprecatedAttr) {
                 deprecatedAttr = (DeprecatedAttr) attribute;
             } else if (attribute instanceof MethodParametersAttr) {
@@ -112,10 +112,20 @@ public class Method extends FieldMethodBasic {
                 if (!(cp instanceof ClassTag)) {
                     throw new DecompileException("Exception not found");
                 }
-                ans.append(constantPools[((ClassTag) cp).getNameIndex()]
-                        .name()
-                        .replaceAll("/", "."));
+                ans.append(
+                        constantPools[((ClassTag) cp).getNameIndex()]
+                                .name()
+                                .replaceAll("/", ".")
+                );
             }
+        }
+
+        for (Attribute attribute : attributes) {
+            ans.append("\n")
+                    .append(attribute.getClass().getSimpleName())
+                    .append(":\n")
+                    .append(attribute.name())
+                    .append("\n");
         }
 
         return ans.toString();

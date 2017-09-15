@@ -65,6 +65,6 @@ public class FieldMethodBasic implements Name{
 
     @Override
     public String name() throws DecompileException {
-        throw new DecompileException("It seems that you go into error");
+        throw new DecompileException("It seems that you go into error when using the name() method of field of method");
     }
 }

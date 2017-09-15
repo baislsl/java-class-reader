@@ -23,4 +23,10 @@ public class SourceFileAttr extends Attribute implements AttributeBuilder {
     public int getSourcefileIndex() {
         return sourcefileIndex;
     }
+
+    @Override
+    public String name() throws DecompileException {
+        String sourceFileName = constantPools[sourcefileIndex].name();
+        return "SourceFile: \"" + sourceFileName +  "\"\n";
+    }
 }
