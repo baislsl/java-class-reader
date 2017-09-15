@@ -23,7 +23,7 @@ public class StackMapTableAttr extends Attribute implements AttributeBuilder {
         int entryNumber = Read.readBytes(file, ENTRY_NUMBER_SIZE);
         entries = new StackMapFrame[entryNumber];
         for (int i = 0; i < entryNumber; i++) {
-            entries[i] = StackMapFrame.getStackFrame(file);
+            entries[i] = StackMapFrame.getStackFrame(file, constantPools);
             logger.info("Build stack map table of name {}", entries[i].getClass().getName());
         }
         return this;
@@ -31,6 +31,16 @@ public class StackMapTableAttr extends Attribute implements AttributeBuilder {
 
     public StackMapFrame[] getEntries() {
         return entries;
+    }
+
+    @Override
+    public String name() throws DecompileException {
+        StringBuilder ans = new StringBuilder();
+        ans.append("number_of_entries=").append(entries.length).append("\n");
+        for(StackMapFrame stackMapFrame : entries){
+            ans.append(stackMapFrame.name()).append("\n");
+        }
+        return ans.toString();
     }
 }
 

@@ -1,6 +1,7 @@
 package com.baislsl.decompiler.structure.attribute;
 
 import com.baislsl.decompiler.DecompileException;
+import com.baislsl.decompiler.structure.constantPool.ClassTag;
 import com.baislsl.decompiler.structure.constantPool.ConstantPool;
 import com.baislsl.decompiler.utils.Read;
 import org.slf4j.Logger;
@@ -98,9 +99,21 @@ public class CodeAttr extends Attribute implements AttributeBuilder {
             ans.append("    ").append(lineNumber).append(": ").append(code.name()).append("\n");
             lineNumber += code.getSize();
         }
+
+        ans.append("Exception tables:\n");
+        for(ExceptionTable table : exceptionTables){
+            ans.append("form=").append(table.startPC).append(", ")
+                    .append("to=").append(table.endPC).append(", ")
+                    .append("target=").append(table.handlerPC).append(", ");
+
+            int nameIndex = ((ClassTag)constantPools[table.catchType]).getNameIndex();
+            ans.append("type=").append(constantPools[nameIndex].name())
+                    .append("\n");
+        }
+
         for(Attribute attribute : attributes){
-            ans.append(attribute.getClass().getName())
-                    .append("\n")
+            ans.append(attribute.getClass().getSimpleName())
+                    .append(":\n")
                     .append(attribute.name())
                     .append("\n");
         }
