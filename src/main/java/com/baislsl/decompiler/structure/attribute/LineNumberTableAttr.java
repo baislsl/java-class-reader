@@ -29,6 +29,19 @@ public class LineNumberTableAttr extends Attribute implements AttributeBuilder {
     public LineNumberTable[] getLineNumberTables() {
         return lineNumberTables;
     }
+
+    @Override
+    public String name() throws DecompileException {
+        StringBuilder ans = new StringBuilder();
+        for (LineNumberTable table : lineNumberTables) {
+            ans.append("line ")
+                    .append(table.lineNumber)
+                    .append(": ")
+                    .append(table.startPC)
+                    .append("\n");
+        }
+        return ans.toString();
+    }
 }
 
 class LineNumberTable {

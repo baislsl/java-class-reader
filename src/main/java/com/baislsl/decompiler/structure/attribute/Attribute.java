@@ -1,6 +1,7 @@
 package com.baislsl.decompiler.structure.attribute;
 
 import com.baislsl.decompiler.DecompileException;
+import com.baislsl.decompiler.structure.Name;
 import com.baislsl.decompiler.structure.constantPool.ConstantPool;
 import com.baislsl.decompiler.structure.constantPool.Utf8Tag;
 import com.baislsl.decompiler.utils.JVMUtf8;
@@ -11,13 +12,14 @@ import org.slf4j.LoggerFactory;
 import java.io.DataInputStream;
 import java.lang.reflect.Constructor;
 
-public abstract class Attribute {
+public abstract class Attribute implements Name {
     private static final int ATTRIBUTE_NAME_INDEX_SIZE = 2;
     private static final int ATTRIBUTE_LENGTH_SIZE = 4;
     private static final Logger logger = LoggerFactory.getLogger(Attribute.class);
 
     protected int attributeNameIndex;
     protected int attributeLength;
+    protected ConstantPool[] constantPools;
 
     public Attribute(int attributeNameIndex, int attributeLength) {
         this.attributeNameIndex = attributeNameIndex;
@@ -29,7 +31,7 @@ public abstract class Attribute {
         int attributeNameIndex = Read.readBytes(file, ATTRIBUTE_NAME_INDEX_SIZE);
         int attributeLength = Read.readBytes(file, ATTRIBUTE_LENGTH_SIZE);
         AttributeBuilder builder = getAttributeBuilder(attributeNameIndex, attributeLength, constantPools);
-        return builder.build(file, constantPools);
+        return builder.build(file, constantPools).setConstantPools(constantPools);
     }
 
     private static AttributeBuilder getAttributeBuilder(int attributeNameIndex,
@@ -57,5 +59,15 @@ public abstract class Attribute {
                 throw new DecompileException("Can not find attribute with name " + className);
             }
         }
+    }
+
+    @Override
+    public String name() throws DecompileException {
+        return "";
+    }
+
+    private Attribute setConstantPools(ConstantPool[] constantPools){
+        this.constantPools = constantPools;
+        return this;
     }
 }

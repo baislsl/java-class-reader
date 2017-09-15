@@ -23,4 +23,9 @@ public class LongTag extends LongDoubleBasic {
     public String toString() {
         return Long.toString(getValue());
     }
+
+    @Override
+    public String name() throws DecompileException {
+        return toString();
+    }
 }

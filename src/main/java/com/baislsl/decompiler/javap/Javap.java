@@ -19,9 +19,6 @@ public class Javap {
     private static String getCodeDescription(Result result, CodeAttr code)
             throws DecompileException {
         StringBuilder ans = new StringBuilder();
-
-
-
         return ans.toString();
     }
 

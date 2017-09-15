@@ -28,6 +28,19 @@ public class LocalVariableTypeTableAttr extends Attribute implements AttributeBu
         }
         return this;
     }
+
+    @Override
+    public String name() throws DecompileException {
+        StringBuilder ans = new StringBuilder();
+        for(LocalVariableTypeTable table : tables){
+            ans.append("start=").append(table.startPC).append(", ")
+                    .append("length=").append(table.length).append(", ")
+                    .append("name=").append(constantPools[table.nameIndex].name()).append(",")
+                    .append("signature=").append(constantPools[table.signatureIndex].name()).append(", ")
+                    .append("\n");
+        }
+        return ans.toString();
+    }
 }
 
 class LocalVariableTypeTable {

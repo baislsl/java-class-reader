@@ -1,6 +1,7 @@
 package com.baislsl.decompiler.structure.attribute;
 
 import com.baislsl.decompiler.DecompileException;
+import com.baislsl.decompiler.structure.Name;
 import com.baislsl.decompiler.structure.constantPool.ConstantPool;
 import com.baislsl.decompiler.utils.Read;
 
@@ -32,10 +33,23 @@ public class LocalVariableTableAttr extends Attribute implements AttributeBuilde
     public LocalVariableTable[] getTables() {
         return tables;
     }
+
+    @Override
+    public String name() throws DecompileException {
+        StringBuilder ans = new StringBuilder();
+        for(LocalVariableTable table : tables){
+            ans.append("start=").append(table.startPC).append(", ")
+                    .append("length=").append(table.length).append(", ")
+                    .append("name=").append(constantPools[table.nameIndex].name()).append(",")
+                    .append("signature=").append(constantPools[table.descriptorIndex].name()).append(", ")
+                    .append("\n");
+        }
+        return ans.toString();
+    }
 }
 
 
-class LocalVariableTable {
+class LocalVariableTable{
     public static final int START_PC_SIZE = 2;
     public static final int LENGTH_SIZE = 2;
     public static final int INDEX_SIZE = 2;
@@ -45,4 +59,5 @@ class LocalVariableTable {
     public int nameIndex;
     public int descriptorIndex;
     public int index;
+
 }

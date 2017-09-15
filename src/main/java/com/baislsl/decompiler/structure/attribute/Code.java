@@ -1,6 +1,7 @@
 package com.baislsl.decompiler.structure.attribute;
 
 import com.baislsl.decompiler.DecompileException;
+import com.baislsl.decompiler.structure.Name;
 import com.baislsl.decompiler.utils.Read;
 
 import java.io.DataInputStream;
@@ -13,7 +14,7 @@ import static com.sun.org.apache.bcel.internal.Constants.OPCODE_NAMES;
  * 虽然是造轮子， 但是jvm的指令实在多，我这里为了方便直接使用com.sun.org.apache.bcel.internal.Constants提供的
  * 关于指令的几个表格
  */
-public class Code {
+public class Code implements Name {
     private byte[] bytes;
     private String name;
 
@@ -68,5 +69,8 @@ public class Code {
         return bytes.length;
     }
 
-
+    @Override
+    public String name() throws DecompileException {
+        return toString();
+    }
 }

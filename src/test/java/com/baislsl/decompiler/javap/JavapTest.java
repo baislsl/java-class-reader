@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class JavapTest {
     private final static Logger logger = LoggerFactory.getLogger(JavapTest.class);
-    private static Result clazz = null, clazz2 = null, clazz3 = null;
+    public static Result clazz = null, clazz2 = null, clazz3 = null;
 
     static {
         try {
@@ -78,5 +78,4 @@ public class JavapTest {
             logger.info(method.name());
         }
     }
-
 }

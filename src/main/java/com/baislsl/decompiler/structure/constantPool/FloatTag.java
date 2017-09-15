@@ -23,4 +23,9 @@ public class FloatTag extends FloatIntegerBasic {
     public String toString() {
         return Float.toString(getValue());
     }
+
+    @Override
+    public String name() throws DecompileException {
+        return toString();
+    }
 }

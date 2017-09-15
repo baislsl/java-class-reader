@@ -63,7 +63,7 @@ public class Field extends FieldMethodBasic {
                     ans.append(constantPools[((StringTag) cp).getStringIndex()].name());
                 } else {
                     // cp must be in DoubleTag, LongTag, FloatTag, IntegerTag
-                    ans.append(cp.toString());
+                    ans.append(cp.name());
                 }
             } else if (attribute instanceof DeprecatedAttr) {
                 ans.insert(0, "@Deprecated ");

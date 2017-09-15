@@ -87,6 +87,25 @@ public class CodeAttr extends Attribute implements AttributeBuilder {
     public Attribute[] getAttributes() {
         return attributes;
     }
+
+    @Override
+    public String name() throws DecompileException {
+        StringBuilder ans = new StringBuilder();
+        ans.append("stack=").append(maxStack).append(", ")
+                .append("locals=").append(maxLocals).append("\n");
+        int lineNumber = 0;
+        for(Code code : codes){
+            ans.append("    ").append(lineNumber).append(": ").append(code.name()).append("\n");
+            lineNumber += code.getSize();
+        }
+        for(Attribute attribute : attributes){
+            ans.append(attribute.getClass().getName())
+                    .append("\n")
+                    .append(attribute.name())
+                    .append("\n");
+        }
+        return ans.toString();
+    }
 }
 
 class ExceptionTable {
