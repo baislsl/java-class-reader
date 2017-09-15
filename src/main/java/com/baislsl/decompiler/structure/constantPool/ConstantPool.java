@@ -1,8 +1,9 @@
 package com.baislsl.decompiler.structure.constantPool;
 
 import com.baislsl.decompiler.DecompileException;
+import com.baislsl.decompiler.structure.Name;
 
-public abstract class ConstantPool implements ConstantPoolBuilder, Description {
+public abstract class ConstantPool implements ConstantPoolBuilder, Description, Name {
     public final static int TAG_SIZE = 1;
     protected int tag;
 
@@ -36,4 +37,8 @@ public abstract class ConstantPool implements ConstantPoolBuilder, Description {
         return tag;
     }
 
+    @Override
+    public String name() throws DecompileException {
+        return null;
+    }
 }

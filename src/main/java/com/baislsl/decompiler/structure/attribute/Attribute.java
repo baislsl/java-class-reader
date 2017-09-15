@@ -48,7 +48,7 @@ public abstract class Attribute {
             String className = Attribute.class.getName();
 
             // replace the last appear "Attribute" with @{String} attributeName
-            className = className.substring(0, className.length() - 9) + attributeName + "Attr";
+            className = className.substring(0, className.length() - "Attribute".length()) + attributeName + "Attr";
             try {
                 Class<?> cl = Class.forName(className);
                 Constructor<?> constructor = cl.getConstructor(int.class, int.class);

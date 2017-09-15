@@ -18,8 +18,8 @@ public class JavapTest {
 
     static {
         try {
-            // clazz = ClassReader.decompile("src/test/resources/ClassTag.class");
-            // clazz2 = ClassReader.decompile("src/test/resources/ConstantPoolBuilder.class");
+            clazz = ClassReader.decompile("src/test/resources/ClassTag.class");
+            clazz2 = ClassReader.decompile("src/test/resources/ConstantPoolBuilder.class");
             clazz3 = ClassReader.decompile("src/test/resources/TestClass.class");
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,14 +68,14 @@ public class JavapTest {
     @Test
     public void getFieldDescriptionTest() throws DecompileException {
         for(Field field : clazz3.getFields()){
-            logger.info(Javap.getFieldDescription(clazz3, field));
+            logger.info(field.name());
         }
     }
 
     @Test
     public void getMethodDescriptionTest() throws DecompileException{
         for(Method method : clazz3.getMethods()){
-            logger.info(Javap.getMethodDescription(clazz3, method));
+            logger.info(method.name());
         }
     }
 

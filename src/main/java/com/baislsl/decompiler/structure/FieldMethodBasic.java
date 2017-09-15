@@ -7,22 +7,26 @@ import com.baislsl.decompiler.utils.Read;
 
 import java.io.DataInputStream;
 
-public class FieldMethodBasic {
+public class FieldMethodBasic implements Name{
     protected static final int ACCESS_FLAG_SIZE = 2;
     protected static final int NAME_INDEX_SIZE = 2;
     protected static final int DESCRIPTOR_INDEX_SIZE = 2;
     protected static final int ATTRIBUTES_COUNT_SIZE = 2;
 
-    private int accessFlag;
-    private int nameIndex;
-    private int descriptorIndex;
-    private Attribute[] attributes;
+    protected int accessFlag;
+    protected int nameIndex;
+    protected int descriptorIndex;
+    protected Attribute[] attributes;
+    protected ConstantPool[] constantPools;
 
-    protected FieldMethodBasic(int accessFlag, int nameIndex, int descriptorIndex, Attribute[] attributes) {
+    protected FieldMethodBasic(int accessFlag, int nameIndex,
+                               int descriptorIndex, Attribute[] attributes,
+                               ConstantPool[] constantPools) {
         this.accessFlag = accessFlag;
         this.nameIndex = nameIndex;
         this.descriptorIndex = descriptorIndex;
         this.attributes = attributes;
+        this.constantPools = constantPools;
     }
 
     public static FieldMethodBasic build(DataInputStream file, ConstantPool[] constantPools)
@@ -35,7 +39,7 @@ public class FieldMethodBasic {
         for (int i = 0; i < attributeCount; i++) {
             attributes[i] = Attribute.getAttribute(file, constantPools);
         }
-        return new FieldMethodBasic(accessFlag, nameIndex, descriptorIndex, attributes);
+        return new FieldMethodBasic(accessFlag, nameIndex, descriptorIndex, attributes, constantPools);
     }
 
 
@@ -57,5 +61,10 @@ public class FieldMethodBasic {
 
     public Attribute[] getAttributes() {
         return attributes;
+    }
+
+    @Override
+    public String name() throws DecompileException {
+        throw new DecompileException("It seems that you go into error");
     }
 }

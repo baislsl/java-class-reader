@@ -35,6 +35,11 @@ public class Utf8Tag extends ConstantPool {
         return JVMUtf8.decode(bytes);
     }
 
+    @Override
+    public String name() throws DecompileException {
+        return getString();
+    }
+
     public int getLength() {
         return length;
     }
