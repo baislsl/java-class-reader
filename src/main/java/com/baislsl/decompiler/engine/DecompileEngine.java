@@ -30,9 +30,9 @@ public class DecompileEngine {
         }
 
         return method.name()
-                + "{"
+                + "{\n"
                 + decompileCode(method)
-                + "}";
+                + "\n}";
 
     }
 

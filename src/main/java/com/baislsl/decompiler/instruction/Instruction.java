@@ -3,11 +3,11 @@ package com.baislsl.decompiler.instruction;
 import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.Result;
 import com.baislsl.decompiler.engine.Frame;
-import com.baislsl.decompiler.engine.Type;
+import com.baislsl.decompiler.engine.LocalVariableValueTable;
+import com.baislsl.decompiler.engine.Value;
 import com.baislsl.decompiler.structure.Method;
 import com.baislsl.decompiler.structure.attribute.Code;
 import com.baislsl.decompiler.structure.attribute.CodeAttr;
-import com.baislsl.decompiler.structure.attribute.LocalVariableTable;
 import com.baislsl.decompiler.structure.attribute.Parameter;
 
 import java.util.Stack;
@@ -20,10 +20,10 @@ public abstract class Instruction implements Executable{
     protected Result clazz;
 
     protected StringBuilder result;
-    protected Stack<Type> opStack;
+    protected Stack<Value> opStack;
     protected CodeAttr codeAttr;
 
-    protected LocalVariableTable[] localVariableTables;
+    protected LocalVariableValueTable localVariableTables;
     protected int[] exceptionIndexes;
     protected Parameter[] parameters;
 
@@ -49,5 +49,13 @@ public abstract class Instruction implements Executable{
     @Override
     public void exec() throws DecompileException {
 
+    }
+
+    protected int get1(){
+        return Byte.toUnsignedInt(bytes[1]);
+    }
+
+    protected int get2(){
+        return ((int)bytes[1]) << 2 | Byte.toUnsignedInt(bytes[2]);
     }
 }

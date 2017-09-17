@@ -101,7 +101,7 @@ public class Method extends FieldMethodBasic {
             for (int index : attribute.getExceptionIndexTable()) {
                 if (!hasException) {
                     hasException = true;
-                    ans.append(" throws ");
+                    ans.append("\n throws ");
                 } else {
                     ans.append(", ");
                 }

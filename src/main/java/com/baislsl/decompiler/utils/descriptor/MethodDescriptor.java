@@ -34,4 +34,8 @@ public class MethodDescriptor {
     public Descriptor getReturnDescriptor() {
         return returnDescriptor;
     }
+
+    public int getParamSize(){
+        return paramDescriptors.length;
+    }
 }

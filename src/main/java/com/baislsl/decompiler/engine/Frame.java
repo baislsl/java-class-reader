@@ -14,10 +14,10 @@ public class Frame {
     private Result clazz;
     private Method method;
     private StringBuilder result;
-    private Stack<Type> opStack;
+    private Stack<Value> opStack;
     private CodeAttr codeAttr;
     private Code[] codes;
-    private LocalVariableTable[] localVariableTables;
+    private LocalVariableValueTable localVariableTables;
     private int[] exceptionIndexes;
     private Parameter[] parameters;
 
@@ -40,7 +40,7 @@ public class Frame {
         if (codeAttr != null) {
             for (Attribute attribute : codeAttr.getAttributes()) {
                 if (attribute instanceof LocalVariableTableAttr) {
-                    localVariableTables = ((LocalVariableTableAttr) attribute).getTables();
+                    this.localVariableTables = new LocalVariableValueTable(((LocalVariableTableAttr) attribute).getTables(), clazz);
                 }
             }
         }
@@ -86,7 +86,7 @@ public class Frame {
         return result;
     }
 
-    public Stack<Type> getOpStack() {
+    public Stack<Value> getOpStack() {
         return opStack;
     }
 
@@ -102,7 +102,7 @@ public class Frame {
         return exceptionIndexes;
     }
 
-    public LocalVariableTable[] getLocalVariableTables() {
+    public LocalVariableValueTable getLocalVariableTables() {
         return localVariableTables;
     }
 }
