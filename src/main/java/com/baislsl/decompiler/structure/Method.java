@@ -2,14 +2,12 @@ package com.baislsl.decompiler.structure;
 
 import com.baislsl.decompiler.Constants;
 import com.baislsl.decompiler.DecompileException;
-import com.baislsl.decompiler.javap.Javap;
-import com.baislsl.decompiler.javap.descriptor.Descriptor;
-import com.baislsl.decompiler.javap.descriptor.FieldDescriptor;
-import com.baislsl.decompiler.javap.descriptor.MethodDescriptor;
+import com.baislsl.decompiler.utils.Javap;
+import com.baislsl.decompiler.utils.descriptor.Descriptor;
+import com.baislsl.decompiler.utils.descriptor.MethodDescriptor;
 import com.baislsl.decompiler.structure.attribute.*;
 import com.baislsl.decompiler.structure.constantPool.ClassTag;
 import com.baislsl.decompiler.structure.constantPool.ConstantPool;
-import com.baislsl.decompiler.structure.constantPool.StringTag;
 
 import java.io.DataInputStream;
 import java.util.ArrayList;
@@ -56,7 +54,7 @@ public class Method extends FieldMethodBasic {
         MethodParametersAttr parametersAttr = null;
         DeprecatedAttr deprecatedAttr = null;
         List<ExceptionsAttr> exceptionsAttrs = new ArrayList<>();
-        List<CodeAttr> codeAttrs = new ArrayList<>();
+        CodeAttr codeAttr = null;
 
         for (Attribute attribute : attributes) {
             if (attribute instanceof DeprecatedAttr) {
@@ -66,7 +64,7 @@ public class Method extends FieldMethodBasic {
             } else if (attribute instanceof ExceptionsAttr) {
                 exceptionsAttrs.add((ExceptionsAttr) attribute);
             } else if (attribute instanceof CodeAttr) {
-                codeAttrs.add((CodeAttr) attribute);
+                codeAttr = (CodeAttr)attribute;
             }
         }
 
@@ -118,14 +116,6 @@ public class Method extends FieldMethodBasic {
                                 .replaceAll("/", ".")
                 );
             }
-        }
-
-        for (Attribute attribute : attributes) {
-            ans.append("\n")
-                    .append(attribute.getClass().getSimpleName())
-                    .append(":\n")
-                    .append(attribute.name())
-                    .append("\n");
         }
 
         return ans.toString();

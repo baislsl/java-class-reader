@@ -13,7 +13,7 @@ public class MethodTest {
     private final static Logger logger = LoggerFactory.getLogger(CodeAttrTest.class);
 
     @Test
-    public void name() throws Exception {
+    public void nameTest() throws Exception {
         Result clazz = ClassReader.decompile("src/test/resources/TestClass.class");
         for(Method method : clazz.getMethods()){
             logger.info(method.name());

@@ -1,4 +1,4 @@
-package com.baislsl.decompiler.javap;
+package com.baislsl.decompiler.utils;
 
 import com.baislsl.decompiler.ClassReader;
 import com.baislsl.decompiler.DecompileException;

@@ -1,4 +1,4 @@
-package com.baislsl.decompiler.javap.descriptor;
+package com.baislsl.decompiler.utils.descriptor;
 
 import com.baislsl.decompiler.DecompileException;
 import org.junit.Test;

@@ -3,15 +3,12 @@ package com.baislsl.decompiler.structure.attribute;
 import com.baislsl.decompiler.ClassReader;
 import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.Result;
-import com.baislsl.decompiler.javap.Javap;
 import com.baislsl.decompiler.structure.Method;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-
-import static org.junit.Assert.*;
 
 public class CodeAttrTest {
 

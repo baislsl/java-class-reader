@@ -1,10 +1,9 @@
 package com.baislsl.decompiler.structure;
 
 import com.baislsl.decompiler.DecompileException;
-import com.baislsl.decompiler.Result;
-import com.baislsl.decompiler.javap.Javap;
-import com.baislsl.decompiler.javap.descriptor.Descriptor;
-import com.baislsl.decompiler.javap.descriptor.FieldDescriptor;
+import com.baislsl.decompiler.utils.Javap;
+import com.baislsl.decompiler.utils.descriptor.Descriptor;
+import com.baislsl.decompiler.utils.descriptor.FieldDescriptor;
 import com.baislsl.decompiler.structure.attribute.Attribute;
 import com.baislsl.decompiler.structure.attribute.ConstantValueAttr;
 import com.baislsl.decompiler.structure.attribute.DeprecatedAttr;

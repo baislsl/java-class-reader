@@ -13,4 +13,8 @@ public class DecompileException extends Exception {
         super(e);
     }
 
+    public DecompileException(Throwable a, String msg){
+        super(msg, a);
+    }
+
 }

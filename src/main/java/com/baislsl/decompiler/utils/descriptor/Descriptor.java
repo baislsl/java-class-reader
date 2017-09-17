@@ -1,4 +1,4 @@
-package com.baislsl.decompiler.javap.descriptor;
+package com.baislsl.decompiler.utils.descriptor;
 
 public interface Descriptor {
 

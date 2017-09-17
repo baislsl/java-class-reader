@@ -1,13 +1,8 @@
-package com.baislsl.decompiler.javap;
+package com.baislsl.decompiler.utils;
 
 import com.baislsl.decompiler.Constants;
 import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.Result;
-import com.baislsl.decompiler.javap.descriptor.Descriptor;
-import com.baislsl.decompiler.javap.descriptor.FieldDescriptor;
-import com.baislsl.decompiler.javap.descriptor.MethodDescriptor;
-import com.baislsl.decompiler.structure.Field;
-import com.baislsl.decompiler.structure.Method;
 import com.baislsl.decompiler.structure.attribute.*;
 import com.baislsl.decompiler.structure.constantPool.*;
 
