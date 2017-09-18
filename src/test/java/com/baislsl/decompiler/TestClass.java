@@ -40,12 +40,24 @@ public class TestClass implements TestClassInterface {
         func2(i);
         func2(j);
 
+        if(i > j)
+            func2(i - j);
+        else
+            func2(j - i);
+
+        if(i > j)
+            j++;
+
+        while(i > j){
+            ++j;
+        }
+
     }
 
     public static void main(String[] args) {
         int cnt = 10, i;
         for (i = 0; i < cnt; i++) {
-            new TestClass().func2(i);
+            new TestClass().func2(i, i + 1);
         }
         try {
             Class<?> cl = Class.forName(TestClassSub.class.getName());

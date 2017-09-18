@@ -2,7 +2,10 @@ package com.baislsl.decompiler.engine;
 
 import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.Result;
+import com.baislsl.decompiler.instruction.Executable;
 import com.baislsl.decompiler.instruction.Instruction;
+import com.baislsl.decompiler.instruction.JumpInstruction;
+import com.baislsl.decompiler.instruction.UnconditionalJumpInstruction;
 import com.baislsl.decompiler.structure.Method;
 import com.baislsl.decompiler.structure.attribute.*;
 
@@ -20,6 +23,11 @@ public class Frame {
     private LocalVariableValueTable localVariableTables;
     private int[] exceptionIndexes;
     private Parameter[] parameters;
+
+    private enum Flag {WHILE, DO_WHILE, IF, IF_ELSE}
+
+    ;
+
 
     public Frame(Result clazz, Method method) {
         this.clazz = clazz;
@@ -47,13 +55,74 @@ public class Frame {
     }
 
     public Frame exec() throws DecompileException {
-        for (Code code : codes) {
-            accept(code);
+        for (int i = 0; i < codes.length; i++) {
+            Executable executableCode = getExecutableCode(codes[i]);
+            if (executableCode == null) continue;
+
+            if (!(executableCode instanceof JumpInstruction)) {
+                executableCode.exec();
+                continue;
+                ;
+            }
+
+            Flag flag = Flag.IF;
+            int subIndex = i;
+            int subOffset = 0;
+            int offset = ((JumpInstruction) executableCode).getOffset();
+            if (offset < 0) { // do {} while loop
+                flag = Flag.DO_WHILE;
+            } else {
+                for (int j = i; j < i + offset; j++) {
+                    Executable exec = getExecutableCode(codes[j]);
+                    if (exec instanceof UnconditionalJumpInstruction) {
+                        subOffset = ((JumpInstruction) exec).getOffset();
+
+                        if (subOffset + j < i) {
+                            // while(){ ] loop
+                            flag = Flag.WHILE;
+                            subIndex = j;
+
+                        } else if (subOffset + j < i + offset) {
+                            // continue
+
+                        } else { // suboffset + j >= i + offset
+                            // if {] else {] loop
+                            flag = Flag.IF_ELSE;
+                            subIndex = j;
+                        }
+
+
+                    }
+                } // end of "for(int j = i; j < i + offset;j++)"
+            }
+
+            switch (flag) {
+                case IF:
+                    i += ifLoop(i, offset);
+                    continue;
+                case WHILE:
+                    i += whileLoop(i, offset, subIndex, subOffset);
+                    continue;
+                case IF_ELSE:
+                    i += ifElseLoop(i, offset, subIndex, subOffset);
+                    continue;
+                case DO_WHILE:
+
+            }
+
+
         }
+
         return this;
     }
 
-    private void accept(Code code) throws DecompileException {
+    private int ifLoop(int cur, int offset) {
+
+        return offset;
+    }
+
+
+    private Executable getExecutableCode(Code code) throws DecompileException {
         String instructionClassPath = Instruction.class.getName();
         try {
             Class cl = Class.forName(
@@ -62,12 +131,12 @@ public class Frame {
             );
             Constructor constructor = cl.getConstructor();
             Instruction instruction = (Instruction) constructor.newInstance();
-            instruction.build(code, this).exec();
+            return instruction.build(code, this);
         } catch (ReflectiveOperationException e) {
             // throw new DecompileException(e);
             System.out.println("Nonsupport instruction of " + code.getName());
         }
-
+        return null;
     }
 
     public String get() {

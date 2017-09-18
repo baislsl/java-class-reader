@@ -52,10 +52,18 @@ public abstract class Instruction implements Executable{
     }
 
     protected int get1(){
+        return (int)bytes[1];
+    }
+
+    protected int get1u(){
         return Byte.toUnsignedInt(bytes[1]);
     }
 
     protected int get2(){
-        return ((int)bytes[1]) << 2 | Byte.toUnsignedInt(bytes[2]);
+        return ((int)bytes[1]) << 8 | Byte.toUnsignedInt(bytes[2]);
+    }
+
+    protected long get2u(){
+        return (Byte.toUnsignedLong(bytes[1])) << 8 | Byte.toUnsignedLong(bytes[2]);
     }
 }
