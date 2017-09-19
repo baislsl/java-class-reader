@@ -120,4 +120,12 @@ public class Method extends FieldMethodBasic {
 
         return ans.toString();
     }
+
+    public int getCodeLength() throws DecompileException{
+        for(Attribute attribute : attributes){
+            if(attribute instanceof CodeAttr)
+                return ((CodeAttr) attribute).getCodes().length;
+        }
+        return 0;
+    }
 }

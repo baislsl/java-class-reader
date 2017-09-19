@@ -42,7 +42,7 @@ public class DecompileEngine {
 
     private String decompileCode(Method method) throws DecompileException {
         return new Frame(clazz, method)
-                .exec()
+                .exec(0, method.getCodeLength())
                 .get();
     }
 

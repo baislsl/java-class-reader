@@ -1,10 +1,14 @@
 package com.baislsl.decompiler.structure.attribute;
 
 import com.baislsl.decompiler.DecompileException;
+import com.baislsl.decompiler.engine.Frame;
+import com.baislsl.decompiler.instruction.Executable;
+import com.baislsl.decompiler.instruction.Instruction;
 import com.baislsl.decompiler.structure.Name;
 import com.baislsl.decompiler.utils.Read;
 
 import java.io.DataInputStream;
+import java.lang.reflect.Constructor;
 
 import static com.sun.org.apache.bcel.internal.Constants.ILLEGAL_OPCODE;
 import static com.sun.org.apache.bcel.internal.Constants.NO_OF_OPERANDS;
@@ -74,5 +78,22 @@ public class Code implements Name {
     @Override
     public String name() throws DecompileException {
         return toString();
+    }
+
+    public Executable cast(Frame frame) throws DecompileException{
+        String instructionClassPath = Instruction.class.getName();
+        try {
+            Class cl = Class.forName(
+                    instructionClassPath.substring(0, instructionClassPath.length() - "Instruction".length())
+                            + getName().toUpperCase()
+            );
+            Constructor constructor = cl.getConstructor();
+            Instruction instruction = (Instruction) constructor.newInstance();
+            return instruction.build(this, frame);
+        } catch (ReflectiveOperationException e) {
+            // throw new DecompileException(e);
+            System.out.println("Nonsupport instruction of " + getName());
+        }
+        return null;
     }
 }

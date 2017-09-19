@@ -2,14 +2,14 @@ package com.baislsl.decompiler.engine;
 
 import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.Result;
-import com.baislsl.decompiler.instruction.Executable;
-import com.baislsl.decompiler.instruction.Instruction;
-import com.baislsl.decompiler.instruction.JumpInstruction;
-import com.baislsl.decompiler.instruction.UnconditionalJumpInstruction;
+import com.baislsl.decompiler.instruction.*;
 import com.baislsl.decompiler.structure.Method;
 import com.baislsl.decompiler.structure.attribute.*;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
 
 
@@ -23,13 +23,11 @@ public class Frame {
     private LocalVariableValueTable localVariableTables;
     private int[] exceptionIndexes;
     private Parameter[] parameters;
+    private Executable[] executables;
 
     private enum Flag {WHILE, DO_WHILE, IF, IF_ELSE}
 
-    ;
-
-
-    public Frame(Result clazz, Method method) {
+    public Frame(Result clazz, Method method) throws DecompileException {
         this.clazz = clazz;
         this.method = method;
         this.opStack = new Stack<>();
@@ -52,92 +50,92 @@ public class Frame {
                 }
             }
         }
+
+        executables = new Executable[codeAttr.getCodes().length];
+        for (int i = 0; i < executables.length; i++) {
+            executables[i] = codes[i].cast(this);
+        }
     }
 
-    public Frame exec() throws DecompileException {
-        for (int i = 0; i < codes.length; i++) {
-            Executable executableCode = getExecutableCode(codes[i]);
-            if (executableCode == null) continue;
+    /**
+     * decompile code[from, to), the caller should ensure
+     * that code[from, to) is complete
+     *
+     * @param from start index of the code to decompile
+     * @param to   end index of the code to decompile
+     * @return decompiled frame
+     */
+    public Frame exec(int from, int to) throws DecompileException {
+        // add a virtual last code
+        ArrayList<Set<Integer>> count = new ArrayList<>(to - from + 1);
+        Set<Integer> last = new HashSet<>();
+        boolean[] flags = new boolean[to - from + 1];
+        travel(count, from, from, 0, flags, last);
 
-            if (!(executableCode instanceof JumpInstruction)) {
-                executableCode.exec();
-                continue;
-                ;
+        if (last.size() == 1) {
+            // only one branch
+            // no any conditional jump instruction
+
+        } else {
+            int cur = from;
+            int curMax = count.get(cur).size();
+            while (curMax == count.get(cur).size()) {
+                ++cur;
             }
 
-            Flag flag = Flag.IF;
-            int subIndex = i;
-            int subOffset = 0;
-            int offset = ((JumpInstruction) executableCode).getOffset();
-            if (offset < 0) { // do {} while loop
-                flag = Flag.DO_WHILE;
-            } else {
-                for (int j = i; j < i + offset; j++) {
-                    Executable exec = getExecutableCode(codes[j]);
-                    if (exec instanceof UnconditionalJumpInstruction) {
-                        subOffset = ((JumpInstruction) exec).getOffset();
-
-                        if (subOffset + j < i) {
-                            // while(){ ] loop
-                            flag = Flag.WHILE;
-                            subIndex = j;
-
-                        } else if (subOffset + j < i + offset) {
-                            // continue
-
-                        } else { // suboffset + j >= i + offset
-                            // if {] else {] loop
-                            flag = Flag.IF_ELSE;
-                            subIndex = j;
-                        }
-
-
-                    }
-                } // end of "for(int j = i; j < i + offset;j++)"
+            while (curMax != count.get(cur).size()) {
+                for (int i : count.get(cur)) {
+                    curMax = Math.max(curMax, i);
+                }
             }
 
-            switch (flag) {
-                case IF:
-                    i += ifLoop(i, offset);
-                    continue;
-                case WHILE:
-                    i += whileLoop(i, offset, subIndex, subOffset);
-                    continue;
-                case IF_ELSE:
-                    i += ifElseLoop(i, offset, subIndex, subOffset);
-                    continue;
-                case DO_WHILE:
-
-            }
-
-
+            oneloop(from, cur);
+            result.append(new Frame(clazz, method).exec(cur, to).result);
         }
 
         return this;
     }
 
-    private int ifLoop(int cur, int offset) {
-
-        return offset;
-    }
-
-
-    private Executable getExecutableCode(Code code) throws DecompileException {
-        String instructionClassPath = Instruction.class.getName();
-        try {
-            Class cl = Class.forName(
-                    instructionClassPath.substring(0, instructionClassPath.length() - "Instruction".length())
-                            + code.getName().toUpperCase()
-            );
-            Constructor constructor = cl.getConstructor();
-            Instruction instruction = (Instruction) constructor.newInstance();
-            return instruction.build(code, this);
-        } catch (ReflectiveOperationException e) {
-            // throw new DecompileException(e);
-            System.out.println("Nonsupport instruction of " + code.getName());
+    /**
+     * This method intends to run all the possible ways, and get all possible ways id run on each
+     * instruction.
+     * <p>
+     * When run to a unmarked conditional jump instruction,
+     * mark the instruction, and then branch into two runs according the jump operation.
+     * When run to a marked conditional jump instruction or other instruction,
+     * run to the next instruction.
+     *
+     * @param count count.get(i) record the way id will run on code[i]
+     * @param from from index of code
+     * @param cur current operation points
+     * @param id way is
+     * @param flags mark flag for conditional jump
+     * @param last a virtual last code to collect all the final possible way id
+     */
+    private void travel(ArrayList<Set<Integer>> count, int from, int cur, int id,
+                        boolean[] flags, Set<Integer> last)
+            throws DecompileException {
+        if (cur == from + count.size()) {
+            last.add(id);
+            return;
         }
-        return null;
+        count.get(cur).add(id);
+
+        if (!(executables[cur] instanceof ConditionalJumpInstruction)) {
+            travel(count, from, cur + 1, id, flags, last);
+        } else {
+            count.get(cur).add(id + 1);
+            if (!flags[cur]) {
+                flags[cur] = true;
+                travel(count, from, cur + 1, id, flags, last);
+                travel(count, from, cur + ((JumpInstruction) executables[cur]).getOffset(),
+                        id + 1, flags, last);
+            } else {
+                travel(count, from, cur + 1, id, flags, last);
+            }
+        }
     }
+
 
     public String get() {
         return result.toString();
