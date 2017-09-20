@@ -6,7 +6,7 @@ Decompiler intended to decompile *.class format files
 但是在很多细节上可能还有待改进， 特别是部分较少用的attribute解析
 还没写好， 注解类、泛型的解析也还没处理
 
-正在写反汇编
+正在写反汇编, 处理while, for, 循环中, 暂时使用while(true){..., continue..., break... }来处理循环
 
 ### class file structure
 ```
@@ -31,6 +31,11 @@ ClassFile {
 ```
 
 ### 4种循环的反汇编， （for目前直接用while循环取代）
+
+循环：
+1. 单纯的if， else(在if或else语句中不包括break,continue)
+2. while(true){..continue, break...} 形式可以包括一切循环, 包括for, while, do...while
+3. 出现先面跳转的肯定是有while, 如果全是向后跳转, 就是单纯的if和else
 
 #### if
 ```$xslt
