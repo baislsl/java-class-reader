@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
+import java.util.stream.Stream;
 
 
 public class Frame {
@@ -24,6 +25,12 @@ public class Frame {
     private int[] exceptionIndexes;
     private Parameter[] parameters;
     private Executable[] executables;
+
+
+    /**
+     * from, to使用在解析循环中, 如果某步调到from, 解析为continue; 如果某步跳到to, 解析为break
+     */
+    private int from, to;
 
     private enum Flag {WHILE, DO_WHILE, IF, IF_ELSE}
 
@@ -49,12 +56,13 @@ public class Frame {
                     this.localVariableTables = new LocalVariableValueTable(((LocalVariableTableAttr) attribute).getTables(), clazz);
                 }
             }
+            executables = new Executable[codeAttr.getCodes().length];
+            for (int i = 0; i < executables.length; i++) {
+                executables[i] = codes[i].cast(this);
+            }
         }
 
-        executables = new Executable[codeAttr.getCodes().length];
-        for (int i = 0; i < executables.length; i++) {
-            executables[i] = codes[i].cast(this);
-        }
+
     }
 
     /**
@@ -66,31 +74,42 @@ public class Frame {
      * @return decompiled frame
      */
     public Frame exec(int from, int to) throws DecompileException {
-        // add a virtual last code
-        ArrayList<Set<Integer>> count = new ArrayList<>(to - from + 1);
-        Set<Integer> last = new HashSet<>();
-        boolean[] flags = new boolean[to - from + 1];
-        travel(count, from, from, 0, flags, last);
+        System.out.println("hello");
+        for (int i = to - 1; i >= from; i--) {
+            if (executables[i] instanceof JumpInstruction &&
+                    ((JumpInstruction) executables[i]).getOffset() < 0) {
+                int begin = i + ((JumpInstruction) executables[i]).getOffset();
 
-        if (last.size() == 1) {
-            // only one branch
-            // no any conditional jump instruction
+                // checked in the parent call
+                if(begin == from) continue;
 
-        } else {
-            int cur = from;
-            int curMax = count.get(cur).size();
-            while (curMax == count.get(cur).size()) {
-                ++cur;
-            }
-
-            while (curMax != count.get(cur).size()) {
-                for (int i : count.get(cur)) {
-                    curMax = Math.max(curMax, i);
+                System.out.println(executables[i].getClass().getName());
+                int end = i + 1;
+                for (int j = begin; j < i; j++) {
+                    if (executables[j] instanceof JumpInstruction) {
+                        end = Math.max(end, ((JumpInstruction) executables[j]).getJumpObject());
+                    }
                 }
-            }
 
-            oneloop(from, cur);
-            result.append(new Frame(clazz, method).exec(cur, to).result);
+                // checked in the parent call
+                if(end == to) continue;
+
+                exec(from, begin);
+                result.append(
+                        "while(true){\n" + new Frame(clazz, method).exec(begin, end).get() + "\n}"
+                );
+
+                result.append(new Frame(clazz, method).exec(end, to).get());
+                return this;
+            }
+        }
+
+        // just if, else operation, no loop
+        this.from = from;
+        this.to = to;
+        if(from == 61) return this;
+        for (int i = from; i < to; i++) {
+            executables[i].exec();
         }
 
         return this;
@@ -106,11 +125,11 @@ public class Frame {
      * run to the next instruction.
      *
      * @param count count.get(i) record the way id will run on code[i]
-     * @param from from index of code
-     * @param cur current operation points
-     * @param id way is
+     * @param from  from index of code
+     * @param cur   current operation points
+     * @param id    way is
      * @param flags mark flag for conditional jump
-     * @param last a virtual last code to collect all the final possible way id
+     * @param last  a virtual last code to collect all the final possible way id
      */
     private void travel(ArrayList<Set<Integer>> count, int from, int cur, int id,
                         boolean[] flags, Set<Integer> last)
@@ -171,6 +190,23 @@ public class Frame {
 
     public LocalVariableValueTable getLocalVariableTables() {
         return localVariableTables;
+    }
+
+
+    public int getFrom() {
+        return from;
+    }
+
+    public int getTo() {
+        return to;
+    }
+
+    public Code[] getCodes() {
+        return codes;
+    }
+
+    public Executable[] getExecutables() {
+        return executables;
     }
 }
 

@@ -80,7 +80,7 @@ public class Code implements Name {
         return toString();
     }
 
-    public Executable cast(Frame frame) throws DecompileException{
+    public Executable cast(Frame frame) throws DecompileException {
         String instructionClassPath = Instruction.class.getName();
         try {
             Class cl = Class.forName(
@@ -91,9 +91,23 @@ public class Code implements Name {
             Instruction instruction = (Instruction) constructor.newInstance();
             return instruction.build(this, frame);
         } catch (ReflectiveOperationException e) {
-            // throw new DecompileException(e);
+            // throw new DecompileException("Nonsupport instruction of " + getName());
             System.out.println("Nonsupport instruction of " + getName());
         }
-        return null;
+        System.out.println("Nonsupport instruction of " + getName());
+
+        // throw new DecompileException("Nonsupport instruction of " + getName());
+        return new Executable() {
+            @Override
+            public Executable build(Code code, Frame frame) {
+                return this;
+            }
+
+            @Override
+            public void exec() throws DecompileException {
+
+            }
+        };
+        // return null;
     }
 }

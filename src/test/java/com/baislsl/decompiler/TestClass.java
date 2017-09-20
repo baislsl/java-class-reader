@@ -27,6 +27,8 @@ public class TestClass implements TestClassInterface {
         return Double.toString(this.a * a + d * this.d);
     }
 
+
+
     private synchronized void func2(int i) {
         try {
             func(a, d);

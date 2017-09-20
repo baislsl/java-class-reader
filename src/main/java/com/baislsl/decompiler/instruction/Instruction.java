@@ -18,6 +18,7 @@ public abstract class Instruction implements Executable{
     protected Code code;
     protected Method method;
     protected Result clazz;
+    protected Frame frame;
 
     protected StringBuilder result;
     protected Stack<Value> opStack;
@@ -35,6 +36,7 @@ public abstract class Instruction implements Executable{
         this.code = code;
         this.method = frame.getMethod();
         this.clazz = frame.getClazz();
+        this.frame = frame;
 
         this.result = frame.getResult();
         this.opStack = frame.getOpStack();

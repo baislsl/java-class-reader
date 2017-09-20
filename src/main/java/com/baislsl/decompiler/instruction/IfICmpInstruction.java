@@ -17,7 +17,15 @@ public abstract class IfICmpInstruction extends ConditionalJumpInstruction {
         Value value1 = opStack.pop();
         Value value2 = opStack.pop();
 
+        int address = this.getJumpObject();
+        String action = "\n";
+        if(address == frame.getTo()) action = "break;";
+        if(address == frame.getFrom()) action = "continue;";
 
-
+        result.append("if(")
+              .append(value1).append(operator).append(value2)
+              .append(") ")
+              .append(action)
+              .append("\n");
     }
 }

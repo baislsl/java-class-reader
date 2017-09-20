@@ -5,6 +5,7 @@ import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.Result;
 import com.baislsl.decompiler.structure.Field;
 import com.baislsl.decompiler.structure.Method;
+import com.baislsl.decompiler.structure.attribute.ExceptionsAttr;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,15 @@ public class DecompileEngineTest {
     @Test
     public void decompileMethodTest() throws Exception {
         Result clazz = ClassReader.decompile("src/test/resources/TestClass.class");
+        DecompileEngine engine = new DecompileEngine(clazz);
+        for(Method method : clazz.getMethods()){
+            logger.info(engine.decompile(method));
+        }
+    }
+
+    @Test
+    public void decompileMethodLoopTest() throws Exception{
+        Result clazz = ClassReader.decompile("src/test/resources/LoopTest.class");
         DecompileEngine engine = new DecompileEngine(clazz);
         for(Method method : clazz.getMethods()){
             logger.info(engine.decompile(method));
