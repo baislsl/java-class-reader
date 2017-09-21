@@ -51,4 +51,12 @@ public abstract class JumpInstruction extends Instruction {
     public int getJumpObject() throws DecompileException {
         return getCurrentIndex() + getOffset();
     }
+
+    public int getFinalJumpObject() throws DecompileException {
+        int address = getJumpObject();
+        while (frame.getExecutableAt(address) instanceof UnconditionalJumpInstruction){
+            address = ((UnconditionalJumpInstruction)frame.getExecutableAt(address)).getJumpObject();
+        }
+        return address;
+    }
 }

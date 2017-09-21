@@ -19,8 +19,20 @@ public abstract class IfICmpInstruction extends ConditionalJumpInstruction {
 
         int address = this.getJumpObject();
         String action = "\n";
-        if(address == frame.getTo()) action = "break;";
-        if(address == frame.getFrom()) action = "continue;";
+        while(true){
+            if(address == frame.getTo()){
+                action = "break;";
+                break;
+            }
+            else if(address == frame.getFrom()){
+                action = "continue;";
+                break;
+            }
+            if(frame.getExecutables()[address] instanceof UnconditionalJumpInstruction)
+                address = ((UnconditionalJumpInstruction)frame.getExecutables()[address]).getJumpObject();
+            else
+                break;
+        }
 
         result.append("if(")
               .append(value1).append(operator).append(value2)

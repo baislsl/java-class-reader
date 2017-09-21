@@ -17,7 +17,7 @@ public class IfInstruction extends ConditionalJumpInstruction {
         Value value = opStack.pop();
 
         // value operator 0
-        int address = this.getJumpObject();
+        int address = this.getFinalJumpObject();
         String action = "\n";
         if(address == frame.getTo()) action = "break;\n";
         if(address == frame.getFrom()) action = "continue;\n";

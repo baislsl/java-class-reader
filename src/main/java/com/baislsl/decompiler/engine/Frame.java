@@ -72,20 +72,26 @@ public class Frame {
         }
 
     }
+
+    public Frame exec(int from, int to) throws DecompileException{
+        return exec(from, to, from, to);
+    }
     /**
      * decompile code[from, to), the caller should ensure
      * that code[from, to) is complete
      *
      * @param from start index of the code to decompile
      * @param to   end index of the code to decompile
+     * @param min min index of code, if the object of jump instruction is min, translate to continue
+     * @param max max index of code, if the object of jump instruction is min, translate to break
      * @return decompiled frame
      */
-    public Frame exec(int from, int to) throws DecompileException {
+    public Frame exec(int from, int to, int min, int max) throws DecompileException {
         System.out.println("hello");
         for (int i = to - 1; i >= from; i--) {
             if (executables[i] instanceof JumpInstruction &&
                     ((JumpInstruction) executables[i]).getOffset() < 0) {
-                int begin = i + ((JumpInstruction) executables[i]).getOffset();
+                int begin = ((JumpInstruction) executables[i]).getFinalJumpObject();
 
                 // checked in the parent call
                 if(begin == from) continue;
@@ -94,26 +100,26 @@ public class Frame {
                 int end = i + 1;
                 for (int j = begin; j < i; j++) {
                     if (executables[j] instanceof JumpInstruction) {
-                        end = Math.max(end, ((JumpInstruction) executables[j]).getJumpObject());
+                        end = Math.max(end, ((JumpInstruction) executables[j]).getFinalJumpObject());
                     }
                 }
 
                 // checked in the parent call
                 if(end == to) continue;
 
-                exec(from, begin);
+                exec(from, begin, min, max);
                 result.append(
                         "while(true){\n" + new Frame(clazz, method, localVariableTables).exec(begin, end).get() + "\n}"
                 );
 
-                result.append(new Frame(clazz, method, localVariableTables).exec(end, to).get());
+                result.append(new Frame(clazz, method, localVariableTables).exec(end, to, min, max).get());
                 return this;
             }
         }
 
         // just if, else operation, no loop
-        this.from = from;
-        this.to = to;
+        this.from = min;
+        this.to = max;
         if(from == 61) return this;
         for (int i = from; i < to; i++) {
             executables[i].exec();
@@ -214,6 +220,10 @@ public class Frame {
 
     public Executable[] getExecutables() {
         return executables;
+    }
+
+    public Executable getExecutableAt(int index){
+        return executables[index];
     }
 }
 
