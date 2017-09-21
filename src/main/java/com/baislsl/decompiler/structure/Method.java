@@ -80,18 +80,35 @@ public class Method extends FieldMethodBasic {
         ans.append(name);
         ans.append("(");
         Descriptor[] descriptors = methodDescriptor.getParamDescriptors();
+        LocalVariableTable[] tables = codeAttr.getLocalValueTableAttr().getTables();
         for (int i = 0; i < descriptors.length; i++) {
             if (i != 0) ans.append(" ,");
             if (parametersAttr != null) {
-                Parameter parameter = parametersAttr.getParameters()[i];
+                Parameter parameter = parametersAttr.getParameterAt(i);
                 ans.append(" ");
                 if ((parameter.accessFlag & Constants.ACC_FINAL) != 0) ans.append("final ");
                 // if ((parameter.accessFlag & Constants.ACC_SYNTHETIC) != 0) ans.append("synthetic ");
                 // if((parameter.accessFlag & Constants.ACC_MANDATED) != 0) ans.append("mandated ");
                 ans.append(descriptors[i].toString());
+                ans.append(" ");
                 ans.append(constantPools[parameter.nameIndex].name());
             } else {
+                // no MethodParameters attr given, then find parameter name in local value table
                 ans.append(descriptors[i].toString());
+                ans.append(" ");
+
+                // a non-static method has this parameter as its first parameter
+                // set begin to 1 to jump over this parameter if non-static
+                int begin = 1;
+                if(testAccessFlag(Constants.ACC_STATIC)){
+                    begin = 0;
+                }
+                for(LocalVariableTable table : tables){
+                    if(table.index == i + begin){
+                        ans.append(constantPools[table.nameIndex].name());
+                        break;
+                    }
+                }
             }
         }
         ans.append(") ");
@@ -127,5 +144,9 @@ public class Method extends FieldMethodBasic {
                 return ((CodeAttr) attribute).getCodes().length;
         }
         return 0;
+    }
+
+    public boolean testAccessFlag(int accessFlag){
+        return (this.accessFlag & accessFlag) != 0;
     }
 }

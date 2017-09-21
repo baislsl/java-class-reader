@@ -11,7 +11,7 @@ public class IDIV extends Instruction {
         Value value2 = opStack.pop();
 
         opStack.push(
-              new Value(value1 + "/" +value2)
+              new Value(value2 + "/" +value1)
         );
     }
 }

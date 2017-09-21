@@ -18,7 +18,7 @@ public class ISTORE extends Instruction {
             result.append(clazz.getUTF8Info(local.nameIndex()))
                     .append(" = ")
                     .append(value)
-                    .append("\n");
+                    .append(";\n");
         } else {
             local.setAccess(true);
             String name = clazz.getUTF8Info(local.nameIndex());
@@ -27,7 +27,7 @@ public class ISTORE extends Instruction {
                   .append(name)
                   .append(" = ")
                   .append(value)
-                  .append("\n");
+                  .append(";\n");
 
         }
 

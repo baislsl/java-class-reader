@@ -34,6 +34,10 @@ public class LocalVariableTableAttr extends Attribute implements AttributeBuilde
         return tables;
     }
 
+    public LocalVariableTable getTableAt(int index){
+        return tables[index];
+    }
+
     @Override
     public String name() throws DecompileException {
         StringBuilder ans = new StringBuilder();

@@ -33,4 +33,8 @@ public class MethodParametersAttr extends Attribute implements AttributeBuilder 
         return parameters;
     }
 
+    public Parameter getParameterAt(int index){
+        return parameters[index];
+    }
+
 }

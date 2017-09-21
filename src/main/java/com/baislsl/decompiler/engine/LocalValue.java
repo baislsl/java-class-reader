@@ -7,7 +7,7 @@ import com.baislsl.decompiler.structure.attribute.LocalVariableTable;
 public class LocalValue {
     private final LocalVariableTable table;
     private Value value;
-    boolean access;
+    private boolean access = false;
 
     LocalValue(LocalVariableTable table, Result clazz) {
         this.table = table;

@@ -34,11 +34,16 @@ public class Frame {
 
     private enum Flag {WHILE, DO_WHILE, IF, IF_ELSE}
 
-    public Frame(Result clazz, Method method) throws DecompileException {
+    /**
+     * @param variableValueTable use when need to inherited local value table
+     *                           if null, constructor will construct a new local value table instead
+     */
+    public Frame(Result clazz, Method method, LocalVariableValueTable variableValueTable) throws DecompileException{
         this.clazz = clazz;
         this.method = method;
         this.opStack = new Stack<>();
         this.result = new StringBuilder();
+        this.localVariableTables = variableValueTable;
 
         for (Attribute attribute : method.getAttributes()) {
             if (attribute instanceof CodeAttr) {
@@ -50,21 +55,23 @@ public class Frame {
                 parameters = ((MethodParametersAttr) attribute).getParameters();
             }
         }
-        if (codeAttr != null) {
+        if(codeAttr == null)
+            throw new DecompileException("A method must have and only have a code attribute");
+
+        if(localVariableTables == null){    // do not offer local varibale table
             for (Attribute attribute : codeAttr.getAttributes()) {
                 if (attribute instanceof LocalVariableTableAttr) {
-                    this.localVariableTables = new LocalVariableValueTable(((LocalVariableTableAttr) attribute).getTables(), clazz);
+                    this.localVariableTables = new LocalVariableValueTable(((LocalVariableTableAttr) attribute).getTables(), clazz, method);
                 }
-            }
-            executables = new Executable[codeAttr.getCodes().length];
-            for (int i = 0; i < executables.length; i++) {
-                executables[i] = codes[i].cast(this);
             }
         }
 
+        executables = new Executable[codeAttr.getCodes().length];
+        for (int i = 0; i < executables.length; i++) {
+            executables[i] = codes[i].cast(this);
+        }
 
     }
-
     /**
      * decompile code[from, to), the caller should ensure
      * that code[from, to) is complete
@@ -96,10 +103,10 @@ public class Frame {
 
                 exec(from, begin);
                 result.append(
-                        "while(true){\n" + new Frame(clazz, method).exec(begin, end).get() + "\n}"
+                        "while(true){\n" + new Frame(clazz, method, localVariableTables).exec(begin, end).get() + "\n}"
                 );
 
-                result.append(new Frame(clazz, method).exec(end, to).get());
+                result.append(new Frame(clazz, method, localVariableTables).exec(end, to).get());
                 return this;
             }
         }

@@ -69,24 +69,12 @@ public class CodeAttr extends Attribute implements AttributeBuilder {
         return this;
     }
 
-    public int getMaxStack() {
-        return maxStack;
-    }
-
-    public int getMaxLocals() {
-        return maxLocals;
-    }
-
-    public Code[] getCodes() {
-        return codes;
-    }
-
-    public ExceptionTable[] getExceptionTables() {
-        return exceptionTables;
-    }
-
-    public Attribute[] getAttributes() {
-        return attributes;
+    public LocalVariableTableAttr getLocalValueTableAttr() {
+        for(Attribute attribute : attributes){
+            if(attribute instanceof LocalVariableTableAttr)
+                return (LocalVariableTableAttr)attribute;
+        }
+        return null;
     }
 
     @Override
@@ -118,6 +106,26 @@ public class CodeAttr extends Attribute implements AttributeBuilder {
                     .append("\n");
         }
         return ans.toString();
+    }
+
+    public int getMaxStack() {
+        return maxStack;
+    }
+
+    public int getMaxLocals() {
+        return maxLocals;
+    }
+
+    public Code[] getCodes() {
+        return codes;
+    }
+
+    public ExceptionTable[] getExceptionTables() {
+        return exceptionTables;
+    }
+
+    public Attribute[] getAttributes() {
+        return attributes;
     }
 }
 

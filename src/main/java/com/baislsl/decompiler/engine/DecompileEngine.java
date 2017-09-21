@@ -25,7 +25,7 @@ public class DecompileEngine {
         CodeAttr codeAttr = null;
         for (Attribute attribute : method.getAttributes()) {
             if (attribute instanceof CodeAttr) {
-                codeAttr = (CodeAttr)attribute;
+                codeAttr = (CodeAttr) attribute;
             }
         }
 
@@ -41,7 +41,7 @@ public class DecompileEngine {
     }
 
     private String decompileCode(Method method) throws DecompileException {
-        return new Frame(clazz, method)
+        return new Frame(clazz, method, null)
                 .exec(0, method.getCodeLength())
                 .get();
     }
