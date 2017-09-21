@@ -13,7 +13,7 @@ public class ISTORE extends Instruction {
         super.exec();
 
         Value value = opStack.pop();
-        LocalValue local = localVariableTables.get(get1());
+        LocalValue local = localVariableTables.get(get1(), getStoreIndex());
         if(local.isAccess()){
             result.append(clazz.getUTF8Info(local.nameIndex()))
                     .append(" = ")

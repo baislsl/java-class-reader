@@ -10,4 +10,8 @@ public interface Executable {
 
     void exec() throws DecompileException;
 
+    int getCountIndex();
+
+    int getStoreIndex();
+
 }

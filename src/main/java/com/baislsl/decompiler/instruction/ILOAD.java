@@ -8,7 +8,7 @@ public class ILOAD extends Instruction {
     @Override
     public void exec() throws DecompileException {
         super.exec();
-        Value value = localVariableTables.get(get1()).value();
+        Value value = localVariableTables.get(get1(), getStoreIndex()).value();
         opStack.push(value);
     }
 }

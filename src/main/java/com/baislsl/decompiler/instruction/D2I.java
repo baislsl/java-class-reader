@@ -8,7 +8,7 @@ public class D2I extends Instruction {
     public void exec() throws DecompileException {
         super.exec();
         opStack.push(
-                new Value("(Integer)(" + opStack.pop() + ")")
+                new Value("(int)(" + opStack.pop() + ")")
         );
 
     }

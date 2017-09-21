@@ -100,12 +100,22 @@ public class Code implements Name {
         return new Executable() {
             @Override
             public Executable build(Code code, Frame frame) {
-                return this;
+                return null;
             }
 
             @Override
             public void exec() throws DecompileException {
 
+            }
+
+            @Override
+            public int getCountIndex() {
+                return 0;
+            }
+
+            @Override
+            public int getStoreIndex() {
+                return 0;
             }
         };
         // return null;

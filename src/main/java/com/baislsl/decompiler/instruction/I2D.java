@@ -8,7 +8,7 @@ public class I2D extends Instruction {
     public void exec() throws DecompileException {
         super.exec();
         opStack.push(
-                new Value("(Double)(" + opStack.pop() + ")")
+                new Value("(double)(" + opStack.pop() + ")")
         );
 
     }

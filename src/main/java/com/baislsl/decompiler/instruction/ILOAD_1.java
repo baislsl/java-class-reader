@@ -7,6 +7,6 @@ public class ILOAD_1 extends Instruction {
     public void exec() throws DecompileException {
         super.exec();
 
-        opStack.push(localVariableTables.get(1).value());
+        opStack.push(localVariableTables.get(1, getStoreIndex()).value());
     }
 }

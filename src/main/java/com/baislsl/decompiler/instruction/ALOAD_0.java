@@ -7,7 +7,7 @@ public class ALOAD_0 extends Instruction {
     public void exec() throws DecompileException {
         super.exec();
         opStack.push(
-            localVariableTables.get(0).value()
+            localVariableTables.get(0, getStoreIndex()).value()
         );
     }
 }
