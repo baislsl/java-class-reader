@@ -33,7 +33,6 @@ public class LocalVariableValueTable {
             for(LocalValue value : values){
                 if(value.index() == i)
                     value.setAccess(true);
-                break;
             }
         }
 

@@ -1,8 +1,8 @@
 package com.baislsl.decompiler.instruction;
 
-public class LDC extends ldcInstruction {
+public class LDC_W extends ldcInstruction {
     @Override
     protected int getIndex() {
-        return get1u();
+        return get2();
     }
 }
