@@ -18,7 +18,7 @@ public class INVOKEVIRTUAL extends Instruction {
     @Override
     public void exec() throws DecompileException {
         super.exec();
-        MethodrefTag methodCp = (MethodrefTag) clazz.getConstantPool(get2());
+        MethodrefTag methodCp = (MethodrefTag) clazz.getConstantPool((int)get2u());
         NameAndTypeTag nameAndTypeIndexCp = (NameAndTypeTag) clazz.getConstantPool(methodCp.getNameAndTypeIndex());
         ClassTag classInfo = (ClassTag)clazz.getConstantPool(methodCp.getClassIndex());
         String methodClassName = clazz.getUTF8Info(classInfo.getNameIndex()).replaceAll("/", ".");
@@ -30,6 +30,7 @@ public class INVOKEVIRTUAL extends Instruction {
         for (int i = 0; i < cnt; i++) {
             parameters.add(opStack.pop());
         }
+        String objectRef = opStack.pop().toString();
 
         opStack.push(
                 new Value(
