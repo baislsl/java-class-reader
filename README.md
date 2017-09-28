@@ -8,6 +8,8 @@ Decompiler intended to decompile *.class format files
 
 正在写反汇编, 处理while, for, 循环中, 暂时使用while(true){..., continue..., break... }来处理循环
 
+循环处理完成了部分, 没想出什么好的严谨的算法, 先停一下循环处理部分, 
+现在正完善剩余指令和处理异常的try, catch
 ### class file structure
 ```
 ClassFile {
