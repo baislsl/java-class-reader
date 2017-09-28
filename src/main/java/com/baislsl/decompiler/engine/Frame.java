@@ -5,6 +5,8 @@ import com.baislsl.decompiler.Result;
 import com.baislsl.decompiler.instruction.*;
 import com.baislsl.decompiler.structure.Method;
 import com.baislsl.decompiler.structure.attribute.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -15,6 +17,8 @@ import java.util.stream.Stream;
 
 
 public class Frame {
+    private static final Logger logger = LoggerFactory.getLogger(Frame.class);
+
     private Result clazz;
     private Method method;
     private StringBuilder result;
@@ -128,6 +132,8 @@ public class Frame {
             from = 61;
         for (int i = from; i < to; i++) {
             executables[i].exec();
+            if(executables[i] instanceof Instruction)
+                logger.info("applying " + ((Instruction)executables[i]).getClass().getName() + ", stack size=" + opStack.size());
         }
 
         return this;

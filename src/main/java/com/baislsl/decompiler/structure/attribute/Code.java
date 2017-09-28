@@ -109,7 +109,7 @@ public class Code implements Name {
             }
 
             @Override
-            public int getCountIndex() {
+            public int getLineIndex() {
                 return 0;
             }
 

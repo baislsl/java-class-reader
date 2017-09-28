@@ -28,12 +28,8 @@ public abstract class Instruction implements Executable {
     protected int[] exceptionIndexes;
     protected Parameter[] parameters;
 
-    /**
-     * @param storeIndex 每个指令占位为大小
-     * @param countIndex 每个指令占一位
-     */
     protected int storeIndex;
-    protected int countIndex;
+    protected int lineIndex;
 
 
     public Instruction() {
@@ -59,7 +55,7 @@ public abstract class Instruction implements Executable {
                 break;
             }
             storeIndex += frame.getCodes()[i].getSize();
-            countIndex += 1;
+            lineIndex += 1;
         }
 
         return this;
@@ -86,11 +82,17 @@ public abstract class Instruction implements Executable {
         return (Byte.toUnsignedLong(bytes[1])) << 8 | Byte.toUnsignedLong(bytes[2]);
     }
 
+    /**
+     * lineIndex, each instruction for 1 line
+     */
     @Override
-    public int getCountIndex() {
-        return countIndex;
+    public int getLineIndex() {
+        return lineIndex;
     }
 
+    /**
+     * each instruction with number of their size
+     */
     @Override
     public int getStoreIndex() {
         return storeIndex + this.bytes.length;

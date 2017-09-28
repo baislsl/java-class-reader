@@ -4,14 +4,12 @@ import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.engine.Frame;
 import com.baislsl.decompiler.structure.attribute.Code;
 
-public interface Executable {
+public class ALOAD extends AloadInstruction {
 
-    Executable build(Code code, Frame frame);
-
-    void exec() throws DecompileException;
-
-    int getLineIndex();
-
-    int getStoreIndex();
+    @Override
+    public Executable build(Code code, Frame frame) {
+        this.n = get1u();
+        return super.build(code, frame);
+    }
 
 }

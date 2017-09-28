@@ -9,16 +9,9 @@ import static com.sun.org.apache.bcel.internal.Constants.OPCODE_NAMES;
 public class Temp {
 
     public static void main(String[] args) {
-        for (int i = 0; i < 256; i++) {
-            if(!OPCODE_NAMES[i].equals(ILLEGAL_OPCODE)){
-                System.out.println(
-"    public void _" + OPCODE_NAMES[i] + "(byte[] bytes) throws DecompileException {\n" +
-        "        System.out.println(\"Not support instruction of \" + OPCODE_NAMES[Byte.toUnsignedInt(bytes[0]));\n" +
-        "    }"
-                );
-            }
-        }
-
+        String[] ss;
+        int g = 10;
+        ss = new String[g];
 
     }
 }
