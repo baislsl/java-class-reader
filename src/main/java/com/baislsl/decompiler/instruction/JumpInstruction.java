@@ -3,8 +3,9 @@ package com.baislsl.decompiler.instruction;
 import com.baislsl.decompiler.DecompileException;
 
 public abstract class JumpInstruction extends Instruction {
+
     public int getOffset() throws DecompileException {
-        int length = 0;
+        int length;
         if (bytes.length == 2) {
             length = get1();
         } else if (bytes.length == 3) {
@@ -17,7 +18,6 @@ public abstract class JumpInstruction extends Instruction {
         } else {
             throw new DecompileException("Error jump offset length");
         }
-        System.out.println(this.getClass().getName() + length);
         int i = getCurrentIndex();
         int offset = 0;
         if (length < 0) {
@@ -27,11 +27,11 @@ public abstract class JumpInstruction extends Instruction {
                 length += frame.getCodes()[i].getSize();
             }
         } else {
-            do {
+            while(length != 0){
+                length -= frame.getCodes()[i].getSize();
                 i++;
                 offset++;
-                length -= frame.getCodes()[i].getSize();
-            } while (length != 0);
+            }
         }
         return offset;
     }

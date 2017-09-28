@@ -11,12 +11,6 @@ import java.util.List;
 
 public class Javap {
 
-    private static String getCodeDescription(Result result, CodeAttr code)
-            throws DecompileException {
-        StringBuilder ans = new StringBuilder();
-        return ans.toString();
-    }
-
     public static String[] getAccessFlagDescription(int accessFlag) {
         List<String> ans = new ArrayList<>();
         int cur = 1, cnt = 16;

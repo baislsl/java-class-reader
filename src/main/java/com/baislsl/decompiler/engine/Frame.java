@@ -87,7 +87,7 @@ public class Frame {
      * @return decompiled frame
      */
     public Frame exec(int from, int to, int min, int max) throws DecompileException {
-        System.out.println("hello");
+        from = from;
         for (int i = to - 1; i >= from; i--) {
             if (executables[i] instanceof JumpInstruction &&
                     ((JumpInstruction) executables[i]).getOffset() < 0) {
@@ -108,11 +108,14 @@ public class Frame {
                 if(end == to) continue;
 
                 exec(from, begin, min, max);
-                result.append(
-                        "while(true){\n" + new Frame(clazz, method, localVariableTables).exec(begin, end).get() + "\n}"
-                );
-
-                result.append(new Frame(clazz, method, localVariableTables).exec(end, to, min, max).get());
+                result.append("while(true){\n")
+                        .append(new Frame(clazz, method, localVariableTables)
+                                .exec(begin, end)
+                                .get())
+                        .append("\n}\n")
+                        .append(new Frame(clazz, method, localVariableTables)
+                                .exec(end, to, min, max)
+                                .get());
                 return this;
             }
         }
@@ -120,7 +123,9 @@ public class Frame {
         // just if, else operation, no loop
         this.from = min;
         this.to = max;
-        if(from == 61) return this;
+        //if(from == 61) return this;
+        if(from == 61)
+            from = 61;
         for (int i = from; i < to; i++) {
             executables[i].exec();
         }
