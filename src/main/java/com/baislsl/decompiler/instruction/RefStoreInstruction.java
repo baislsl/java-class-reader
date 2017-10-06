@@ -4,7 +4,7 @@ import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.engine.Value;
 
 /**
- * aastore, bastore
+ * aastore, bastore, cstore
  */
 public abstract class RefStoreInstruction extends Instruction {
     @Override

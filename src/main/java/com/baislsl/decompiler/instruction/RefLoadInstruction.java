@@ -4,7 +4,7 @@ import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.engine.Value;
 
 /**
- * aaload, baload
+ * aaload, baload, cload
  */
 public abstract class RefLoadInstruction extends Instruction {
     @Override
