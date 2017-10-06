@@ -1,8 +1,12 @@
 package com.baislsl.decompiler.instruction;
 
-public class DSTORE_2 extends ISTORE {
+import com.baislsl.decompiler.engine.Frame;
+import com.baislsl.decompiler.structure.attribute.Code;
+
+public class DSTORE_2 extends RefStoreInstruction {
     @Override
-    protected int get1() {
-        return 2;
+    public Executable build(Code code, Frame frame) {
+        this.n = 1;
+        return super.build(code, frame);
     }
 }
