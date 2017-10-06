@@ -1,15 +1,15 @@
 package com.baislsl.decompiler.instruction;
 
-import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.engine.Frame;
 import com.baislsl.decompiler.structure.attribute.Code;
 
-public class ALOAD extends AloadInstruction {
+public class ALOAD extends RefLoadInstruction {
 
     @Override
     public Executable build(Code code, Frame frame) {
+        Executable executable  = super.build(code, frame);
         this.n = get1u();
-        return super.build(code, frame);
+        return executable;
     }
 
 }

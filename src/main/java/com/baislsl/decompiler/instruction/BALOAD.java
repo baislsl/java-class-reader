@@ -1,4 +1,4 @@
 package com.baislsl.decompiler.instruction;
 
-public class BALOAD extends RefLoadInstruction {
+public class BALOAD extends RefArrayLoadInstruction {
 }

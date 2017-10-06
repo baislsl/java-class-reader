@@ -1,35 +1,31 @@
 package com.baislsl.decompiler.engine;
 
-public class Value {
+/**
+ * value 不要直接修改name, used要达到类似的目标直接创建一个新的value对象
+ */
+public class Value implements Cloneable {
     // public Integer value;
-    public String name;
-    public boolean used = true;
+    public final String name;
+    public final Boolean used;
 
-    public Value(){
-
-    }
-
-    public Value(String name){
+    public Value(String name) {
         this.name = name;
+        this.used = true;
     }
 
-    public Value(String name, boolean used){
+    public Value(String name, boolean used) {
         this.name = name;
         this.used = used;
     }
 
-    public Value(int value){
+    public Value(int value) {
         this.name = Integer.toString(value);
+        this.used = true;
     }
 
-    public Value(int value, boolean used){
+    public Value(int value, boolean used) {
         this.name = Integer.toString(value);
         this.used = used;
-    }
-
-    public Value(int value, String name){
-        // this.value = value;
-        this.name = name;
     }
 
     @Override
@@ -37,11 +33,4 @@ public class Value {
         return name;
     }
 
-    public boolean getUsed(){
-        return used;
-    }
-
-    public void setUsed(boolean userd){
-        this.used = userd;
-    }
 }

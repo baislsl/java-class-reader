@@ -1,21 +1,19 @@
 package com.baislsl.decompiler.instruction;
 
 import com.baislsl.decompiler.DecompileException;
-import com.baislsl.decompiler.engine.Value;
 
 /**
- * aaload, baload, cload
+ * child class must overwrite the build method and definite the value of n
+ * int the build method
  */
 public abstract class RefLoadInstruction extends Instruction {
+    protected int n;
+
     @Override
     public void exec() throws DecompileException {
         super.exec();
-
-        Value index = opStack.pop();
-        Value arrayRef = opStack.pop();
-
         opStack.push(
-                new Value(arrayRef.toString() + "[" + index.toString() + "]")
+                localVariableTables.get(n, getStoreIndex()).value()
         );
     }
 }

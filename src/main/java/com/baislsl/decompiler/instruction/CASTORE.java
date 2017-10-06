@@ -1,4 +1,4 @@
 package com.baislsl.decompiler.instruction;
 
-public class CSTORE extends RefStoreInstruction {
+public class CASTORE extends RefArrayStoreInstruction {
 }

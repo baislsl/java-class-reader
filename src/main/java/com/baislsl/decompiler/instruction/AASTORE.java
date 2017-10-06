@@ -1,8 +1,5 @@
 package com.baislsl.decompiler.instruction;
 
-import com.baislsl.decompiler.DecompileException;
-import com.baislsl.decompiler.engine.Value;
-
-public class AASTORE extends RefStoreInstruction {
+public class AASTORE extends RefArrayStoreInstruction {
 
 }

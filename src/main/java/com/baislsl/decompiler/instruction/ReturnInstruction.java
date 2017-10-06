@@ -2,7 +2,10 @@ package com.baislsl.decompiler.instruction;
 
 import com.baislsl.decompiler.DecompileException;
 
-public class returnInstruction extends Instruction {
+/**
+ * areturn, dreturn, ireturn, freturn
+ */
+public class ReturnInstruction extends Instruction {
     @Override
     public void exec() throws DecompileException {
         super.exec();
