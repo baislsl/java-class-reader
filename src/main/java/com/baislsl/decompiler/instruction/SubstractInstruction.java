@@ -3,7 +3,7 @@ package com.baislsl.decompiler.instruction;
 import com.baislsl.decompiler.engine.Frame;
 import com.baislsl.decompiler.structure.attribute.Code;
 
-public class SubstractInstruction extends OperationInstuction {
+public class SubstractInstruction extends OperationInstruction {
     @Override
     public Executable build(Code code, Frame frame) {
         this.operator = "-";

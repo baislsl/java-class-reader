@@ -6,7 +6,7 @@ import com.baislsl.decompiler.engine.Value;
 /**
  * +, -, *, / for i, f, d
  */
-public abstract class OperationInstuction extends Instruction {
+public abstract class OperationInstruction extends Instruction {
     protected String operator;
     @Override
     public void exec() throws DecompileException {

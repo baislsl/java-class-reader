@@ -3,7 +3,7 @@ package com.baislsl.decompiler.instruction;
 import com.baislsl.decompiler.engine.Frame;
 import com.baislsl.decompiler.structure.attribute.Code;
 
-public class RemainderInstruction extends OperationInstuction {
+public class RemainderInstruction extends OperationInstruction {
     @Override
     public Executable build(Code code, Frame frame) {
         this.operator = "%";

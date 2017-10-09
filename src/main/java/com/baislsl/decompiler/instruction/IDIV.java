@@ -1,17 +1,4 @@
 package com.baislsl.decompiler.instruction;
 
-import com.baislsl.decompiler.DecompileException;
-import com.baislsl.decompiler.engine.Value;
-
-public class IDIV extends Instruction {
-    @Override
-    public void exec() throws DecompileException {
-        super.exec();
-        Value value1 = opStack.pop();
-        Value value2 = opStack.pop();
-
-        opStack.push(
-              new Value(value2 + "/" +value1)
-        );
-    }
+public class IDIV extends DivideInstruction {
 }

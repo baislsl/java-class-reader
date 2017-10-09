@@ -1,8 +1,12 @@
 package com.baislsl.decompiler.instruction;
 
-public class ICONST_3 extends ICONST_N {
-    public ICONST_3() {
-        super();
-        this.n = 3;
+import com.baislsl.decompiler.engine.Frame;
+import com.baislsl.decompiler.structure.attribute.Code;
+
+public class ICONST_3 extends ConstInstruction {
+    @Override
+    public Executable build(Code code, Frame frame) {
+        this.value = "3";
+        return super.build(code, frame);
     }
 }
