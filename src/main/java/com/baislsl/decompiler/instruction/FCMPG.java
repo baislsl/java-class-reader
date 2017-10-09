@@ -3,7 +3,7 @@ package com.baislsl.decompiler.instruction;
 import com.baislsl.decompiler.engine.Frame;
 import com.baislsl.decompiler.structure.attribute.Code;
 
-public class DCMPG extends CompareInstruction {
+public class FCMPG extends CompareInstruction {
     @Override
     public Executable build(Code code, Frame frame) {
         this.operator = ">";

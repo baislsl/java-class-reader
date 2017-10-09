@@ -6,7 +6,7 @@ import com.baislsl.decompiler.engine.Value;
 import com.baislsl.decompiler.structure.attribute.Code;
 
 /**
- * ddiv
+ * ddiv, fdiv
  */
 public abstract class DivideInstuction extends OperationInstuction {
     @Override

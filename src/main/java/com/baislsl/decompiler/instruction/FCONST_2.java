@@ -3,10 +3,10 @@ package com.baislsl.decompiler.instruction;
 import com.baislsl.decompiler.engine.Frame;
 import com.baislsl.decompiler.structure.attribute.Code;
 
-public class DCMPG extends CompareInstruction {
+public class FCONST_2 extends ConstInstruction {
     @Override
     public Executable build(Code code, Frame frame) {
-        this.operator = ">";
+        this.value = "2.0f";
         return super.build(code, frame);
     }
 }

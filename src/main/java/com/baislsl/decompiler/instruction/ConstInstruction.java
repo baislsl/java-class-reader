@@ -4,9 +4,11 @@ import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.engine.Value;
 
 /**
- * dconst_0, dconst_1
+ * dconst_0, dconst_1..
+ * fconst_0, fconst_1..
+ * ...
  */
-public abstract class DoubleConstInstuction extends Instruction {
+public abstract class ConstInstruction extends Instruction {
     protected String value;
 
     @Override
