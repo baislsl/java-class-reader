@@ -1,0 +1,1 @@
+package com.baislsl.decompiler.TestWrittenClass;
