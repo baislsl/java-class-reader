@@ -78,8 +78,8 @@ public abstract class Instruction implements Executable {
         return ((int) bytes[1]) << 8 | Byte.toUnsignedInt(bytes[2]);
     }
 
-    protected long get2u() {
-        return (Byte.toUnsignedLong(bytes[1])) << 8 | Byte.toUnsignedLong(bytes[2]);
+    protected int get2u() {
+        return (Byte.toUnsignedInt(bytes[1])) << 8 | Byte.toUnsignedInt(bytes[2]);
     }
 
     /**
