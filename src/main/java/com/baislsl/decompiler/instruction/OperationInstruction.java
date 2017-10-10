@@ -11,8 +11,10 @@ public abstract class OperationInstruction extends Instruction {
     @Override
     public void exec() throws DecompileException {
         super.exec();
+        Value value2 = opStack.pop();
+        Value value1 = opStack.pop();
         opStack.push(
-                new Value("(" + opStack.pop() + ") " + operator + " (" + opStack.pop() + ")")
+                new Value("(" + value1 + ") " + operator + " (" + value2 + ")")
         );
     }
 }
