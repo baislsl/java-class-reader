@@ -1,4 +1,4 @@
-package com.baislsl.decompiler;
+package com.baislsl.decompiler.TestWrittenClass;
 
 public class LoopTest {
     private static int a;

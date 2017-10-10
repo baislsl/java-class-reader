@@ -1,5 +1,6 @@
-package com.baislsl.decompiler;
+package com.baislsl.decompiler.TestWrittenClass;
 
+import com.baislsl.decompiler.DecompileException;
 import org.junit.Test;
 
 import java.lang.reflect.Constructor;
