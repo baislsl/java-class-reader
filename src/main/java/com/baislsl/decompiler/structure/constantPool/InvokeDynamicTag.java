@@ -26,7 +26,7 @@ public class InvokeDynamicTag extends ConstantPool {
 
     @Override
     public String[] description(Result result) throws DecompileException {
-        Method method = result.getMethod(bootstrapMethodAttrIndex);
+        Method method = result.getMethodAt(bootstrapMethodAttrIndex);
         String methodName = result.getUTF8Info(method.getNameIndex());
         String[] nameAndType = result.getConstantPool(nameAndTypeIndex).description(result);
         return new String[]{

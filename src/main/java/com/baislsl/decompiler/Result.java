@@ -144,11 +144,15 @@ public final class Result {
         return fields;
     }
 
+    public Field getFieldAt(int index){
+        return fields[index];
+    }
+
     public Method[] getMethods() {
         return methods;
     }
 
-    public Method getMethod(int index){
+    public Method getMethodAt(int index){
         return methods[index];
     }
 
