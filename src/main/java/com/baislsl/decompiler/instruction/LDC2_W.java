@@ -1,18 +1,13 @@
 package com.baislsl.decompiler.instruction;
 
-import com.baislsl.decompiler.DecompileException;
-import com.baislsl.decompiler.engine.Value;
-import com.baislsl.decompiler.structure.constantPool.ConstantPool;
+import com.baislsl.decompiler.engine.Frame;
+import com.baislsl.decompiler.structure.attribute.Code;
 
-public class LDC2_W extends Instruction {
+public class LDC2_W extends LdcInstruction {
     @Override
-    public void exec() throws DecompileException {
-        super.exec();
-        ConstantPool cp = clazz.getConstantPool(get2());
-
-        opStack.push(
-                new Value(cp.name())
-        );
-
+    public Executable build(Code code, Frame frame) {
+        Executable executable = super.build(code, frame);
+        this.index = get2u();
+        return executable;
     }
 }
