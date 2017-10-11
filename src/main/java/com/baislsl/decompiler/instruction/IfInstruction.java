@@ -7,7 +7,7 @@ import com.baislsl.decompiler.engine.Value;
  * implement of if<cond>
  *     ifeq, ifne, iflt, ifge, ifgt, ifle
  */
-public class IfInstruction extends ConditionalJumpInstruction {
+public abstract class IfInstruction extends ConditionalJumpInstruction {
     protected String operator;
 
     @Override

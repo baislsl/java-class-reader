@@ -5,7 +5,7 @@ import com.baislsl.decompiler.DecompileException;
 /**
  * areturn, dreturn, ireturn, freturn
  */
-public class ReturnInstruction extends Instruction {
+public abstract class ReturnInstruction extends Instruction {
     @Override
     public void exec() throws DecompileException {
         super.exec();

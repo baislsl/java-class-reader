@@ -26,6 +26,6 @@ public class NotLoopTest {
         ia[3] = s2 + (int) la[0] - c;
         da[5] = d2;
 
-        return fa[2] * (ia[5] ^ s) / da[5];
+        return fa[i] * (ia[(int)d] ^ s) / da[5];
     }
 }
