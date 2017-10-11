@@ -30,7 +30,6 @@ public class Value implements Cloneable {
 
     @Override
     public String toString() {
-        // TODO: 对于区分开long和int, double和float
         return name;
     }
 
