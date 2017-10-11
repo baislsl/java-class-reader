@@ -4,14 +4,12 @@ import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.engine.Value;
 import com.baislsl.decompiler.structure.constantPool.*;
 
-public abstract class ldcInstruction extends Instruction {
-
-    protected abstract int getIndex();
+public abstract class LdcInstruction extends Instruction {
+    protected int index;
 
     @Override
     public void exec() throws DecompileException {
         super.exec();
-        int index = get1u();
         ConstantPool cp = clazz.getConstantPool(index);
         String value;
         if (cp instanceof ClassTag) {

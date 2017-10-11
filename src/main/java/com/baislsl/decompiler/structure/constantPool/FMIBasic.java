@@ -17,8 +17,8 @@ public abstract class FMIBasic extends ConstantPool {
     private static final int CLASS_INDEX_SIZE = 2;
     private static final int NAME_AND_TYPE_INDEX_SIZE = 2;
 
-    private int classIndex;
-    private int nameAndTypeIndex;
+    protected int classIndex;
+    protected int nameAndTypeIndex;
 
     FMIBasic(int tag) {
         super(tag);

@@ -21,7 +21,7 @@ public class FloatTag extends FloatIntegerBasic {
 
     @Override
     public String toString() {
-        return Float.toString(getValue());
+        return Float.toString(getValue()) + "F";
     }
 
     @Override

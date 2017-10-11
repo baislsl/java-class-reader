@@ -19,7 +19,7 @@ public class PUTFIELD extends Instruction {
                 .append(fieldrefTag.getName(clazz))
                 .append(" = ")
                 .append(value)
-                .append("\n");
+                .append(";\n");
 
     }
 }

@@ -21,7 +21,7 @@ public class DoubleTag extends LongDoubleBasic {
 
     @Override
     public String toString() {
-        return Double.toString(getValue());
+        return Double.toString(getValue()) + "D";
     }
 
     @Override

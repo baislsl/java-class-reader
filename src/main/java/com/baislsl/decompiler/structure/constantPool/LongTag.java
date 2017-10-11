@@ -21,7 +21,7 @@ public class LongTag extends LongDoubleBasic {
 
     @Override
     public String toString() {
-        return Long.toString(getValue());
+        return Long.toString(getValue()) + "L";
     }
 
     @Override
