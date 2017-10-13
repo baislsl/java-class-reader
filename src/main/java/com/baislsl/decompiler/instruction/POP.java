@@ -9,7 +9,7 @@ public class POP extends Instruction {
         super.exec();
         Value value = opStack.pop();
         if (!value.used) {
-            result.append(value);
+            result.append(value).append(";\n");
         }
     }
 }

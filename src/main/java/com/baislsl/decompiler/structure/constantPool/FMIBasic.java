@@ -54,6 +54,11 @@ public abstract class FMIBasic extends ConstantPool {
     public String getName(Result clazz) throws DecompileException{
         NameAndTypeTag nameAndTypeTag = (NameAndTypeTag)clazz.getConstantPool(nameAndTypeIndex);
         int nameIndex = nameAndTypeTag.getNameIndex();
-        return clazz.getUTF8Info(nameIndex);
+        return clazz.getUTF8Info(nameIndex).replaceAll("/", ".");
+    }
+
+    public String getClassName(Result clazz) throws DecompileException{
+        ClassTag classTag = (ClassTag)clazz.getConstantPool(classIndex);
+        return clazz.getUTF8Info(classTag.getNameIndex()).replaceAll("/", ".");
     }
 }

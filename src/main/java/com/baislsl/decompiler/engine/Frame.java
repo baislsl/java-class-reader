@@ -127,9 +127,6 @@ public class Frame {
         // just if, else operation, no loop
         this.from = min;
         this.to = max;
-        //if(from == 61) return this;
-        if(from == 61)
-            from = 61;
         for (int i = from; i < to; i++) {
             executables[i].exec();
             if(executables[i] instanceof Instruction)

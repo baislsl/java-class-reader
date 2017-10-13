@@ -1,12 +1,9 @@
 package com.baislsl.decompiler.engine;
 
-/**
- * value 不要直接修改name, used要达到类似的目标直接创建一个新的value对象
- */
 public class Value implements Cloneable {
     // public Integer value;
-    public final String name;
-    public final Boolean used;
+    public String name;
+    public Boolean used;
 
     public Value(String name) {
         this.name = name;
@@ -33,4 +30,11 @@ public class Value implements Cloneable {
         return name;
     }
 
+    public void setValue(String name){
+        this.name = name;
+    }
+
+    public void setUsed(Boolean used) {
+        this.used = used;
+    }
 }

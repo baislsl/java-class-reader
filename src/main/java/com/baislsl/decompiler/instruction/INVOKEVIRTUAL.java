@@ -17,7 +17,7 @@ public class INVOKEVIRTUAL extends Instruction {
     @Override
     public void exec() throws DecompileException {
         super.exec();
-        MethodrefTag methodrefTag = (MethodrefTag) clazz.getConstantPool((int)get2u());
+        MethodrefTag methodrefTag = (MethodrefTag) clazz.getConstantPool(get2u());
         NameAndTypeTag nameAndTypeIndexCp = (NameAndTypeTag) clazz.getConstantPool(methodrefTag.getNameAndTypeIndex());
         String descriptor = clazz.getUTF8Info(nameAndTypeIndexCp.getDescriptorIndex());
         MethodDescriptor methodDescriptor = new MethodDescriptor(descriptor);
@@ -28,16 +28,22 @@ public class INVOKEVIRTUAL extends Instruction {
         for (int i = 0; i < cnt; i++) {
             parameters.add(opStack.pop());
         }
-        String objectRef = opStack.pop().toString();
+        Value objectRef = opStack.pop();
         StringBuilder ans = new StringBuilder();
-
+        StringBuilder param = new StringBuilder();
+        if (parameters.size() != 0)
+            param.append(parameters.get(0));
+        for (int i = 1; i < parameters.size(); i++) {
+            param.append(", ").append(parameters.get(i));
+        }
         ans.append(objectRef)
-              .append("(")
-              .append(parameters.stream().reduce((p1, p2) -> new Value(p1 + ", " + p2)).get())
-              .append(");\n");
-
-        if(returnDescriptor instanceof VoidDescriptor){
-            result.append(ans);
+                .append(".")
+                .append(methodrefTag.getName(clazz))
+                .append("(")
+                .append(param)
+                .append(")");
+        if (returnDescriptor instanceof VoidDescriptor) {
+            result.append(ans).append(";\n");
         } else {
             opStack.push(new Value(ans.toString(), false));
         }

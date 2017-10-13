@@ -22,7 +22,7 @@ public class NotLoopTest {
         return f2 * l2;
     }
 
-    public double funca(int s2, double d2) {
+    private final double funca(int s2, double d2) {
         ia[3] = s2 + (int) la[0] - c;
         da[5] = d2;
 
@@ -38,4 +38,14 @@ public class NotLoopTest {
         double[] ds = new double[10];
         ls[0] = new Long(0);
     }
+
+    public double invokeSpeicalVituralTest(){
+        StringBuilder builder = new StringBuilder("gg");
+        builder.append("a");
+        super.getClass().getName();
+        builder = new StringBuilder(builder);
+        NotLoopTest test = new NotLoopTest();
+        return test.funca(0, 0);
+    }
+
 }
