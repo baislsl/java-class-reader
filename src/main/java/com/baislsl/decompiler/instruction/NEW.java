@@ -1,12 +1,12 @@
 package com.baislsl.decompiler.instruction;
 
 import com.baislsl.decompiler.DecompileException;
+import com.baislsl.decompiler.engine.Value;
 
 public class NEW extends Instruction {
-    // TODO
     @Override
     public void exec() throws DecompileException {
-        System.out.println("use instruction " + this.getClass().getName());
-
+        // push an empty object reference into the stack
+        opStack.push(new Value(""));
     }
 }

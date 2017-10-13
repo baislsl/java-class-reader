@@ -28,4 +28,14 @@ public class NotLoopTest {
 
         return fa[i] * (ia[(int)d] ^ s) / da[5];
     }
+
+    public void newTest(){
+        Integer I = new Integer(i);
+        NotLoopTest test = new NotLoopTest();
+
+
+        Long[] ls = new Long[20];
+        double[] ds = new double[10];
+        ls[0] = new Long(0);
+    }
 }
