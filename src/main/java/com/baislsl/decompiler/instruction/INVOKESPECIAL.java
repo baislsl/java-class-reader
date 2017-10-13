@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class INVOKESPECIAL extends Instruction {
-    // TODO: exec() superclass, private, and instance initialization method invocations
-
     @Override
     public void exec() throws DecompileException {
         super.exec();
