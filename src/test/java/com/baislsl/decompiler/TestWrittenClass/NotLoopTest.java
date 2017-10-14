@@ -1,5 +1,9 @@
 package com.baislsl.decompiler.TestWrittenClass;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
 class SubClass{}
 public class NotLoopTest extends  SubClass{
     private int i = 1;
@@ -51,6 +55,11 @@ public class NotLoopTest extends  SubClass{
         builder = new StringBuilder(builder);
         NotLoopTest test = new NotLoopTest();
         return test.funca(0, 0);
+    }
+
+    public void invokeVirutalTest(){
+        List<Integer> arrayList = new ArrayList<>();
+        arrayList.add(10);
     }
 
 }
