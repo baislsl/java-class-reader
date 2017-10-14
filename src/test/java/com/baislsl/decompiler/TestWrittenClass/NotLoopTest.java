@@ -1,6 +1,7 @@
 package com.baislsl.decompiler.TestWrittenClass;
 
-public class NotLoopTest {
+class SubClass{}
+public class NotLoopTest extends  SubClass{
     private int i = 1;
     private double d = 2;
     private float f = 3;
@@ -14,6 +15,10 @@ public class NotLoopTest {
     private long[] la;
     private char[] ca;
     private short[] sa;
+
+    public NotLoopTest(){
+        super();
+    }
 
     public double func(int a, int g) {
         float f2 = f * a;

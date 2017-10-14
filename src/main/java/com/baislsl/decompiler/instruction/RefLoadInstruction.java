@@ -1,6 +1,7 @@
 package com.baislsl.decompiler.instruction;
 
 import com.baislsl.decompiler.DecompileException;
+import com.baislsl.decompiler.engine.Value;
 
 /**
  * child class must overwrite the build method and definite the value of n
@@ -13,7 +14,8 @@ public abstract class RefLoadInstruction extends Instruction {
     public void exec() throws DecompileException {
         super.exec();
         opStack.push(
-                localVariableTables.get(n, getStoreIndex()).value()
+                // 压入一个新的Value，保证local variable table只读
+                new Value(localVariableTables.get(n, getStoreIndex()).value().toString())
         );
     }
 }
