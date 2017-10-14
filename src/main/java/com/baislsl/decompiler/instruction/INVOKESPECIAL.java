@@ -39,12 +39,19 @@ public class INVOKESPECIAL extends Instruction {
         String methodName = methodrefTag.getName(clazz);
         if (methodName.contains("<init>")) {
             // constructor
-            ans.append("new ")
-                    .append(methodrefTag.getClassName(clazz))
-                    .append("(")
-                    .append(param)
-                    .append(")");
-            objectRef.setValue(ans.toString());
+            if (isCallSuperClassMethod(objectRef, methodrefTag.getClassName(clazz))) {
+                // call super constructor
+                result.append("super(")
+                        .append(param)
+                        .append(");\n");
+            } else {
+                ans.append("new ")
+                        .append(methodrefTag.getClassName(clazz))
+                        .append("(")
+                        .append(param)
+                        .append(")");
+                objectRef.setValue(ans.toString());
+            }
         } else if (isCallSuperClassMethod(objectRef, methodrefTag.getClassName(clazz))) {
             // super method
             ans.append("super")
