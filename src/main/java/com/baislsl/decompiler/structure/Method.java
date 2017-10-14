@@ -80,7 +80,12 @@ public class Method extends FieldMethodBasic {
         ans.append(name);
         ans.append("(");
         Descriptor[] descriptors = methodDescriptor.getParamDescriptors();
-        LocalVariableTable[] tables = codeAttr.getLocalValueTableAttr().getTables();
+        LocalVariableTable[] tables; LocalVariableTableAttr attrs;
+        if(codeAttr != null && (attrs = codeAttr.getLocalValueTableAttr()) != null){
+            tables = attrs.getTables();
+        }else{
+            tables = new LocalVariableTable[0];
+        }
         for (int i = 0; i < descriptors.length; i++) {
             if (i != 0) ans.append(" ,");
             if (parametersAttr != null) {

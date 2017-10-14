@@ -6,10 +6,10 @@ import java.util.Stack;
 
 class SubClass{}
 public class NotLoopTest extends  SubClass{
-    private int i = 1;
+    private static int i = 1;
     private double d = 2;
     private float f = 3;
-    private long l = 4;
+    private static long l = 4;
     private char c = 5;
     private short s = 4;
 
