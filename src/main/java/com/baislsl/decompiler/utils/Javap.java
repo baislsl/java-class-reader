@@ -23,6 +23,15 @@ public class Javap {
         return ans.toArray(new String[0]);
     }
 
+    public static String accessFlagDescription(int accessFlag){
+        String[] description = getAccessFlagDescription(accessFlag);
+        StringBuilder ans = new StringBuilder();
+        for(String s : description){
+            ans.append(s).append(" ");
+        }
+        return ans.toString();
+    }
+
 
     public static String getConstantPoolInfo(ConstantPool cp, Result clazz)
             throws DecompileException {
@@ -53,7 +62,7 @@ public class Javap {
         if (!(classInfo instanceof ClassTag))
             throw new DecompileException("Error format of class info");
         int index = ((ClassTag) classInfo).getNameIndex();
-        return clazz.getUTF8Info(index);
+        return clazz.getUTF8Info(index).replaceAll("/", ".");
     }
 
     /**
@@ -74,7 +83,7 @@ public class Javap {
         if (!(classInfo instanceof ClassTag))
             throw new DecompileException("Error format of class info");
         int index = ((ClassTag) classInfo).getNameIndex();
-        return clazz.getUTF8Info(index);
+        return clazz.getUTF8Info(index).replaceAll("/", ".");
     }
 
     public static String[] getInterfacesName(Result clazz) throws DecompileException {
@@ -86,7 +95,7 @@ public class Javap {
             if (!(interfaceInfo instanceof ClassTag))
                 throw new DecompileException("Error format of class info");
             int nameIndex = ((ClassTag) interfaceInfo).getNameIndex();
-            ans[i] = clazz.getUTF8Info(nameIndex);
+            ans[i] = clazz.getUTF8Info(nameIndex).replaceAll("/", ".");
         }
         return ans;
     }

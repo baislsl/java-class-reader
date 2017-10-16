@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-class SubClass{}
-public class NotLoopTest extends  SubClass{
+class SubClass {
+}
+
+public class NotLoopTest extends SubClass {
     private static int i = 1;
     private double d = 2;
     private float f = 3;
@@ -20,7 +22,7 @@ public class NotLoopTest extends  SubClass{
     private char[] ca;
     private short[] sa;
 
-    public NotLoopTest(){
+    public NotLoopTest() {
         super();
     }
 
@@ -35,10 +37,10 @@ public class NotLoopTest extends  SubClass{
         ia[3] = s2 + (int) la[0] - c;
         da[5] = d2;
 
-        return fa[i] * (ia[(int)d] ^ s) / da[5];
+        return fa[i] * (ia[(int) d] ^ s) / da[5];
     }
 
-    public void newTest(){
+    public void newTest() {
         Integer I = new Integer(i);
         NotLoopTest test = new NotLoopTest();
 
@@ -48,7 +50,7 @@ public class NotLoopTest extends  SubClass{
         ls[0] = new Long(0);
     }
 
-    public double invokeSpeicalVituralTest(){
+    public double invokeSpeicalVituralTest() {
         StringBuilder builder = new StringBuilder("gg");
         builder.append("a");
         super.getClass().getName();
@@ -57,7 +59,7 @@ public class NotLoopTest extends  SubClass{
         return test.funca(0, 0);
     }
 
-    public void invokeVirutalTest(){
+    public void invokeVirutalTest() {
         List<Integer> arrayList = new ArrayList<>();
         arrayList.add(10);
     }
