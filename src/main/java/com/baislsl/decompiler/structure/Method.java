@@ -26,6 +26,7 @@ public class Method extends FieldMethodBasic {
                 basic.getDescriptorIndex(), basic.getAttributes(), constantPools);
     }
 
+    // TODO: detect constructor and return true name
     @Override
     public String name() throws DecompileException {
         StringBuilder ans = new StringBuilder();
@@ -33,6 +34,10 @@ public class Method extends FieldMethodBasic {
         String descriptorInfo = constantPools[descriptorIndex].name();
         MethodDescriptor methodDescriptor = new MethodDescriptor(descriptorInfo);
         String name = constantPools[nameIndex].name();
+        if(name.equals("<clinit>")){
+            // static{}
+            return "static";
+        }
 
         /**
          * each attribute of method must be one of following attributes:
