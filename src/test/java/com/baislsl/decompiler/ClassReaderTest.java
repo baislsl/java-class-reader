@@ -23,7 +23,7 @@ public class ClassReaderTest {
         }
         assertNotNull(input);
         try {
-            return classReader.decompile(input);
+            return ClassReader.decompile(input);
         } catch (Exception e) {
             e.printStackTrace();
         }

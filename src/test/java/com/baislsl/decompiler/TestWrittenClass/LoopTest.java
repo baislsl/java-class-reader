@@ -4,8 +4,8 @@ public class LoopTest {
     private static int a;
     public static final double d = 1.03;
     private int loop(int a, double d){
-        a = this.a;
-        d = this.d;
+        a = LoopTest.a;
+        d = LoopTest.d;
 
 
         while(a < 10){

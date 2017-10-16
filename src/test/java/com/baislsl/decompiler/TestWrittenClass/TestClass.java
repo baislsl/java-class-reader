@@ -25,7 +25,7 @@ public class TestClass implements TestClassInterface {
 
     @Override
     public String func(int a, double d) throws DecompileException {
-        return Double.toString(this.a * a + d * this.d);
+        return Double.toString(TestClass.a * a + d * TestClass.d);
     }
 
 
