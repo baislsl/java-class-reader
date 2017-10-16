@@ -77,16 +77,14 @@ public class Method extends FieldMethodBasic {
             return "static";
         } else if (name.equals("<init>")) {
             addAccessFlag(ans, accFlags);
-            ClassTag classTag = (ClassTag)constantPools[thisClass];
-            ans.append(constantPools[classTag.getNameIndex()].name().replaceAll("/", "."))
-                    .append("()");
-            return ans.toString();
+            ClassTag classTag = (ClassTag) constantPools[thisClass];
+            ans.append(constantPools[classTag.getNameIndex()].name().replaceAll("/", "."));
+        } else {
+            addDeprecatedAttr(ans, deprecatedAttr);
+            addAccessFlag(ans, accFlags);
+            addReturnType(ans, methodDescriptor);
+            ans.append(" ").append(name);
         }
-
-        addDeprecatedAttr(ans, deprecatedAttr);
-        addAccessFlag(ans, accFlags);
-        addReturnType(ans, methodDescriptor);
-        ans.append(" ").append(name);
         addParameter(ans, methodDescriptor, codeAttr, parametersAttr);
         addException(ans, exceptionsAttrs);
 
