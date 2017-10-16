@@ -2,6 +2,7 @@ package com.baislsl.decompiler.structure;
 
 import com.baislsl.decompiler.Constants;
 import com.baislsl.decompiler.DecompileException;
+import com.baislsl.decompiler.structure.constantPool.Utf8Tag;
 import com.baislsl.decompiler.utils.Javap;
 import com.baislsl.decompiler.utils.descriptor.Descriptor;
 import com.baislsl.decompiler.utils.descriptor.MethodDescriptor;
@@ -14,16 +15,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Method extends FieldMethodBasic {
+    private int thisClass;
+
     private Method(int accessFlag, int nameIndex, int descriptorIndex,
-                   Attribute[] attributes, ConstantPool[] constantPools) {
+                   Attribute[] attributes, ConstantPool[] constantPools, int thisClass) {
         super(accessFlag, nameIndex, descriptorIndex, attributes, constantPools);
+        this.thisClass = thisClass;
     }
 
-    public static Method build(DataInputStream file, ConstantPool[] constantPools)
+    public static Method build(DataInputStream file, ConstantPool[] constantPools, int thisClass)
             throws DecompileException {
         FieldMethodBasic basic = FieldMethodBasic.build(file, constantPools);
         return new Method(basic.getAccessFlag(), basic.getNameIndex(),
-                basic.getDescriptorIndex(), basic.getAttributes(), constantPools);
+                basic.getDescriptorIndex(), basic.getAttributes(), constantPools, thisClass);
     }
 
     @Override
@@ -71,8 +75,12 @@ public class Method extends FieldMethodBasic {
         if (name.equals("<clinit>")) {
             // static{}
             return "static";
-        } else if(name.equals("<init>")){
-            // TODO: detect constructor method and return class name
+        } else if (name.equals("<init>")) {
+            addAccessFlag(ans, accFlags);
+            ClassTag classTag = (ClassTag)constantPools[thisClass];
+            ans.append(constantPools[classTag.getNameIndex()].name().replaceAll("/", "."))
+                    .append("()");
+            return ans.toString();
         }
 
         addDeprecatedAttr(ans, deprecatedAttr);
@@ -85,7 +93,7 @@ public class Method extends FieldMethodBasic {
         return ans.toString();
     }
 
-    private StringBuilder addReturnType(StringBuilder ans, MethodDescriptor methodDescriptor){
+    private StringBuilder addReturnType(StringBuilder ans, MethodDescriptor methodDescriptor) {
         return ans.append(methodDescriptor.getReturnDescriptor().toString());
     }
 

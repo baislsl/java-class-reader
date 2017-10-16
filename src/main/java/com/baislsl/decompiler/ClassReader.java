@@ -80,7 +80,7 @@ public class ClassReader {
         // read method
         methodCount = readBytes(file, SizeInfo.METHODS_COUNT_SIZE);
         logger.info("method count = {}", methodCount);
-        methods = buildMethod(file, methodCount, constantPools);
+        methods = buildMethod(file, methodCount, constantPools, thisClass);
 
         // read attribute
         attributeCount = readBytes(file, SizeInfo.ATTRIBUTES_COUNT_SIZE);
@@ -90,7 +90,6 @@ public class ClassReader {
         if (file.read() != -1)
             throw new DecompileException("Format error, redundant data in the class file");
         file.close();
-
         return new Result(
                 magic,
                 minorVersion,
@@ -158,12 +157,13 @@ public class ClassReader {
         return fields;
     }
 
-    private static Method[] buildMethod(DataInputStream file, int methodCount, ConstantPool[] constantPools)
+    private static Method[] buildMethod(DataInputStream file, int methodCount,
+                                        ConstantPool[] constantPools, int thisClass)
             throws DecompileException {
         Method[] methods = new Method[methodCount];
 
         for (int i = 0; i < methodCount; i++) {
-            methods[i] = Method.build(file, constantPools);
+            methods[i] = Method.build(file, constantPools, thisClass);
         }
 
         return methods;

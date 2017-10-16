@@ -130,7 +130,7 @@ public class Frame {
         for (int i = from; i < to; i++) {
             executables[i].exec();
             if(executables[i] instanceof Instruction)
-                logger.info("applying " + ((Instruction)executables[i]).getClass().getName() + ", stack size=" + opStack.size());
+                logger.info("applying " + ((Instruction)executables[i]).getClass().getSimpleName() + ", stack size=" + opStack.size());
         }
 
         return this;
