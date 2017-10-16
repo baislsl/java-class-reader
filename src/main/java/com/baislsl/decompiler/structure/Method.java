@@ -26,7 +26,6 @@ public class Method extends FieldMethodBasic {
                 basic.getDescriptorIndex(), basic.getAttributes(), constantPools);
     }
 
-    // TODO: detect constructor and return true name
     @Override
     public String name() throws DecompileException {
         StringBuilder ans = new StringBuilder();
@@ -34,10 +33,6 @@ public class Method extends FieldMethodBasic {
         String descriptorInfo = constantPools[descriptorIndex].name();
         MethodDescriptor methodDescriptor = new MethodDescriptor(descriptorInfo);
         String name = constantPools[nameIndex].name();
-        if(name.equals("<clinit>")){
-            // static{}
-            return "static";
-        }
 
         /**
          * each attribute of method must be one of following attributes:
@@ -69,60 +64,47 @@ public class Method extends FieldMethodBasic {
             } else if (attribute instanceof ExceptionsAttr) {
                 exceptionsAttrs.add((ExceptionsAttr) attribute);
             } else if (attribute instanceof CodeAttr) {
-                codeAttr = (CodeAttr)attribute;
+                codeAttr = (CodeAttr) attribute;
             }
         }
 
-        if (deprecatedAttr != null)
-            ans.append("@Deprecated ");
+        if (name.equals("<clinit>")) {
+            // static{}
+            return "static";
+        } else if(name.equals("<init>")){
+            // TODO: detect constructor method and return class name
+        }
+
+        addDeprecatedAttr(ans, deprecatedAttr);
+        addAccessFlag(ans, accFlags);
+        addReturnType(ans, methodDescriptor);
+        ans.append(" ").append(name);
+        addParameter(ans, methodDescriptor, codeAttr, parametersAttr);
+        addException(ans, exceptionsAttrs);
+
+        return ans.toString();
+    }
+
+    private StringBuilder addReturnType(StringBuilder ans, MethodDescriptor methodDescriptor){
+        return ans.append(methodDescriptor.getReturnDescriptor().toString());
+    }
+
+    private StringBuilder addAccessFlag(StringBuilder ans, String[] accFlags) {
         for (String accFlag : accFlags) {
             ans.append(accFlag);
             ans.append(" ");
         }
+        return ans;
+    }
 
-        ans.append(methodDescriptor.getReturnDescriptor().toString());
-        ans.append(" ");
-        ans.append(name);
-        ans.append("(");
-        Descriptor[] descriptors = methodDescriptor.getParamDescriptors();
-        LocalVariableTable[] tables; LocalVariableTableAttr attrs;
-        if(codeAttr != null && (attrs = codeAttr.getLocalValueTableAttr()) != null){
-            tables = attrs.getTables();
-        }else{
-            tables = new LocalVariableTable[0];
-        }
-        for (int i = 0; i < descriptors.length; i++) {
-            if (i != 0) ans.append(" ,");
-            if (parametersAttr != null) {
-                Parameter parameter = parametersAttr.getParameterAt(i);
-                ans.append(" ");
-                if ((parameter.accessFlag & Constants.ACC_FINAL) != 0) ans.append("final ");
-                // if ((parameter.accessFlag & Constants.ACC_SYNTHETIC) != 0) ans.append("synthetic ");
-                // if((parameter.accessFlag & Constants.ACC_MANDATED) != 0) ans.append("mandated ");
-                ans.append(descriptors[i].toString());
-                ans.append(" ");
-                ans.append(constantPools[parameter.nameIndex].name());
-            } else {
-                // no MethodParameters attr given, then find parameter name in local value table
-                ans.append(descriptors[i].toString());
-                ans.append(" ");
+    private StringBuilder addDeprecatedAttr(StringBuilder ans, DeprecatedAttr deprecatedAttr) {
+        if (deprecatedAttr != null)
+            ans.append("@Deprecated ");
+        return ans;
+    }
 
-                // a non-static method has this parameter as its first parameter
-                // set begin to 1 to jump over this parameter if non-static
-                int begin = 1;
-                if(testAccessFlag(Constants.ACC_STATIC)){
-                    begin = 0;
-                }
-                for(LocalVariableTable table : tables){
-                    if(table.index == i + begin){
-                        ans.append(constantPools[table.nameIndex].name());
-                        break;
-                    }
-                }
-            }
-        }
-        ans.append(") ");
-
+    private StringBuilder addException(StringBuilder ans, List<ExceptionsAttr> exceptionsAttrs)
+            throws DecompileException {
         boolean hasException = false;
         for (ExceptionsAttr attribute : exceptionsAttrs) {
             for (int index : attribute.getExceptionIndexTable()) {
@@ -144,19 +126,64 @@ public class Method extends FieldMethodBasic {
                 );
             }
         }
-
-        return ans.toString();
+        return ans;
     }
 
-    public int getCodeLength() throws DecompileException{
-        for(Attribute attribute : attributes){
-            if(attribute instanceof CodeAttr)
+    private StringBuilder addParameter(StringBuilder ans, MethodDescriptor methodDescriptor,
+                                       CodeAttr codeAttr, MethodParametersAttr parametersAttr)
+            throws DecompileException {
+        ans.append("(");
+        Descriptor[] descriptors = methodDescriptor.getParamDescriptors();
+        LocalVariableTable[] tables;
+        LocalVariableTableAttr attrs;
+        if (codeAttr != null && (attrs = codeAttr.getLocalValueTableAttr()) != null) {
+            tables = attrs.getTables();
+        } else {
+            tables = new LocalVariableTable[0];
+        }
+        for (int i = 0; i < descriptors.length; i++) {
+            if (i != 0) ans.append(" ,");
+            if (parametersAttr != null) {
+                Parameter parameter = parametersAttr.getParameterAt(i);
+                ans.append(" ");
+                if ((parameter.accessFlag & Constants.ACC_FINAL) != 0) ans.append("final ");
+                // if ((parameter.accessFlag & Constants.ACC_SYNTHETIC) != 0) ans.append("synthetic ");
+                // if((parameter.accessFlag & Constants.ACC_MANDATED) != 0) ans.append("mandated ");
+                ans.append(descriptors[i].toString());
+                ans.append(" ");
+                ans.append(constantPools[parameter.nameIndex].name());
+            } else {
+                // no MethodParameters attr given, then find parameter name in local value table
+                ans.append(descriptors[i].toString());
+                ans.append(" ");
+
+                // a non-static method has this parameter as its first parameter
+                // set begin to 1 to jump over this parameter if non-static
+                int begin = 1;
+                if (testAccessFlag(Constants.ACC_STATIC)) {
+                    begin = 0;
+                }
+                for (LocalVariableTable table : tables) {
+                    if (table.index == i + begin) {
+                        ans.append(constantPools[table.nameIndex].name());
+                        break;
+                    }
+                }
+            }
+        }
+        ans.append(") ");
+        return ans;
+    }
+
+    public int getCodeLength() throws DecompileException {
+        for (Attribute attribute : attributes) {
+            if (attribute instanceof CodeAttr)
                 return ((CodeAttr) attribute).getCodes().length;
         }
         return 0;
     }
 
-    public boolean testAccessFlag(int accessFlag){
+    public boolean testAccessFlag(int accessFlag) {
         return (this.accessFlag & accessFlag) != 0;
     }
 }
