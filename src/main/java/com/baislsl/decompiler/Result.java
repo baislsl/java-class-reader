@@ -6,6 +6,9 @@ import com.baislsl.decompiler.structure.constantPool.ClassTag;
 import com.baislsl.decompiler.structure.constantPool.ConstantPool;
 import com.baislsl.decompiler.structure.constantPool.Utf8Tag;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * ClassFile {
  * u4             magic;
@@ -97,13 +100,13 @@ public final class Result {
     }
 
     public String[] getInterfacesName() throws DecompileException {
-        String[] ans = new String[interfaces.length];
+        List<String> ans  = new ArrayList<>(interfaces.length);
         for (int i : interfaces) {
             ClassTag interfaceTag = (ClassTag) constantPools[i];
             int nameIndex = interfaceTag.getNameIndex();
-            ans[i] = getUTF8Info(nameIndex);
+            ans.add(getUTF8Info(nameIndex));
         }
-        return ans;
+        return ans.toArray(new String[0]);
     }
 
     public String[] getSimpleInterfacesName() throws DecompileException {
