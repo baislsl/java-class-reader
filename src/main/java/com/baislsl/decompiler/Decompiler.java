@@ -60,7 +60,7 @@ public class Decompiler {
 
     private static StringBuilder addClassName(StringBuilder ans, Result result)
             throws DecompileException {
-        return ans.append(Javap.getClassName(result));
+        return ans.append(result.getClassName());
     }
 
     private static StringBuilder addAccessFlag(StringBuilder ans, Result result)

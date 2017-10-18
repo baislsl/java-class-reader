@@ -28,7 +28,7 @@ public class JavapTest {
 
     @Test
     public void getClassNameTest() throws DecompileException, IOException {
-        logger.info("Class name = {}", Javap.getClassName(clazz));
+        logger.info("Class name = {}", clazz.getClassName());
     }
 
     @Test
@@ -43,15 +43,15 @@ public class JavapTest {
         String[] interfacesName2 = Javap.getInterfacesName(clazz2);
 
         if (interfacesName.length == 0)
-            logger.info("class {} has no interface", Javap.getClassName(clazz));
+            logger.info("class {} has no interface", clazz.getClassName());
         if (interfacesName2.length == 0)
-            logger.info("class {} has no interface", Javap.getClassName(clazz2));
+            logger.info("class {} has no interface", clazz2.getClassName());
 
         for (String name : interfacesName) {
-            logger.info("class {} has interface : {}", Javap.getClassName(clazz), name);
+            logger.info("class {} has interface : {}", clazz.getClassName(), name);
         }
         for (String name : interfacesName2) {
-            logger.info("class {} has interface : {}", Javap.getClassName(clazz2), name);
+            logger.info("class {} has interface : {}", clazz.getClassName(), name);
         }
     }
 

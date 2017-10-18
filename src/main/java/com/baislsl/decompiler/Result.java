@@ -2,6 +2,7 @@ package com.baislsl.decompiler;
 
 import com.baislsl.decompiler.structure.*;
 import com.baislsl.decompiler.structure.attribute.Attribute;
+import com.baislsl.decompiler.structure.constantPool.ClassTag;
 import com.baislsl.decompiler.structure.constantPool.ConstantPool;
 import com.baislsl.decompiler.structure.constantPool.Utf8Tag;
 
@@ -68,6 +69,12 @@ public final class Result {
         if (magic != DEFAULT_MAGIC)
             throw new DecompileException("Incorrect magic number, it seems that this is not a class file");
 
+    }
+
+    public String getClassName() throws DecompileException {
+        ClassTag classTag = (ClassTag) constantPools[thisClass];
+        int index = classTag.getNameIndex();
+        return getUTF8Info(index).replaceAll("/", ".");
     }
 
     public String getUTF8Info(int index) throws DecompileException {

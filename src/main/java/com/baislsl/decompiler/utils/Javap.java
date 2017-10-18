@@ -55,16 +55,6 @@ public class Javap {
         return ans.toString();
     }
 
-
-    public static String getClassName(Result clazz) throws DecompileException {
-        int classIndex = clazz.getThisClass();
-        ConstantPool classInfo = clazz.getConstantPool(classIndex);
-        if (!(classInfo instanceof ClassTag))
-            throw new DecompileException("Error format of class info");
-        int index = ((ClassTag) classInfo).getNameIndex();
-        return clazz.getUTF8Info(index).replaceAll("/", ".");
-    }
-
     /**
      * return direct super class name
      * for class return null if no super class
