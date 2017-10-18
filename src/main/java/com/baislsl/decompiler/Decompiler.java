@@ -9,7 +9,6 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-// TODO: remove 'synchronized' ... in class name
 public class Decompiler {
 
     public static String decompile(String path) throws DecompileException, IOException {
@@ -64,7 +63,7 @@ public class Decompiler {
 
     private static StringBuilder addAccessFlag(StringBuilder ans, Result result)
             throws DecompileException {
-        return ans.append(Javap.accessFlagDescription(result.getAccessFlag()));
+        return ans.append(Javap.accessClassFlagDescription(result.getAccessFlag(), Result.class));
     }
 
     private static StringBuilder addSuperClass(StringBuilder ans, Result result)

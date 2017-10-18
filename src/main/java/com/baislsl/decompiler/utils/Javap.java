@@ -1,35 +1,54 @@
 package com.baislsl.decompiler.utils;
 
 import com.baislsl.decompiler.Constants;
-import com.baislsl.decompiler.DecompileException;
 import com.baislsl.decompiler.Result;
-import com.baislsl.decompiler.structure.attribute.*;
-import com.baislsl.decompiler.structure.constantPool.*;
+import com.baislsl.decompiler.structure.Field;
+import com.baislsl.decompiler.structure.Method;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Stream;
+
+import static com.baislsl.decompiler.Constants.*;
 
 public class Javap {
+    private static Map<Class<?>, String[]> map = new HashMap<>();
 
-    public static String[] getAccessFlagDescription(int accessFlag) {
+    static {
+        map.put(Method.class, METHOD_ACC_TABLE);
+        map.put(Field.class, FIELD_ACC_TABLE);
+        map.put(Result.class, CLASS_ACC_TABLE);
+    }
+
+    private static String[] getAccessFlagDescription(int accessFlag, String[] table) {
         List<String> ans = new ArrayList<>();
-        int cur = 1, cnt = 16;
-        for (int i = 0; i < cnt; i++) {
-            if ((accessFlag & cur) != 0) {
-                ans.add(Constants.accessName[i]);
-            }
-            cur <<= 1;
-        }
+        Stream.of(table).forEach(
+                (s) -> {
+                    if ((accessFlag & getInt(s)) != 0) ans.add(s);
+                }
+        );
         return ans.toArray(new String[0]);
     }
 
-    public static String accessFlagDescription(int accessFlag){
-        String[] description = getAccessFlagDescription(accessFlag);
-        StringBuilder ans = new StringBuilder();
-        for(String s : description){
-            ans.append(s).append(" ");
-        }
-        return ans.toString();
+    /**
+     * @param accessFlag access flag to decode
+     * @param type       be in Method.class, Field.class and Result.class
+     * @return
+     */
+    public static String[] getAccessFlagDescription(int accessFlag, Class<?> type) {
+        return getAccessFlagDescription(accessFlag, map.get(type));
+    }
+
+    /**
+     * @param accessFlag access flag to decode
+     * @param type       be in Method.class, Field.class and Result.class
+     * @return
+     */
+    public static String accessClassFlagDescription(int accessFlag, Class<?> type) {
+        String[] description = getAccessFlagDescription(accessFlag, type);
+        return Stream
+                .of(description)
+                .reduce((pre, cur) -> pre + " " + cur)
+                .orElse("");
     }
 
 }

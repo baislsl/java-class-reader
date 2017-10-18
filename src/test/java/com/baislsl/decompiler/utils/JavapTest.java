@@ -6,6 +6,7 @@ import com.baislsl.decompiler.Result;
 import com.baislsl.decompiler.structure.Field;
 import com.baislsl.decompiler.structure.Method;
 import com.baislsl.decompiler.structure.constantPool.ConstantPool;
+import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +17,8 @@ public class JavapTest {
     private final static Logger logger = LoggerFactory.getLogger(JavapTest.class);
     public static Result clazz = null, clazz2 = null, clazz3 = null;
 
-    static {
+    @Before
+    public void init(){
         try {
             clazz = ClassReader.decompile("src/test/resources/ClassTag.class");
             clazz2 = ClassReader.decompile("src/test/resources/ConstantPoolBuilder.class");
@@ -67,15 +69,28 @@ public class JavapTest {
 
     @Test
     public void getFieldDescriptionTest() throws DecompileException {
-        for(Field field : clazz3.getFields()){
+        for (Field field : clazz3.getFields()) {
             logger.info(field.name());
         }
     }
 
     @Test
-    public void getMethodDescriptionTest() throws DecompileException{
-        for(Method method : clazz3.getMethods()){
+    public void getMethodDescriptionTest() throws DecompileException {
+        for (Method method : clazz3.getMethods()) {
             logger.info(method.name());
+        }
+    }
+
+    @Test
+    public void accessClassFlagDescriptionTest() throws Exception {
+        int[] accessFlags = {
+                0x0601, 0x3456, 0xffff, 0x0000
+        };
+
+        for(int flag : accessFlags){
+            logger.info("method of 0x{} : {}", Integer.toHexString(flag), Javap.accessClassFlagDescription(flag, Method.class));
+            logger.info("field of 0x{} : {}", Integer.toHexString(flag), Javap.accessClassFlagDescription(flag, Field.class));
+            logger.info("class of 0x{} : {}", Integer.toHexString(flag), Javap.accessClassFlagDescription(flag, Result.class));
         }
     }
 }

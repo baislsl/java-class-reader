@@ -27,7 +27,7 @@ public class Field extends FieldMethodBasic {
 
     @Override
     public String name() throws DecompileException {
-        String[] accFlags = Javap.getAccessFlagDescription(accessFlag);
+        String[] accFlags = Javap.getAccessFlagDescription(accessFlag, Field.class);
         String descriptorInfo = constantPools[descriptorIndex].name();
         Descriptor descriptor = FieldDescriptor.getFieldDescriptors(descriptorInfo)[0];
         String name = constantPools[nameIndex].name();

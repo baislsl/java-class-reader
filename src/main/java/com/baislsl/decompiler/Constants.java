@@ -1,6 +1,6 @@
 package com.baislsl.decompiler;
 
-public class Constants {
+public final class Constants {
     public static final int ACC_PUBLIC = 0x0001;
     public static final int ACC_PRIVATE = 0x0002;
     public static final int ACC_PROTECTED = 0x0004;
@@ -21,8 +21,35 @@ public class Constants {
     public static final int ACC_ENUM = 0x4000;
     public static final int ACC_MANDATED = 0x8000;
 
-    public static String[] accessName = {
-            "public", "private", "protected", "static", "final", "synchronized", "volatile", "varargs",
-            "native", "interface", "abstract", "strict", "synthetic", "annotation", "enum", "mandated"
+
+    public final static String[] CLASS_ACC_TABLE = {
+            "public", "final", "interface", "abstract",
+            "annotation", "enum"
     };
+    public final static String[] FIELD_ACC_TABLE = {
+            "public", "private", "protected", "static",
+            "final", "volatile", "transient", "synthetic", "enum"
+    };
+    public final static String[] METHOD_ACC_TABLE = {
+            "public", "private", "protected", "static",
+            "final", "synchronized", "native", "abstract"
+    };
+
+    private static String nameToFieldName(String name){
+        return "ACC_" + name.toUpperCase();
+    }
+
+    private static String fieldNameToName(String fieldName){
+        return fieldName.substring("ACC_".length()).toLowerCase();
+    }
+
+    public static int getInt(String fieldName){
+        try {
+            java.lang.reflect.Field field = Constants.class.getField(nameToFieldName(fieldName));
+            return field.getInt(null);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            // This should be impossible to happen
+            throw new RuntimeException("Something error when decode access flag of " + fieldName);
+        }
+    }
 }

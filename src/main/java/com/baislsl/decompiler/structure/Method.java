@@ -33,7 +33,7 @@ public class Method extends FieldMethodBasic {
     @Override
     public String name() throws DecompileException {
         StringBuilder ans = new StringBuilder();
-        String[] accFlags = Javap.getAccessFlagDescription(accessFlag);
+        String[] accFlags = Javap.getAccessFlagDescription(accessFlag, Method.class);
         String descriptorInfo = constantPools[descriptorIndex].name();
         MethodDescriptor methodDescriptor = new MethodDescriptor(descriptorInfo);
         String name = constantPools[nameIndex].name();
