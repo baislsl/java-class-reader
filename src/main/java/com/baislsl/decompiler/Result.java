@@ -77,6 +77,11 @@ public final class Result {
         return getUTF8Info(index).replaceAll("/", ".");
     }
 
+    public String getSimpleClassName() throws DecompileException {
+        String name = getClassName();
+        return name.substring(name.lastIndexOf(".") + 1);
+    }
+
     public String getSuperClassName() throws DecompileException {
         if (isInterface()) return null;
 
@@ -85,12 +90,26 @@ public final class Result {
         return getUTF8Info(index).replaceAll("/", ".");
     }
 
+    public String getSimpleSuperClassName() throws DecompileException {
+        String name = getSuperClassName();
+        if (name == null) return null;
+        return name.substring(name.lastIndexOf(".") + 1);
+    }
+
     public String[] getInterfacesName() throws DecompileException {
         String[] ans = new String[interfaces.length];
-        for(int i : interfaces){
-            ClassTag interfaceTag = (ClassTag)constantPools[i];
+        for (int i : interfaces) {
+            ClassTag interfaceTag = (ClassTag) constantPools[i];
             int nameIndex = interfaceTag.getNameIndex();
             ans[i] = getUTF8Info(nameIndex);
+        }
+        return ans;
+    }
+
+    public String[] getSimpleInterfacesName() throws DecompileException {
+        String[] ans = getInterfacesName();
+        for (int i = 0; i < ans.length; i++) {
+            ans[i] = ans[i].substring(ans[i].lastIndexOf(".") + 1);
         }
         return ans;
     }
@@ -195,7 +214,7 @@ public final class Result {
         return interfaces;
     }
 
-    public int getInterfacesCount(){
+    public int getInterfacesCount() {
         return interfaces.length;
     }
 
@@ -203,7 +222,7 @@ public final class Result {
         return fields;
     }
 
-    public Field getFieldAt(int index){
+    public Field getFieldAt(int index) {
         return fields[index];
     }
 
@@ -211,7 +230,7 @@ public final class Result {
         return methods;
     }
 
-    public Method getMethodAt(int index){
+    public Method getMethodAt(int index) {
         return methods[index];
     }
 

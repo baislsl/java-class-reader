@@ -9,7 +9,6 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-// TODO: simple class name
 // TODO: remove 'synchronized' ... in class name
 public class Decompiler {
 
@@ -60,7 +59,7 @@ public class Decompiler {
 
     private static StringBuilder addClassName(StringBuilder ans, Result result)
             throws DecompileException {
-        return ans.append(result.getClassName());
+        return ans.append(result.getSimpleClassName());
     }
 
     private static StringBuilder addAccessFlag(StringBuilder ans, Result result)
