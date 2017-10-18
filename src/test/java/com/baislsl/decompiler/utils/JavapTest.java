@@ -39,8 +39,8 @@ public class JavapTest {
 
     @Test
     public void getInterfacesNameTest() throws DecompileException, IOException {
-        String[] interfacesName = Javap.getInterfacesName(clazz);
-        String[] interfacesName2 = Javap.getInterfacesName(clazz2);
+        String[] interfacesName = clazz.getInterfacesName();
+        String[] interfacesName2 = clazz2.getInterfacesName();
 
         if (interfacesName.length == 0)
             logger.info("class {} has no interface", clazz.getClassName());

@@ -32,7 +32,6 @@ public class Javap {
         return ans.toString();
     }
 
-
     public static String getConstantPoolInfo(ConstantPool cp, Result clazz)
             throws DecompileException {
         String[] cpDescription = cp.description(clazz);
@@ -53,25 +52,6 @@ public class Javap {
             }
         }
         return ans.toString();
-    }
-
-    public static String[] getInterfacesName(Result clazz) throws DecompileException {
-        int count = clazz.getInterfacesCount();
-        String[] ans = new String[count];
-        int[] interfaceIndex = clazz.getInterfaces();
-        for (int i = 0; i < count; i++) {
-            ConstantPool interfaceInfo = clazz.getConstantPool(interfaceIndex[i]);
-            if (!(interfaceInfo instanceof ClassTag))
-                throw new DecompileException("Error format of class info");
-            int nameIndex = ((ClassTag) interfaceInfo).getNameIndex();
-            ans[i] = clazz.getUTF8Info(nameIndex).replaceAll("/", ".");
-        }
-        return ans;
-    }
-
-
-    public static int getAccessFlag(Result clazz) {
-        return clazz.getAccessFlag();
     }
 
 }

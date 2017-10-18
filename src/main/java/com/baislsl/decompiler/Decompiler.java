@@ -79,7 +79,7 @@ public class Decompiler {
 
     private static StringBuilder addInterfaces(StringBuilder ans, Result result)
             throws DecompileException {
-        String[] interfaces = Javap.getInterfacesName(result);
+        String[] interfaces = result.getInterfacesName();
         if (interfaces.length != 0) {
             ans.append("implements ")
                     .append(interfaces[0]);

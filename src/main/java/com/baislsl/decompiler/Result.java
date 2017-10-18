@@ -85,6 +85,16 @@ public final class Result {
         return getUTF8Info(index).replaceAll("/", ".");
     }
 
+    public String[] getInterfacesName() throws DecompileException {
+        String[] ans = new String[interfaces.length];
+        for(int i : interfaces){
+            ClassTag interfaceTag = (ClassTag)constantPools[i];
+            int nameIndex = interfaceTag.getNameIndex();
+            ans[i] = getUTF8Info(nameIndex);
+        }
+        return ans;
+    }
+
 
     public boolean isPublic() {
         return (accessFlag & Constants.ACC_PUBLIC) != 0;
