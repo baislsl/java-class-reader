@@ -77,6 +77,48 @@ public final class Result {
         return getUTF8Info(index).replaceAll("/", ".");
     }
 
+    public String getSuperClassName() throws DecompileException {
+        if (isInterface()) return null;
+
+        ClassTag superClassTag = (ClassTag) constantPools[superClass];
+        int index = superClassTag.getNameIndex();
+        return getUTF8Info(index).replaceAll("/", ".");
+    }
+
+
+    public boolean isPublic() {
+        return (accessFlag & Constants.ACC_PUBLIC) != 0;
+    }
+
+    public boolean isFinal() {
+        return (accessFlag & Constants.ACC_FINAL) != 0;
+    }
+
+    public boolean isSuper() {
+        return (accessFlag & Constants.ACC_FINAL) != 0;
+    }
+
+    public boolean isClass() {
+        return (accessFlag & Constants.ACC_INTERFACE) == 0;
+    }
+
+    public boolean isInterface() {
+        return !isClass();
+    }
+
+    public boolean isAbstract() {
+        return (accessFlag & Constants.ACC_ABSTRACT) != 0;
+    }
+
+    public boolean isAnnotation() {
+        int flag = getAccessFlag();
+        return (flag & Constants.ACC_ANNOTATION) != 0;
+    }
+
+    public boolean isEnum() {
+        return (accessFlag & Constants.ACC_ENUM) != 0;
+    }
+
     public String getUTF8Info(int index) throws DecompileException {
         ConstantPool constantPool = constantPools[index];
         if (!(constantPool instanceof Utf8Tag))

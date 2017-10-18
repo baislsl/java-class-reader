@@ -33,8 +33,8 @@ public class JavapTest {
 
     @Test
     public void getSuperClassNameTest() throws DecompileException, IOException {
-        logger.info("super class name = {}", Javap.getSuperClassName(clazz));
-        logger.info("super class name = {}", Javap.getSuperClassName(clazz2));
+        logger.info("super class name = {}", clazz.getSuperClassName());
+        logger.info("super class name = {}", clazz2.getSuperClassName());
     }
 
     @Test

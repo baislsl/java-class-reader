@@ -70,7 +70,7 @@ public class Decompiler {
 
     private static StringBuilder addSuperClass(StringBuilder ans, Result result)
             throws DecompileException {
-        String superClassName = Javap.getSuperClassName(result);
+        String superClassName = result.getSuperClassName();
         if (superClassName != null) {
             ans.append(" extends ").append(superClassName);
         }

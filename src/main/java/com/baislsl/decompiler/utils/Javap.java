@@ -55,27 +55,6 @@ public class Javap {
         return ans.toString();
     }
 
-    /**
-     * return direct super class name
-     * for class return null if no super class
-     * for interface, return null, too
-     *
-     * @param clazz
-     * @return super class name
-     * @throws DecompileException
-     */
-    public static String getSuperClassName(Result clazz) throws DecompileException {
-        if (isInterface(clazz)) return null;
-
-        int superIndex = clazz.getSuperClass();
-        if (superIndex == 0) return null;
-        ConstantPool classInfo = clazz.getConstantPool(superIndex);
-        if (!(classInfo instanceof ClassTag))
-            throw new DecompileException("Error format of class info");
-        int index = ((ClassTag) classInfo).getNameIndex();
-        return clazz.getUTF8Info(index).replaceAll("/", ".");
-    }
-
     public static String[] getInterfacesName(Result clazz) throws DecompileException {
         int count = clazz.getInterfacesCount();
         String[] ans = new String[count];
@@ -95,47 +74,4 @@ public class Javap {
         return clazz.getAccessFlag();
     }
 
-    public static boolean isPublic(Result clazz) {
-        int flag = clazz.getAccessFlag();
-        return (flag & Constants.ACC_PUBLIC) != 0;
-    }
-
-    public static boolean isFinal(Result clazz) {
-        int flag = clazz.getAccessFlag();
-        return (flag & Constants.ACC_FINAL) != 0;
-    }
-
-    public static boolean isSuper(Result clazz) {
-        int flag = clazz.getAccessFlag();
-        return (flag & Constants.ACC_FINAL) != 0;
-    }
-
-    public static boolean isClass(Result clazz) {
-        int flag = clazz.getAccessFlag();
-        return (flag & Constants.ACC_INTERFACE) == 0;
-    }
-
-    public static boolean isInterface(Result clazz) {
-        return !isClass(clazz);
-    }
-
-    public static boolean isAbstract(Result clazz) {
-        int flag = clazz.getAccessFlag();
-        return (flag & Constants.ACC_ABSTRACT) != 0;
-    }
-
-    public static boolean isSynthetic(Result clazz) {
-        int flag = clazz.getAccessFlag();
-        return (flag & Constants.ACC_SYNTHETIC) != 0;
-    }
-
-    public static boolean isAnnotation(Result clazz) {
-        int flag = clazz.getAccessFlag();
-        return (flag & Constants.ACC_ANNOTATION) != 0;
-    }
-
-    public static boolean isEnum(Result clazz) {
-        int flag = clazz.getAccessFlag();
-        return (flag & Constants.ACC_ENUM) != 0;
-    }
 }
