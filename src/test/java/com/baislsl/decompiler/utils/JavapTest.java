@@ -61,7 +61,7 @@ public class JavapTest {
         ConstantPool[] constantPools = clazz3.getConstantPools();
         for (ConstantPool cp : constantPools) {
             if (cp == null) continue; // constantPools[0] is always null
-            logger.info(Javap.getConstantPoolInfo(cp, clazz3));
+            logger.info(cp.getConstantPoolInfo(clazz3));
         }
     }
 

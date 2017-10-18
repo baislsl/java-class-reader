@@ -1,6 +1,7 @@
 package com.baislsl.decompiler.structure.constantPool;
 
 import com.baislsl.decompiler.DecompileException;
+import com.baislsl.decompiler.Result;
 import com.baislsl.decompiler.structure.Name;
 
 public abstract class ConstantPool implements ConstantPoolBuilder, Description, Name {
@@ -40,5 +41,27 @@ public abstract class ConstantPool implements ConstantPoolBuilder, Description, 
     @Override
     public String name() throws DecompileException {
         return null;
+    }
+
+    public String getConstantPoolInfo(Result clazz)
+            throws DecompileException {
+        String[] cpDescription = this.description(clazz);
+        StringBuilder ans = new StringBuilder();
+        if (cpDescription.length <= 3) {
+            for (String s : cpDescription) {
+                ans.append(s);
+                ans.append("  ");
+            }
+        } else {
+            ans.append(cpDescription[0]);
+            ans.append("  ");
+            ans.append(cpDescription[1]);
+            ans.append("  ");
+            for (int i = 2; i < cpDescription.length; i++) {
+                ans.append(cpDescription[i]);
+                if (i != cpDescription.length - 1) ans.append(":");
+            }
+        }
+        return ans.toString();
     }
 }

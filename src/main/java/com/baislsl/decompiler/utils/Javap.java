@@ -32,26 +32,4 @@ public class Javap {
         return ans.toString();
     }
 
-    public static String getConstantPoolInfo(ConstantPool cp, Result clazz)
-            throws DecompileException {
-        String[] cpDescription = cp.description(clazz);
-        StringBuilder ans = new StringBuilder();
-        if (cpDescription.length <= 3) {
-            for (String s : cpDescription) {
-                ans.append(s);
-                ans.append("  ");
-            }
-        } else {
-            ans.append(cpDescription[0]);
-            ans.append("  ");
-            ans.append(cpDescription[1]);
-            ans.append("  ");
-            for (int i = 2; i < cpDescription.length; i++) {
-                ans.append(cpDescription[i]);
-                if (i != cpDescription.length - 1) ans.append(":");
-            }
-        }
-        return ans.toString();
-    }
-
 }
